@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI4I · AdversityBench | 小心翼翼，共守尊严：AI在人类逆境中的对话决策初探</title>
+  <meta name="description" content="AI4I / AdversityBench: 不完全信息与隐蔽约束下的对话决策研究：可行性保证、信息披露与指令作用域。研究主导: 王安东 (RIKEN AIP)。">
+  <meta name="author" content="AI4I Research Group / Andong Wang">
+
+  <!-- Google Fonts & MathJax -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="topbar">
+    <div class="site-shell topbar-inner">
+      <a href="#home" class="wordmark">
+        <span class="wordmark-dot"></span>
+        <span>AI4I · ADVERSITYBENCH</span>
+      </a>
+
+      <nav>
+        <a href="#motivation">研究背景</a>
+        <a href="#theory">形式建模</a>
+        <a href="#benchmark">实证基准</a>
+        <a href="#publications">专题页面</a>
+        <a href="#team">研究团队</a>
+      </nav>
+
+                        <div class="nav-actions">
+        <div class="lang-switcher">
+          <a href="ai4adversity_zh.html" class="lang-btn active">中文</a>
+          <a href="ai4adversity.html" class="lang-btn">EN</a>
+          <a href="ai4adversity_ja.html" class="lang-btn">日本語</a>
+        </div>
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme" title="切换深色/浅色模式">
+          <span id="theme-icon">🌙</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="home" class="site-shell">
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-badge-pill">
+        <span class="pulse-dot"></span>
+        <span>复杂现实约束下大语言模型的对话决策可靠性、指令作用域与隐私边界初步探索</span>
+      </div>
+
+      <h1 class="hero-title">
+        小心翼翼，共守尊严：AI在人类逆境中的对话决策初探
+      </h1>
+
+      <p class="hero-subtitle">
+        —— 围绕 102 个标准化逆境决策场景与 7 大前沿模型的初步探索：探讨格式指令下的核查抑制、菜单对偶推导与隐私下界（完整数据与代码将于近期整理发布）
+      </p>
+
+            <!-- Section: Detailed Motivation Box (4-Stage Modular Pipeline) -->
+      <div class="central-question-card" id="motivation">
+        <span class="central-question-tag">研究缘起与初步探索的问题</span>
+        <h2 class="central-question-title" style="margin-bottom: 16px; font-size: 1.15rem; text-align: left;">
+          当求助者处于高认知负荷状态并要求“仅给一个建议、替我做决定”时，对话系统如何在顺从表层格式要求的同时，确保方案在现实中真正可行并保护求助者隐私？
+        </h2>
+        
+        <div class="motivation-pipeline" style="text-align: left;">
+          
+          <!-- Stage 1 -->
+          <div class="motivation-step-section" style="text-align: left;">
+            <div class="motivation-step-header" style="justify-content: flex-start;">
+              <span class="motivation-num">01</span>
+              <h3 class="motivation-step-title">现实背景：复杂决策环境下的高试错成本</h3>
+            </div>
+            <ul class="motivation-list" style="text-align: left;">
+              <li><strong>专业门槛与制度约束：</strong>在面临住房变动、突发医疗支出、劳动权益或签证时效等突发事件时，相关规则通常具有高度专业性与严格的时效限制。对于缺少专业资源支持的普通个体而言，此类决策具有不可逆特征，试错成本极高。</li>
+              <li><strong>决策支持的实际需求：</strong>在信息不对称与资源受限的条件下，如何为面临紧急决策的个体提供切实可行、不产生负面后果的建议，是技术系统必须面对的现实课题。</li>
+            </ul>
+          </div>
+
+          <!-- Interaction Paradigm Shift Note (Natural logic flow) -->
+          <div class="motivation-step-section" style="padding: 10px 0 16px; text-align: left;">
+            <div class="motivation-bridge-box" style="text-align: left; display: flex; align-items: flex-start; gap: 10px;">
+              <span class="bridge-icon" style="margin-top: 2px;">✦</span>
+              <div style="text-align: left;">本研究聚焦于当前人机交互中的一个具体转变：<strong>从基于关键词的搜索引擎检索，转变为直接在对话界面中向大模型进行综合求助与咨询</strong>。</div>
+            </div>
+          </div>
+
+          <!-- Stage 2 -->
+          <div class="motivation-step-section" style="text-align: left;">
+            <div class="motivation-step-header" style="justify-content: flex-start;">
+              <span class="motivation-num">02</span>
+              <h3 class="motivation-step-title">交互特征：认知负荷过载下的决策权让渡</h3>
+            </div>
+            <ul class="motivation-list" style="text-align: left;">
+              <li><strong>求助界面的直接化与即时化：</strong>对话式大模型为用户提供了全天候的交互入口，用户倾向于将其视为能够直接协助分析复杂处境的决策辅助者。</li>
+              <li><strong>信息过载下的极简指令：</strong>当面对复杂的专业条款与紧迫的时间限制时，求助者往往难以逐项甄别冗长的备选清单，因而在交互中提出简化格式的请求：
+                <div class="crisis-chat-bubble" style="text-align: left;">
+                  <div class="chat-bubble-header" style="text-align: left;">求助者在高负荷状态下的典型输入：</div>
+                  <div class="chat-bubble-text" style="text-align: left;">“我无法处理这些复杂的条文，请不要列出长清单，直接给我一个唯一的具体方案，替我做决定。”</div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Stage 3 -->
+          <div class="motivation-step-section" style="text-align: left;">
+            <div class="motivation-step-header" style="justify-content: flex-start;">
+              <span class="motivation-num">03</span>
+              <h3 class="motivation-step-title">核心现象：格式约束对关键事实核查的抑制效应</h3>
+            </div>
+            <ul class="motivation-list" style="text-align: left;">
+              <li><strong>指令作用域的语义混淆：</strong>实测表明，大模型在接收到此类“仅给单项简短方案”的输入时，普遍将针对<strong>输出文本形式与篇幅</strong>的限制，错误泛化为<strong>停止核查现实可行性前提</strong>。</li>
+              <li><strong>单点推断带来的可行性落空：</strong>在未探明求助者关键隐蔽条件（如缺少特定交通工具、无资金流水证明、通信条件受限等）的情况下直接给出单点建议，导致给出的方案在物理或法律程序上无法实际执行。</li>
+            </ul>
+          </div>
+
+          <!-- Stage 4 -->
+          <div class="motivation-step-section" style="text-align: left;">
+            <div class="motivation-step-header" style="justify-content: flex-start;">
+              <span class="motivation-num">04</span>
+              <h3 class="motivation-step-title">研究工作：初步形式建模、阶段性实测与作用域干预探索</h3>
+            </div>
+            <div class="motivation-core-question-box" style="text-align: left;">
+              <strong>科学目标：</strong>在不完全信息与受约束决策框架下，建立模型顺从性、方案物理可行性与用户隐私保护之间的形式化平衡机制。
+            </div>
+            <ul class="motivation-list" style="text-align: left;">
+              <li><strong>初步数学推导：</strong>探讨了菜单-划分对偶关系与隐私披露下界，推导表明提供覆盖不同可能状态的选项菜单，是在 0 比特隐私泄露下保全可行性的可行解法；</li>
+              <li><strong>102 个标准化场景初步评测：</strong>构建 AdversityBench 基准，对 4 家厂商的 7 个前沿模型开展初步测试，并通过 4D 行为张量分解探索了模型的决策特征；</li>
+              <li><strong>轻量级作用域干预：</strong>初步验证了通过明确界定格式指令的作用域边界，可使模型在保持回答简明的同时恢复关键事实核查提问。</li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="hero-actions">
+        <a href="#pathology" class="btn btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+          顺从越界病理
+        </a>
+        <a href="#theory" class="btn btn-secondary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          形式数学理论
+        </a>
+        <a href="#redlines" class="btn btn-secondary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg>
+          尊严八条红线
+        </a>
+        <a href="#benchmark" class="btn btn-secondary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>
+          102 场景实证
+        </a>
+      </div>
+
+      <div class="tag-row">
+        <span class="tag">共在论初步探讨</span>
+        <span class="tag">非榨取式共在</span>
+        <span class="tag">弱势处境决策辅助</span>
+        <span class="tag">受约束决策初探</span>
+        <span class="tag">菜单-划分对偶推导</span>
+        <span class="tag">102 场景基准（初步整理）</span>
+        <span class="tag">7 大前沿模型初步实测</span>
+        <span class="tag">4D 行为张量探索</span>
+      </div>
+    </section>
+
+    <!-- Section 1: Pathology & Mechanism -->
+    <section id="pathology">
+      <div class="section-header">
+        <div class="section-tag">| 核心机制与因果归因</div>
+        <h2>一、初步实测现象：指令格式要求对事实核查程序的抑制</h2>
+        <p>记述大语言模型在面对受限格式输入时的阶段性实测行为：表层格式顺从如何引发底层事实核查机制的关闭。</p>
+      </div>
+
+      <div class="two-col">
+        <div class="feature-card">
+          <h4 style="color: var(--accent-primary); margin-top: 0;">7 大前沿模型初步实测：顺从算子越界（Creeping Compliance）</h4>
+          <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.75;">
+            求助者在交互中限制的是回答的<em>表层组织形式</em>（要求简短、单项方案），并未授权系统停止确认该方案在物理与制度现实中<em>是否具备实际执行条件</em>。
+          </p>
+          <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.75; margin-bottom: 0;">
+            在 RIKEN AIP RIKYU 超算平台上，对 <strong>4 家厂商 7 大前沿模型</strong>（Claude Opus/Sonnet/Haiku, Qwen 3.6-35B, Kimi k2.6/k3, GLM-5.2）跨 102 个场景的系统测定显示：单方案请求导致所有模型的可用选项容量显著下降 <strong>46.9% 至 67.9%</strong>（Wilcoxon 检验 \(p < 10^{-15}\)），主动发起核查提问的比例同步降至 0%~34%。
+          </p>
+        </div>
+
+        <div class="feature-card">
+          <h4 style="color: var(--accent-primary); margin-top: 0;">2×2 因子消融与 E2c 长度控制检验（初步数据）</h4>
+          <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.75;">
+            <strong>因果归因确认：</strong>2×2 析因消融实验表明，提问抑制的主导因果源是“显式单方案格式请求”（\(p \approx 4 \times 10^{-31}\)），情绪压力仅起次要修饰作用。通过注入一句话“作用域规则”，提问率可稳健恢复至 87%~100%。
+          </p>
+          <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.75; margin-bottom: 0;">
+            <strong>排除回复长度干扰（E2c 检验）：</strong>针对“提问减少是否仅为回复篇幅缩短的附带效应”的假设，<code>MITIGATED</code> vs <code>N</code> 对照实验显示：7/7 模型在回复总长度显著缩短 <strong>44.7% 至 72.3%</strong>（中位数 -54.7%, \(p < 10^{-17}\)）的条件下，提问率完全保持稳定，<strong>在统计学上排除了篇幅预算解释（二项检验 \(p = 0.0078\)）</strong>。
+          </p>
+        </div>
+      </div>
+
+      <!-- Overview Figures -->
+      <div class="figure-container">
+        <div class="figure-grid">
+          <div class="figure-card">
+            <img src="assets/figures/fig_ablation-1.png" alt="2x2 消融实验因果分离" loading="lazy">
+            <div class="figure-caption"><strong>图 1：2×2 全因子消融实验。</strong>格式请求驱动提问机制关闭（主效应极其显著，\(p < 10^{-30}\)），情绪压力为次要效应。</div>
+          </div>
+          <div class="figure-card">
+            <img src="assets/figures/fig_option_collapse-1.png" alt="选项坍塌与提问率暴跌" loading="lazy">
+            <div class="figure-caption"><strong>图 2：单项指令下的选项与提问坍缩。</strong>前沿模型在单项请求下提问率与选项容量同步归零。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 2: Formal Theory -->
+    <section id="theory">
+      <div class="section-header">
+        <div class="section-tag">| 形式数学理论推导</div>
+        <h2>二、受约束决策理论初探：菜单-划分对偶推导与隐私披露下界</h2>
+        <p>在不完全信息受约束序列决策框架下，对菜单机制在保证可行性与保护隐私方面的数学性质进行初步形式推导。</p>
+      </div>
+
+      <div class="two-col">
+        <div class="theory-card">
+          <div class="theory-pill">定理一（菜单–划分对偶推导）</div>
+          <h3 style="margin: 0 0 10px; font-size: 1.15rem; color: var(--accent-primary);">菜单–划分对偶定理 (Menu-Partition Duality)</h3>
+          <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.75;">
+            设系统推断的潜在可能状态集合为 \(\hat{\mathcal{S}}\)。将 \(\hat{\mathcal{S}}\) 划分为若干子集使得每个子集内部共享至少一个公共可行行动，其最小相容划分数为 \(k^*(\hat{\mathcal{S}})\)。
+          </p>
+          <div class="math-callout">
+            $$\min |M| = m^* = k^*(\hat{\mathcal{S}})$$
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin: 0; line-height: 1.6;">
+            <strong>初步推导结论：</strong>当 \(k^* \ge 2\) 时，任何未经验证的单一推荐（\(m=1\)）在数学上绝不可能保证在所有潜在状态下处处可行。保证全局可行所需的最小忠实菜单基数严格等于相容划分数。
+          </p>
+        </div>
+
+        <div class="theory-card">
+          <div class="theory-pill">定理二（隐私披露下界推导）</div>
+          <h3 style="margin: 0 0 10px; font-size: 1.15rem; color: var(--accent-primary);">隐私披露下界定理 (Disclosure Lower Bound)</h3>
+          <p style="font-size: 0.92rem; color: var(--text-secondary); line-height: 1.75;">
+            设求助者的真实状态为 \(s^* \in \hat{\mathcal{S}}\)。若系统必须给出确定可行的<strong>单一推荐</strong>，求助者必须向系统披露其状态信息的互信息量满足：
+          </p>
+          <div class="math-callout">
+            $$\Delta I(s^*; \text{transcript}) \ge \log_2 k^*(\hat{\mathcal{S}}) \quad \text{bits}$$
+          </div>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin: 0; line-height: 1.6;">
+            <strong>初步推导结论（非强迫披露）：</strong>若系统提供基数为 \(k^*\) 的选项菜单由求助者自主匹配，系统无需获取关于 \(s^*\) 的进一步信息（\(\Delta I = 0 \text{ bit}\)）。由求助者自主选择，能够在不侵犯隐私的前提下保全决策可行性。
+          </p>
+        </div>
+      </div>
+
+      <!-- Theory Framework Figures -->
+      <div class="figure-container" style="margin-top: 28px;">
+        <div class="figure-grid">
+          <div class="figure-card">
+            <img src="assets/figures/fig1_pomdp_framework-1.png" alt="受约束序列决策形式理论框架" loading="lazy">
+            <div class="figure-caption"><strong>图 3：受约束序列决策框架。</strong>显式陈述、隐蔽约束与可行行动集的动态状态转移。</div>
+          </div>
+          <div class="figure-card">
+            <img src="assets/figures/fig_synthesis-1.png" alt="形式理论与实证八大红线综合" loading="lazy">
+            <div class="figure-caption"><strong>图 4：理论综合图谱。</strong>对偶定理、信息披露边界与八条尊严红线的数理映射。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 3: The Eight Red Lines -->
+    <section id="redlines">
+      <div class="section-header">
+        <div class="section-tag">| 伦理与数学公理体系</div>
+        <h2>三、尊严保留准则初探：非补偿性约束与八条参考底线</h2>
+        <p>初步梳理人类逆境人机决策中关于可行性、自主权与指令作用域的 8 条形式化参考底线。</p>
+      </div>
+
+      <div style="overflow-x: auto; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); box-shadow: var(--shadow-sm);">
+        <table style="width: 100%; border-collapse: collapse; font-size: 0.9rem; text-align: left;">
+          <thead>
+            <tr style="background: var(--bg-secondary); border-bottom: 2px solid var(--border-subtle);">
+              <th style="padding: 12px 16px; width: 70px;">编号</th>
+              <th style="padding: 12px 16px; width: 180px;">尊严红线原则</th>
+              <th style="padding: 12px 16px;">数学基石与理论证明</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 12px 16px; font-weight: 700; color: var(--accent-primary);">红线 1</td>
+              <td style="padding: 12px 16px; font-weight: 600;">绝不代为主张</td>
+              <td style="padding: 12px 16px; color: var(--text-secondary);"><strong>三难定理：</strong>在状态不完全已知时，单项推荐 + 不提问 + 处处可行 构成不可能三角（初步推导）。</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 12px 16px; font-weight: 700; color: var(--accent-primary);">红线 2</td>
+              <td style="padding: 12px 16px; font-weight: 600;">绝不强迫披露</td>
+              <td style="padding: 12px 16px; color: var(--text-secondary);"><strong>披露下界定理：</strong>保证单点可行需披露 \(\ge \log_2 k^*\) 比特信息，而相容菜单机制仅需 0 比特（初步推导）。</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 12px 16px; font-weight: 700; color: var(--accent-primary);">红线 3</td>
+              <td style="padding: 12px 16px; font-weight: 600;">底线不可代偿</td>
+              <td style="padding: 12px 16px; color: var(--text-secondary);">可行性与安全性属于非补偿性硬约束，不可通过连续效用加权与软性评价相互折抵（初步推导）。</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 12px 16px; font-weight: 700; color: var(--accent-primary);">红线 4</td>
+              <td style="padding: 12px 16px; font-weight: 600;">顺从不得越界</td>
+              <td style="padding: 12px 16px; color: var(--text-secondary);">呈现层面的文本简短要求，不得传导至认知层面的事实核查程序（初步推导）。</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 12px 16px; font-weight: 700; color: var(--accent-primary);">红线 5</td>
+              <td style="padding: 12px 16px; font-weight: 600;">长程序列审计</td>
+              <td style="padding: 12px 16px; color: var(--text-secondary);">单轮局部合规无法反映长程交互中的自主权累积让渡，须建立序列审计（初步推导）。</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 12px 16px; font-weight: 700; color: var(--accent-primary);">红线 6</td>
+              <td style="padding: 12px 16px; font-weight: 600;">安全机制透明</td>
+              <td style="padding: 12px 16px; color: var(--text-secondary);">应急干预与安全约束机制应当具备可解释性与明确的触发边界。</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 12px 16px; font-weight: 700; color: var(--accent-primary);">红线 7</td>
+              <td style="padding: 12px 16px; font-weight: 600;">统计可行原则</td>
+              <td style="padding: 12px 16px; color: var(--text-secondary);">单次决策的偶然成功不能等同于机制的可靠性，须以分布可行性为评估依据（初步推导）。</td>
+            </tr>
+            <tr>
+              <td style="padding: 12px 16px; font-weight: 700; color: var(--accent-primary);">红线 8</td>
+              <td style="padding: 12px 16px; font-weight: 600;">标注规则审计</td>
+              <td style="padding: 12px 16px; color: var(--text-secondary);">当多个独立系统对标注规则产生一致性分歧时，提示标注规则本身存在未明确的前置条件（初步测试观察）。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Section 4: Benchmark & Experiments -->
+    <section id="benchmark">
+      <div class="section-header">
+        <div class="section-tag">| 实证基准与实验全景</div>
+        <h2>四、阶段性基准评测：102 个逆境场景的初步测定与因果消融</h2>
+        <p>基于 102 个标准化场景对前沿模型展开初步基准测试（完整测试数据集与复现代码将于近期整理发布）。</p>
+      </div>
+
+      <!-- Domain Distribution Cards -->
+      <div class="grid-3">
+        <div class="feature-card">
+          <h4 style="color: var(--accent-primary); margin: 0 0 6px;">🏠 住房与租住 (Housing & Eviction)</h4>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+            抗辩听证时效、收入证明缺失、跨区域交通不便等隐蔽现实约束。
+          </p>
+        </div>
+        <div class="feature-card">
+          <h4 style="color: var(--accent-primary); margin: 0 0 6px;">🛡️ 人身安全与庇护 (Safety & Crisis)</h4>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+            通信设备受限、身份凭据扣押、通话记录留存风险等物理安全约束。
+          </p>
+        </div>
+        <div class="feature-card">
+          <h4 style="color: var(--accent-primary); margin: 0 0 6px;">🏥 医疗保障与救济 (Medical Debt & Care)</h4>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+            商业保险拒赔、处方药延续周期、专项救助资格等隐蔽准入约束。
+          </p>
+        </div>
+        <div class="feature-card">
+          <h4 style="color: var(--accent-primary); margin: 0 0 6px;">⚖️ 法律时效与居留 (Legal Deadlines)</h4>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+            合法居留期限、跨境流动限制、法律援助排期等法定约束。
+          </p>
+        </div>
+        <div class="feature-card">
+          <h4 style="color: var(--accent-primary); margin: 0 0 6px;">💳 债务处置与流动性 (Debt & Finance)</h4>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+            借贷纠纷处置、银行账户受限、清偿程序限制等资金流约束。
+          </p>
+        </div>
+        <div class="feature-card">
+          <h4 style="color: var(--accent-primary); margin: 0 0 6px;">👨‍👩‍👧 家庭看护与抚养 (Family Caregiving)</h4>
+          <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+            长期失能照护负荷、家庭资源支配受限、看护服务申请周期等约束。
+          </p>
+        </div>
+      </div>
+
+      <!-- 7 Models Global Comparison Table -->
+      <div style="margin-top: 28px; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 20px; box-shadow: var(--shadow-sm);">
+        <h3 style="color: var(--accent-primary); font-size: 1.15rem; margin-top: 0; margin-bottom: 12px;">📊 7 大前沿模型初步实测汇总表 (102 个标准化场景 · 阶段性数据)</h3>
+        <div style="overflow-x: auto;">
+          <table style="width: 100%; border-collapse: collapse; font-size: 0.86rem; text-align: left;">
+            <thead>
+              <tr style="background: var(--bg-secondary); border-bottom: 2px solid var(--border-subtle);">
+                <th style="padding: 10px 12px;">评估模型 (Model)</th>
+                <th style="padding: 10px 12px;">研发厂商 (Vendor)</th>
+                <th style="padding: 10px 12px;">模型规模</th>
+                <th style="padding: 10px 12px;">可行性 (Feasibility)</th>
+                <th style="padding: 10px 12px;">自主权 (Agency)</th>
+                <th style="padding: 10px 12px;">不弃置 (Non-Aband.)</th>
+                <th style="padding: 10px 12px;">综合 DPOI 均分</th>
+                <th style="padding: 10px 12px; color: var(--accent-danger, #d9534f); font-weight: 700;">选项坍塌幅度 (&Delta;%)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom: 1px solid var(--border-subtle);">
+                <td style="padding: 8px 12px; font-weight: 600;"><code>claude-haiku-4.5</code></td>
+                <td style="padding: 8px 12px;">Anthropic</td>
+                <td style="padding: 8px 12px; color: var(--text-muted);">-</td>
+                <td style="padding: 8px 12px;">0.8635</td>
+                <td style="padding: 8px 12px;">0.6471</td>
+                <td style="padding: 8px 12px;">0.9289</td>
+                <td style="padding: 8px 12px; font-weight: 700;">0.8864</td>
+                <td style="padding: 8px 12px; font-weight: 700; color: #dc2626;">-67.86%</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-subtle); background: var(--bg-secondary);">
+                <td style="padding: 8px 12px; font-weight: 600;"><code>glm-5.2</code></td>
+                <td style="padding: 8px 12px;">智谱 AI (Zhipu)</td>
+                <td style="padding: 8px 12px;">743B MoE</td>
+                <td style="padding: 8px 12px;">0.8766</td>
+                <td style="padding: 8px 12px;">0.7304</td>
+                <td style="padding: 8px 12px;">0.9730</td>
+                <td style="padding: 8px 12px; font-weight: 700;">0.9144</td>
+                <td style="padding: 8px 12px; font-weight: 700; color: #dc2626;">-60.20%</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-subtle);">
+                <td style="padding: 8px 12px; font-weight: 600;"><code>claude-sonnet-5</code></td>
+                <td style="padding: 8px 12px;">Anthropic</td>
+                <td style="padding: 8px 12px; color: var(--text-muted);">-</td>
+                <td style="padding: 8px 12px;">0.8692</td>
+                <td style="padding: 8px 12px;">0.7157</td>
+                <td style="padding: 8px 12px;">0.9779</td>
+                <td style="padding: 8px 12px; font-weight: 700;">0.9126</td>
+                <td style="padding: 8px 12px; font-weight: 700; color: #dc2626;">-58.99%</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-subtle); background: var(--bg-secondary);">
+                <td style="padding: 8px 12px; font-weight: 600;"><code>kimi-k3</code></td>
+                <td style="padding: 8px 12px;">月之暗面 (Moonshot)</td>
+                <td style="padding: 8px 12px;">2.8T MoE</td>
+                <td style="padding: 8px 12px;">0.8749</td>
+                <td style="padding: 8px 12px;">0.7549</td>
+                <td style="padding: 8px 12px;">0.9877</td>
+                <td style="padding: 8px 12px; font-weight: 700;">0.9235</td>
+                <td style="padding: 8px 12px; font-weight: 700; color: #dc2626;">-55.86%</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-subtle);">
+                <td style="padding: 8px 12px; font-weight: 600;"><code>claude-opus-5</code></td>
+                <td style="padding: 8px 12px;">Anthropic</td>
+                <td style="padding: 8px 12px; color: var(--text-muted);">-</td>
+                <td style="padding: 8px 12px;">0.8796</td>
+                <td style="padding: 8px 12px;">0.7230</td>
+                <td style="padding: 8px 12px;">0.9804</td>
+                <td style="padding: 8px 12px; font-weight: 700;">0.9166</td>
+                <td style="padding: 8px 12px; font-weight: 700; color: #dc2626;">-53.71%</td>
+              </tr>
+              <tr style="border-bottom: 1px solid var(--border-subtle); background: var(--bg-secondary);">
+                <td style="padding: 8px 12px; font-weight: 600;"><code>qwen3.6-35b</code></td>
+                <td style="padding: 8px 12px;">阿里巴巴 (Alibaba)</td>
+                <td style="padding: 8px 12px;">35B Dense</td>
+                <td style="padding: 8px 12px;">0.9003</td>
+                <td style="padding: 8px 12px;">0.8015</td>
+                <td style="padding: 8px 12px;">0.9779</td>
+                <td style="padding: 8px 12px; font-weight: 700;">0.9345</td>
+                <td style="padding: 8px 12px; font-weight: 700; color: #ea580c;">-48.58%</td>
+              </tr>
+              <tr>
+                <td style="padding: 8px 12px; font-weight: 600;"><code>kimi-k2.6</code></td>
+                <td style="padding: 8px 12px;">月之暗面 (Moonshot)</td>
+                <td style="padding: 8px 12px;">1T MoE</td>
+                <td style="padding: 8px 12px;">0.8799</td>
+                <td style="padding: 8px 12px;">0.8162</td>
+                <td style="padding: 8px 12px;">0.9828</td>
+                <td style="padding: 8px 12px; font-weight: 700;">0.9358</td>
+                <td style="padding: 8px 12px; font-weight: 700; color: #ea580c;">-46.88%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 10px; margin-bottom: 0;">
+          * 注：上述数据为阶段性初步评测结果，基于 RIKEN AIP 超算环境生成。完整评测日志、逐题打分明细与自动化校验脚本将于近期整理发布。
+        </p>
+      </div>
+
+      <!-- 8 Experiments Summary Grid -->
+      <div style="margin-top: 36px;">
+        <h3 style="color: var(--text-primary); font-size: 1.22rem; margin-bottom: 16px;">8 组因果与消融实证测试汇总（初步数据）</h3>
+        
+        <div class="two-col">
+          <div class="feature-card">
+            <h4 style="color: var(--accent-primary); margin: 0 0 6px;">Exp 1: DPOI 选项容量收缩测定 (7 大前沿模型)</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              单方案请求压力下，7 大前沿模型选项容量下降 46.9% 至 67.9%（Wilcoxon \(p < 10^{-15}\)），证实表层格式限制对行动探索空间具有显著收缩效应。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h4 style="color: var(--accent-primary); margin: 0 0 6px;">Exp 2: 2×2 全因子因果消融 (102 个场景)</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              格式请求因子的主效应达到 \(p \approx 4\times 10^{-31}\)，102/102 场景同向抑制；情绪因子为主效应之外的次要修饰，证实抑制主要由格式语法触发。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h4 style="color: var(--accent-primary); margin: 0 0 6px;">Exp 3: 闭环多轮交互与约束利用 (96.0%~99.5%)</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              主动提问是获取隐蔽约束的关键途径（捕获率 0.451~0.657）；获知约束后模型采纳率达 96.0%~99.5%，表明模型的约束整合与推理能力保持完备。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h4 style="color: var(--accent-primary); margin: 0 0 6px;">Exp 4: 作用域规则提示干预</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              通过明确界定格式指令的作用域边界（仅约束最终呈现，不约束事实核查），模型的主动提问率稳健恢复至 87.3%~100%。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h4 style="color: var(--accent-primary); margin: 0 0 6px;">Exp 5: 约束优先级与交换曲线 (918 组测试)</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              真实性与自主权原则保持严格无违规；特定安全限制仅在明确的紧急安全条件下触发合理例外。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h4 style="color: var(--accent-primary); margin: 0 0 6px;">Exp 6: 语言共情与物理可行性正交性 (6,384 轮对话)</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              统计检验表明语言同理心表达与方案物理可行性不具有显著相关性（\(\rho = -0.078\)），表明表面情感回应无法替代实质性条件核查。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h4 style="color: var(--accent-primary); margin: 0 0 6px;">Exp 7: 跨厂商一致异议与规则审计 (94.4% 纠错率)</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              当 4 家厂商模型一致对标注规则产生异议时，人工复核确认 <strong>94.4%</strong> 归因于规则未明确前置条件；修复后逻辑有效率提升至 <strong>0.681</strong>。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h4 style="color: var(--accent-primary); margin: 0 0 6px;">Exp 8: 受限环境下的信息适应性 (n=100)</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              在通信受限场景下，模型使用安全表述的比例由 9% 提升至 56%~71%，验证了上下文自适应能力。
+            </p>
+          </div>
+        </div>
+      </div>
+
+        <div class="two-col" style="margin-top: 16px;">
+          <div class="feature-card" style="border-left: 3px solid var(--accent-primary);">
+            <h4 style="color: var(--accent-primary); margin: 0 0 6px;">🔬 4D 行为张量分解 (84.2% 核心方差捕获)</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              在 4 阶观测张量 \(\mathcal{X} \in \mathbb{R}^{102 \times 7 \times 4 \times 5}\) 上进行高阶 SVD 与 CP 分解，在低秩子空间 \([5, 3, 2, 2]\) 下捕获了 <strong>84.2%</strong> 的核心方差，有效解耦了模型抗压韧性因子与格式约束敏感因子。
+            </p>
+          </div>
+
+          <div class="feature-card" style="border-left: 3px solid var(--accent-primary);">
+            <h4 style="color: var(--accent-primary); margin: 0 0 6px;">🛡️ 150 场景因果状态机验证与 20,000 轮长程推演</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              遍历 150 个决策场景的完整状态转移空间（验证 100% 可行解可达且无死锁状态）；在 20,000 轮博弈推演中，多层隐蔽约束的有效识别率从 0% 提升至 <strong>100%</strong>。
+            </p>
+          </div>
+        </div>
+
+      <!-- Empirical Figures -->
+      <div class="figure-container" style="margin-top: 24px;">
+        <div class="figure-grid">
+          <div class="figure-card">
+            <img src="assets/figures/fig_dpoi_results-1.png" alt="DPOI 实测结果分布" loading="lazy">
+            <div class="figure-caption"><strong>图 5：Exp 1 DPOI 实测分布。</strong>普通轮次 vs 压力轮次下选项容量的显著下挫。</div>
+          </div>
+          <div class="figure-card">
+            <img src="assets/figures/fig_tradeoff-1.png" alt="交换曲线硬约束测定" loading="lazy">
+            <div class="figure-caption"><strong>图 6：Exp 5 交换曲线。</strong>诚实与自主权原则呈现平直零违规硬墙。</div>
+          </div>
+        </div>
+      </div>
+      <!-- Data Release Notice -->
+      <div class="feature-card" style="margin-top: 24px; border-left: 3px solid var(--accent-primary); background: var(--bg-card);">
+        <p style="font-size: 0.86rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+          💡 <strong>数据发布说明：</strong>本项目处于阶段性初步探索中。各组实验的逐轮对话日志明细、4D 行为张量分解矩阵原始数据与长程因果状态机推演脚本，将于近期整理发布。
+        </p>
+      </div>
+    </section>
+
+    <!-- Section 5: Scenario Explorer -->
+    <section id="interactive">
+      <div class="section-header">
+        <div class="section-tag">| 标准化逆境场景样本浏览器</div>
+        <h2>五、标准化逆境场景样本浏览：隐蔽约束与行动状态转移</h2>
+        <p>当前展示部分精选标准化逆境决策场景样例，全量 102 个场景配置文件与状态机定义将于近期整理发布。</p>
+      </div>
+
+      <!-- Scenario Explorer -->
+      <div>
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-bottom: 16px;">
+          <div>
+            <h3 style="color: var(--text-primary); margin: 0 0 6px; font-size: 1.25rem;">📂 标准化逆境决策场景样例浏览器</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0;">
+              支持领域分类筛选与样例检索，点击卡片可查看隐蔽约束与行动状态转移（完整 102 场景数据将于近期发布）。
+            </p>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <input type="text" id="scenario-search" placeholder="🔍 搜索场景名称、关键词、ID..." style="padding: 8px 14px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font-size: 0.88rem; width: 240px; background: var(--bg-card); color: var(--text-primary);">
+            <span id="scenario-count-badge" class="brand-badge">102 / 102</span>
+          </div>
+        </div>
+
+                <!-- Section 5 Dataset Note -->
+        <div style="margin-bottom: 16px; padding: 12px 16px; background: var(--bg-card); border: 1px solid var(--border-subtle); border-left: 3px solid var(--accent-primary); border-radius: var(--radius-sm); font-size: 0.86rem; color: var(--text-secondary); line-height: 1.65;">
+          📌 <strong>场景数据说明：</strong>此处展示部分典型场景状态机与隐蔽约束结构。102 个标准化决策场景的完整 JSON 配置文件、状态转移规则与自动化评测断言库将于近期整理发布。
+        </div>
+
+        <!-- Domain Tabs -->
+        <div class="domain-tabs-row">
+          <button class="domain-tab active" data-domain="all">全部领域</button>
+          <button class="domain-tab" data-domain="housing">🏠 住房与驱逐</button>
+          <button class="domain-tab" data-domain="safety">🛡️ 人身安全</button>
+          <button class="domain-tab" data-domain="health">🏥 医疗债务</button>
+          <button class="domain-tab" data-domain="legal">⚖️ 法律签证</button>
+          <button class="domain-tab" data-domain="financial">💳 财务借贷</button>
+          <button class="domain-tab" data-domain="family">👨‍👩‍👧 家庭照护</button>
+        </div>
+
+        <!-- Scenario Cards Grid -->
+        <div id="scenario-list-container" class="scenario-grid">
+          <!-- Dynamically populated by assets/js/app.js -->
+        </div>
+      </div>
+    </section>
+
+                        <!-- Section 6: Topic Notes & Detailed Pages -->
+    <section id="publications">
+      <div class="section-header">
+        <div class="section-tag">| 专题说明与详细页面</div>
+        <h2>六、专题说明与详细页面（初步整理）</h2>
+        <p>收录项目各部分的阶段性说明、初步推导笔记与场景实测分析页面，详细数据与完整材料将于近期陆续发布。</p>
+      </div>
+
+      <div class="grid-4" style="margin-top: 24px;">
+
+        <!-- Card 1: Motivation -->
+        <div class="feature-card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 22px 18px;">
+          <div>
+            <h4 style="margin: 0 0 8px; color: var(--accent-primary); font-size: 1rem;">📌 背景与四阶动机</h4>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.55; margin: 0 0 16px;">
+              梳理逆境决策的高试错成本、求助方式转变，以及格式约束抑制事实核查的核心现象。
+            </p>
+          </div>
+          <div>
+            <a href="docs/motivation.html" class="pub-pill-btn" style="width: 100%; text-align: center; box-sizing: border-box;">📄 阅读全文背景与动机</a>
+          </div>
+        </div>
+
+        <!-- Card 2: Theory -->
+        <div class="feature-card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 22px 18px;">
+          <div>
+            <h4 style="margin: 0 0 8px; color: var(--accent-primary); font-size: 1rem;">📐 形式理论与推导笔记</h4>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.55; margin: 0 0 16px;">
+              受约束 POMDP 模型、菜单–划分对偶推导、0 比特隐私下界与 5 个理论问题记录。
+            </p>
+          </div>
+          <div>
+            <a href="docs/theory.html" class="pub-pill-btn" style="width: 100%; text-align: center; box-sizing: border-box;">📄 阅读理论推导笔记</a>
+          </div>
+        </div>
+
+        <!-- Card 3: Red Lines -->
+        <div class="feature-card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 22px 18px;">
+          <div>
+            <h4 style="margin: 0 0 8px; color: var(--accent-primary); font-size: 1rem;">🛡️ 八条底线形式化说明</h4>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.55; margin: 0 0 16px;">
+              针对三难不可能三角、非补偿性约束、顺从作用域边界等 8 条参考底线的说明与依据。
+            </p>
+          </div>
+          <div>
+            <a href="docs/dignity_redlines.html" class="pub-pill-btn" style="width: 100%; text-align: center; box-sizing: border-box;">📄 查看八条底线说明</a>
+          </div>
+        </div>
+
+        <!-- Card 4: Benchmark & Findings -->
+        <div class="feature-card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 22px 18px;">
+          <div>
+            <h4 style="margin: 0 0 8px; color: var(--accent-primary); font-size: 1rem;">📊 场景评测与消融实验</h4>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.55; margin: 0 0 16px;">
+              102 个标准化场景评测方法、7 大模型实测数据对比与 8 项因果消融实验数据记录。
+            </p>
+          </div>
+          <div>
+            <a href="docs/adversitybench.html" class="pub-pill-btn" style="width: 100%; text-align: center; box-sizing: border-box;">📄 查看评测实验记录</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Section 7: Team & Affiliations -->
+    <section id="team">
+      <div class="section-header">
+        <div class="section-tag">| 研究团队与学术渊源</div>
+        <h2>研究团队、依托机构与学术背景</h2>
+        <p>本项目为立足理化学研究所 (RIKEN AIP) 机器学习研究环境的初步学术探索，融合不完全信息决策、张量表示与社会计算。</p>
+      </div>
+
+      <div class="two-col">
+        <!-- Researchers Block -->
+        <div class="feature-card">
+          <h4 style="color: var(--accent-primary); margin-top: 0;">👤 研究成员 (Researchers)</h4>
+          
+          <div style="margin-bottom: 14px;">
+            <strong>研究主导 (Project Lead)：</strong> 王安东 博士 (WANG Andong, Ph.D.)<br>
+            <span style="font-size: 0.88rem; color: var(--text-muted);">理化学研究所 革新知能統合研究センター (RIKEN AIP) 研究員</span>
+          </div>
+
+          <div style="margin-bottom: 14px;">
+            <strong>协力研究者 (Collaborating Researchers)：</strong><br>
+            <span style="font-size: 0.9rem; color: var(--text-secondary);">• 邱育宁 (QIU Yuning) · 理化学研究所 (RIKEN AIP)</span><br>
+            <span style="font-size: 0.9rem; color: var(--text-secondary);">• 黄昊楠 (HUANG Haonan) · 理化学研究所 (RIKEN AIP)</span>
+          </div>
+
+          <div style="margin-top: 14px; display: flex; gap: 10px;">
+            <a class="pub-pill-btn" href="../../AI4S/spread_homepage/index.html" target="_blank">🌐 访问个人主页 ↗</a>
+            <a class="pub-pill-btn" href="mailto:w.a.d@outlook.com">✉️ 联系邮箱</a>
+          </div>
+        </div>
+
+        <!-- Affiliated Teams & Heritage -->
+        <div class="feature-card">
+          <h4 style="color: var(--accent-primary); margin-top: 0;">🏛️ 依托团队与学术渊源</h4>
+          
+          <div style="margin-bottom: 14px;">
+            <strong>依托团队：</strong><br>
+            <span style="font-size: 0.9rem; color: var(--text-secondary);">理化学研究所 (RIKEN AIP) · テンソル学習チーム (Tensor Learning Team / 张量学习团队)、不完全情報学習チーム (Imperfect Information Learning Team)</span>
+          </div>
+
+          <div style="border-top: 1px solid var(--border-subtle); padding-top: 10px; margin-top: 10px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.65;">
+            <strong>学术演进：</strong>本项目立足AI4S向AI4I中个体逆境决策 (AI4I) 与人机共在论 (Copresence Studies) 人工主体协同交互理论的深化探索。
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Scenario Detail Modal -->
+  <div id="scenario-modal" class="modal-overlay" onclick="closeScenarioModal()">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeScenarioModal()" aria-label="关闭">&times;</button>
+      <h3 id="modal-scenario-title" style="color: var(--accent-primary); margin-bottom: 8px;"></h3>
+      <div id="modal-scenario-body"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="site-shell footer-content">
+      <div>
+        © <span id="year">2026</span> <strong>AI4I Research Group / Andong Wang</strong> · RIKEN AIP.
+      </div>
+      <div>
+        学术支持：理化学研究所 革新知能統合研究センター (RIKEN AIP) · AI for Individuals (AI4I) Research Initiative
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/scenarios-data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    function copyTextToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        alert("已复制到剪贴板！");
+      }).catch(err => {
+        console.error("复制失败:", err);
+      });
+    }
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>

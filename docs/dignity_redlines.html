@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>八条参考底线与形式化说明 | AI4I 专题说明</title>
+  <meta name="description" content="专题说明与阶段性推导笔记">
+
+  <!-- Google Fonts & MathJax -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .doc-page {
+      padding: 36px 0 80px;
+    }
+    .doc-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--ink-muted);
+      margin-bottom: 20px;
+    }
+    .doc-breadcrumb a {
+      color: var(--blue-primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .doc-breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    .doc-container {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+    .doc-toc {
+      position: sticky;
+      top: 80px;
+      background: var(--bg-surface-alt);
+      border: 1px solid var(--border-line);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      max-height: calc(100vh - 110px);
+      overflow-y: auto;
+    }
+    .doc-toc h4 {
+      font-size: 0.86rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--blue-primary);
+      margin: 0 0 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .doc-toc ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .doc-toc li {
+      margin-bottom: 8px;
+    }
+    .doc-toc a {
+      color: var(--ink-secondary);
+      text-decoration: none;
+      font-size: 0.84rem;
+      display: block;
+      line-height: 1.45;
+      transition: color 0.15s ease;
+    }
+    .doc-toc a:hover {
+      color: var(--blue-accent);
+      font-weight: 600;
+    }
+    .doc-article {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-line);
+      border-radius: var(--radius-md);
+      padding: 36px 44px;
+      box-shadow: var(--shadow-sm);
+    }
+    .doc-header-block {
+      border-bottom: 2px solid var(--border-line);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+    .doc-tag {
+      display: inline-block;
+      padding: 3px 10px;
+      background: var(--blue-soft);
+      color: var(--blue-primary);
+      border: 1px solid var(--blue-accent);
+      border-radius: var(--radius-pill);
+      font-size: 0.76rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .doc-title {
+      font-size: 1.8rem;
+      line-height: 1.35;
+      color: var(--ink-primary);
+      margin: 0 0 12px;
+    }
+    .doc-zh-title {
+      font-size: 1.15rem;
+      color: var(--ink-muted);
+      font-weight: 500;
+      margin: 0 0 16px;
+    }
+    .doc-meta {
+      font-size: 0.86rem;
+      color: var(--ink-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .doc-actions {
+      display: flex;
+      gap: 12px;
+    }
+    .doc-article section {
+      margin-bottom: 40px;
+    }
+    .doc-article section:last-child {
+      margin-bottom: 0;
+    }
+    .doc-article h2 {
+      font-size: 1.35rem;
+      color: var(--blue-primary);
+      border-bottom: 1px solid var(--border-soft);
+      padding-bottom: 8px;
+      margin: 28px 0 16px;
+    }
+    .doc-article h3 {
+      font-size: 1.12rem;
+      color: var(--ink-primary);
+      margin: 20px 0 10px;
+    }
+    .doc-article p {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--ink-secondary);
+      margin: 0 0 14px;
+    }
+    .doc-article ul, .doc-article ol {
+      margin: 0 0 16px 22px;
+      padding: 0;
+      font-size: 0.93rem;
+      color: var(--ink-secondary);
+      line-height: 1.7;
+    }
+    .doc-article li {
+      margin-bottom: 6px;
+    }
+    .doc-callout {
+      background: var(--bg-surface-alt);
+      border-left: 4px solid var(--blue-accent);
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+      margin: 18px 0;
+      font-size: 0.92rem;
+      line-height: 1.65;
+    }
+    .doc-math-box {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      margin: 18px 0;
+      text-align: center;
+      overflow-x: auto;
+    }
+    @media (max-width: 860px) {
+      .doc-container {
+        grid-template-columns: 1fr;
+      }
+      .doc-toc {
+        display: none;
+      }
+      .doc-article {
+        padding: 24px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="topbar">
+    <div class="site-shell topbar-inner">
+      <a href="../ai4adversity.html" class="wordmark">
+        <span class="wordmark-dot"></span>
+        <span>AI4I · ADVERSITYBENCH</span>
+      </a>
+
+      <nav>
+        <a href="../ai4adversity.html#overview">研究背景</a>
+        <a href="../ai4adversity.html#theory">形式理论</a>
+        <a href="../ai4adversity.html#benchmark">评测系统</a>
+        <a href="../ai4adversity.html#interactive">交互计算</a>
+        <a href="../ai4adversity.html#publications">专题页面</a>
+        <a href="../ai4adversity.html#team">研究团队</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme" title="切换深色/浅色模式">
+          <span id="theme-icon">🌙</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="site-shell doc-page">
+    <div class="doc-breadcrumb">
+      <a href="../ai4adversity.html">← 返回 AI4I 主页</a>
+      <span>/</span>
+      <span>项目专题说明页面</span>
+      <span>/</span>
+      <span>八条参考底线说明</span>
+    </div>
+
+    <div class="doc-container">
+      <!-- Left Sticky Table of Contents -->
+      <aside class="doc-toc">
+        <h4>本篇目录索引</h4>
+        <ul>
+          <li><a href="#sec-intro">引言：做人和做事的基本底线，背后有其必然的道理</a></li>
+<li><a href="#sec-table">八条参考底线与推导依据汇总</a></li>
+        </ul>
+      </aside>
+
+      <!-- Main Content Article -->
+      <article class="doc-article">
+        <header class="doc-header-block">
+          <span class="doc-tag">专题说明 (Dignity Red Lines)</span>
+          <h1 class="doc-title">八条参考底线与形式化说明</h1>
+          <div class="doc-zh-title">八条参考底线说明</div>
+          <div class="doc-meta">
+            <span><strong>作者 / 研究主体：</strong> AI4I Research Group (Wang, A., et al.)</span>
+            <span><strong>归档元数据：</strong> 专题说明与阶段性推导笔记</span>
+          </div>
+          <div class="doc-actions">
+            <a href="../ai4adversity.html#publications" class="btn btn-primary">📖 返回首页专题列表</a>
+          </div>
+        </header>
+
+        <!-- Release Soon Notice -->
+        <div class="doc-callout" style="background: var(--bg-surface-alt); border-left: 3px solid var(--blue-accent, #2563eb); margin: 0 0 24px; font-size: 0.86rem; color: var(--ink-secondary); line-height: 1.6;">
+          📌 <strong>阶段性说明：</strong>本文档为 AI4I 项目的初步梳理与专题笔记。完整评测数据集、形式推导附录与复现代码将于近期整理发布。
+        </div>
+
+        <!-- Dynamic Body Sections -->
+        <div class="doc-content-body">
+          <section id="sec-intro"><h2>引言：做人和做事的基本底线，背后有其必然的道理</h2><p>在涉及普通人切身利益的逆境求助场景中，AI 系统的行为不能仅仅依靠临场的语言修辞，而应当遵循明确的行为底线。本篇梳理了 8 条形式化参考底线，用平实的语言讲清楚每条底线背后的常识与数理依据。</p></section>
+<section id="sec-table"><h2>八条参考底线与推导依据汇总</h2><table style="width: 100%; border-collapse: collapse; font-size: 0.9rem; margin: 16px 0;">
+          <thead>
+            <tr style="background: var(--bg-secondary); border-bottom: 2px solid var(--border-strong);">
+              <th style="padding: 10px; text-align: left; width: 70px;">编号</th>
+              <th style="padding: 10px; text-align: left; width: 160px;">参考底线原则</th>
+              <th style="padding: 10px; text-align: left;">核心逻辑与推导依据</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">底线 1</td>
+              <td style="padding: 10px; font-weight: 600;">绝不代为主张</td>
+              <td style="padding: 10px;">在信息未查明时，如果既不提问核实、又只给单个方案，就绝不可能保证方案一定可行（三难不可能三角）。</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">底线 2</td>
+              <td style="padding: 10px; font-weight: 600;">绝不强迫披露</td>
+              <td style="padding: 10px;">保护求助者隐私：通过提供覆盖主要分类的备选清单，让求助者自主挑选，免于被逼问敏感信息（零隐私泄露）。</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">底线 3</td>
+              <td style="padding: 10px; font-weight: 600;">底线不可代偿</td>
+              <td style="padding: 10px;">人身安全与现实可行性属于硬约束，不能用“语气客气温柔”、“回答热情”等表面效用相互折抵。</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">底线 4</td>
+              <td style="padding: 10px; font-weight: 600;">顺从不得越界</td>
+              <td style="padding: 10px;">用户要求“回复字数少一点”，指的是排版和表达形式，绝不等于授权 AI 放弃核实方案在现实中能否走通。</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">底线 5</td>
+              <td style="padding: 10px; font-weight: 600;">长程序列审计</td>
+              <td style="padding: 10px;">单看一两句话可能觉得正常，但在多轮对话中，AI 可能会一步步引导用户放弃自主权，必须全程连续评估。</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">底线 6</td>
+              <td style="padding: 10px; font-weight: 600;">安全机制透明</td>
+              <td style="padding: 10px;">当 AI 触发紧急保护措施或拒绝特定操作时，必须给求助者清楚、诚恳地解释原因，不能遮遮掩掩。</td>
+            </tr>
+            <tr style="border-bottom: 1px solid var(--border-subtle);">
+              <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">底线 7</td>
+              <td style="padding: 10px; font-weight: 600;">统计可行原则</td>
+              <td style="padding: 10px;">一次随口猜对只能算运气好，不能代表系统可靠；评价 AI 的决策质量必须看它在各种可能处境下的综合可行率。</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">底线 8</td>
+              <td style="padding: 10px; font-weight: 600;">标注规则审计</td>
+              <td style="padding: 10px;">当多个不同厂商的 AI 都不约而同地与人工标准答案发生分歧时，通常说明是人工制定的规则本身存在漏洞。</td>
+            </tr>
+          </tbody>
+          </table>
+          
+          <!-- Redlines Figure -->
+          <div class="figure-container" style="margin: 20px 0;">
+            <div class="figure-card" style="background: var(--bg-surface-alt, #f8fafc); border: 1px solid var(--border-soft, #e2e8f0); padding: 12px; border-radius: 6px;">
+              <img src="../assets/figures/fig_tradeoff-1.png" alt="交换曲线硬约束测定" style="width: 100%; border-radius: 4px;" loading="lazy">
+              <div class="figure-caption" style="font-size: 0.82rem; color: var(--ink-secondary, #475569); margin-top: 6px;"><strong>图 5：不可补偿性硬约束交换曲线。</strong>诚实与安全底线呈现零违规直立硬墙，拒绝效用折抵。</div>
+            </div>
+          </div></section>
+        </div>
+
+        <!-- Footer Release Note -->
+        <div style="margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--border-soft); font-size: 0.84rem; color: var(--ink-muted); line-height: 1.6;">
+          <em>* 注：本项目处于学术初探阶段，更多实测样本、长程交互日志与数学推导附录将于近期整理发布。</em>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="site-shell footer-content">
+      <div>
+        © <span id="year">2026</span> <strong>AI4I Research Group / Andong Wang</strong> · RIKEN AIP.
+      </div>
+      <div>
+        学术支持：理化学研究所 革新知能統合研究センター (RIKEN AIP) · SPReAD Initiative
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../assets/js/app.js"></script>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

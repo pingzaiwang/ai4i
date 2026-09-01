@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI4I · AdversityBench | Prudence and Dignity: Dialogue Decision-Making in Human Adversity</title>
+  <meta name="description" content="AI4I / AdversityBench: Preliminary exploration of dialogue decision-making under incomplete information and hidden constraints: feasibility guarantees, privacy lower bounds, and instruction scope. Project Lead: Andong Wang (RIKEN AIP).">
+  <meta name="author" content="AI4I Research Group / Andong Wang">
+
+  <!-- Google Fonts & MathJax -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="topbar">
+    <div class="site-shell topbar-inner">
+      <a href="#home" class="wordmark">
+        <span class="wordmark-dot"></span>
+        <span>AI4I · ADVERSITYBENCH</span>
+      </a>
+
+      <nav>
+        <a href="#motivation">Background</a>
+        <a href="#theory">Theory</a>
+        <a href="#benchmark">Benchmark</a>
+        <a href="#interactive">Scenarios</a>
+        <a href="#publications">Topic Notes</a>
+        <a href="#team">Team</a>
+      </nav>
+
+                              <div class="nav-actions">
+        <div class="lang-switcher">
+          <a href="ai4adversity.html" class="lang-btn active">EN</a>
+          <a href="ai4adversity_ja.html" class="lang-btn">日本語</a>
+        </div>
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme" title="Toggle Light/Dark Theme">
+          <span id="theme-icon">🌙</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="home" class="site-shell">
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-badge-pill">
+        <span class="pulse-dot"></span>
+        <span>Preliminary Exploration of Dialogue Decision Reliability, Instruction Scope, and Privacy in Adversity</span>
+      </div>
+
+      <h1 class="hero-title">
+        Prudence and Dignity: Dialogue Decision-Making in Human Adversity
+      </h1>
+
+      <p class="hero-subtitle">
+        — A preliminary study across 102 standardized decision scenarios and 7 frontier models: examining constraint-checking suppression under formatting instructions, menu-partition duality, and privacy lower bounds (full dataset and code to be released soon)
+      </p>
+
+      <!-- Section: Motivation (4-Stage Pipeline) -->
+      <div id="motivation" class="motivation-central-card" style="text-align: left; margin: 32px 0 20px;">
+        <div class="motivation-central-header" style="text-align: left; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
+          <div>
+            <span class="central-question-tag">Research Context and Core Questions</span>
+            <h2 style="font-size: 1.35rem; color: var(--accent-primary); margin: 8px 0 4px; text-align: left;">
+              Why Do Conversational AIs Fail in Urgent Real-World Decision-Making?
+            </h2>
+          </div>
+          <span style="font-size: 0.82rem; color: var(--text-muted); font-family: var(--font-mono);">AI4I Problem Formulation</span>
+        </div>
+
+        <div class="motivation-flow-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+          
+          <!-- Stage 1 -->
+          <div class="motivation-step-item" style="text-align: left; background: var(--bg-secondary); border: 1px solid var(--border-subtle); padding: 18px; border-radius: var(--radius-md);">
+            <div class="motivation-step-num" style="color: var(--accent-primary); font-weight: 700; font-family: var(--font-mono); font-size: 0.88rem; margin-bottom: 6px;">01 · Realistic Setting</div>
+            <h3 class="motivation-step-title" style="font-size: 1.02rem; margin: 0 0 8px; color: var(--text-primary);">High Irreversible Trial-and-Error Costs</h3>
+            <p class="motivation-step-desc" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+              In urgent situations such as housing eviction, medical debt, or visa deadlines, rules are highly technical with strict deadlines. Individuals face irreversible consequences if erroneous actions are taken.
+            </p>
+          </div>
+
+          <!-- Stage 2 -->
+          <div class="motivation-step-item" style="text-align: left; background: var(--bg-secondary); border: 1px solid var(--border-subtle); padding: 18px; border-radius: var(--radius-md);">
+            <div class="motivation-step-num" style="color: var(--accent-primary); font-weight: 700; font-family: var(--font-mono); font-size: 0.88rem; margin-bottom: 6px;">02 · Interaction Pattern</div>
+            <h3 class="motivation-step-title" style="font-size: 1.02rem; margin: 0 0 8px; color: var(--text-primary);">Transition to Conversational AI Assistance</h3>
+            <p class="motivation-step-desc" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+              Users increasingly seek holistic advice directly from conversational LLMs instead of keyword search engines. Under stress, they often ask for single-option advice: <em>“Don't give me a long list, just give me a single concrete plan and decide for me.”</em>
+            </p>
+          </div>
+
+          <!-- Stage 3 -->
+          <div class="motivation-step-item" style="text-align: left; background: var(--bg-secondary); border: 1px solid var(--border-subtle); padding: 18px; border-radius: var(--radius-md);">
+            <div class="motivation-step-num" style="color: var(--accent-primary); font-weight: 700; font-family: var(--font-mono); font-size: 0.88rem; margin-bottom: 6px;">03 · Core Observation</div>
+            <h3 class="motivation-step-title" style="font-size: 1.02rem; margin: 0 0 8px; color: var(--text-primary);">Brevity Requests Suppress Verification</h3>
+            <p class="motivation-step-desc" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+              Frontier models often confuse requests for concise output formats with an authorization to skip checking real-world prerequisites. Recommending a single plan without verifying hidden constraints leads to physically or legally infeasible advice.
+            </p>
+          </div>
+
+          <!-- Stage 4 -->
+          <div class="motivation-step-item" style="text-align: left; background: var(--bg-secondary); border: 1px solid var(--border-subtle); padding: 18px; border-radius: var(--radius-md);">
+            <div class="motivation-step-num" style="color: var(--accent-primary); font-weight: 700; font-family: var(--font-mono); font-size: 0.88rem; margin-bottom: 6px;">04 · Our Approach</div>
+            <h3 class="motivation-step-title" style="font-size: 1.02rem; margin: 0 0 8px; color: var(--text-primary);">Principled Modeling, Benchmarking & Scope Intervention</h3>
+            <p class="motivation-step-desc" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+              We formulate menu-partition duality to guarantee feasibility under 0-bit privacy leakage, evaluate 7 frontier models across 102 standardized scenarios, and demonstrate that lightweight scope rules restore crucial verification questions.
+            </p>
+          </div>
+
+        </div>
+
+        <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 14px;">
+          * Note: This project is an ongoing exploratory study. Detailed benchmark datasets, scenario configuration files, and interaction logs will be released soon.
+        </div>
+      </div>
+
+      <div class="tag-row">
+        <span class="tag">Copresence Studies</span>
+        <span class="tag">Non-Extractive Interaction</span>
+        <span class="tag">Decision Support in Adversity</span>
+        <span class="tag">Constrained POMDP</span>
+        <span class="tag">Menu-Partition Duality</span>
+        <span class="tag">102 Scenarios Benchmark</span>
+        <span class="tag">7 Frontier Models Tested</span>
+        <span class="tag">4D Tensor Analysis</span>
+      </div>
+    </section>
+
+    <!-- Section 1: Empirical Observation -->
+    <section id="mechanism">
+      <div class="section-header">
+        <div class="section-tag">| Empirical Observation</div>
+        <h2>I. Preliminary Empirical Observation: Suppression of Verification under Formatting Constraints</h2>
+        <p>Analyzing the behavioral discrepancy in LLMs under constrained prompt formats: how surface compliance suppresses underlying fact-checking routines.</p>
+      </div>
+
+      <div class="two-col">
+        <!-- Feature Card 1 -->
+        <div class="feature-card">
+          <h4 style="color: var(--accent-primary); margin-top: 0;">7 Frontier Models Tested: Creeping Compliance</h4>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.65; margin-bottom: 12px;">
+            When users include requests such as <em>“Don't give me a long list, give me only one option and decide for me”</em>, all tested models (Claude Opus / Sonnet / Haiku, Qwen 3.6-35B, Kimi k2.6 / k3, GLM-5.2) exhibit a sharp decline in candidate option volume (<strong>-46.9% to -67.9%</strong>, Wilcoxon test \(p < 10^{-15}\)), and clarification questioning rates collapse to <strong>0% ~ 34%</strong>.
+          </p>
+          <div style="border-top: 1px solid var(--border-subtle); padding-top: 10px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+            Users restrict the <em>surface presentation format</em> of the response (demanding brevity), but do not authorize the system to abandon verifying whether the proposed action is <em>physically and legally executable in reality</em>.
+          </div>
+        </div>
+
+        <!-- Feature Card 2 -->
+        <div class="feature-card">
+          <h4 style="color: var(--accent-primary); margin-top: 0;">2×2 Factorial Ablation & E2c Length Control (Preliminary Data)</h4>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.65; margin-bottom: 12px;">
+            A 2×2 factorial experiment isolating emotional stress from single-option format requests demonstrates that the suppression of questioning is driven by the <strong>explicit single-option format constraint</strong> (\(p \approx 4 \times 10^{-31}\)), with emotional stress acting only as a secondary modifier.
+          </p>
+          <div style="border-top: 1px solid var(--border-subtle); padding-top: 10px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+            <strong>Scope Rule Intervention:</strong> By adding a single scope constraint rule (<em>“Conciseness applies to the explanation layer; do not omit critical prerequisite verification”</em>), questioning rates robustly recover to <strong>87% ~ 100%</strong>.
+          </div>
+        </div>
+      </div>
+
+            <!-- Section 1 Figures Grid -->
+      <div class="figure-container" style="margin-top: 24px;">
+        <div class="figure-grid">
+          <div class="figure-card">
+            <img src="assets/figures/fig_ablation-1.png" alt="2x2 Factorial Ablation Results" loading="lazy">
+            <div class="figure-caption"><strong>Figure 1: 2×2 Factorial Ablation.</strong> Format requests drive the suppression of verification (main effect \(p < 10^{-30}\)), with emotional stress as a secondary factor.</div>
+          </div>
+          <div class="figure-card">
+            <img src="assets/figures/fig_option_collapse-1.png" alt="Option and Questioning Rate Collapse" loading="lazy">
+            <div class="figure-caption"><strong>Figure 2: Option and Question Collapse.</strong> Frontier models show simultaneous collapse in option capacity and questioning rates under single-option instructions.</div>
+          </div>
+        </div>
+        <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 10px; text-align: center;">* Note: These are preliminary test results. Full dialogue traces and statistical test scripts will be released soon.</p>
+      </div>
+    </section>
+
+    <!-- Section 2: Theory -->
+    <section id="theory">
+      <div class="section-header">
+        <div class="section-tag">| Decision Theory Notes</div>
+        <h2>II. Notes on Constrained Decision Theory: Menu-Partition Duality and Privacy Lower Bounds</h2>
+        <p>Formulating why presenting an option menu guarantees feasibility under incomplete information without requiring invasive privacy disclosures.</p>
+      </div>
+
+      <div class="two-col">
+        <!-- Theorem 1 Card -->
+        <div class="feature-card" style="border-left: 3px solid var(--accent-primary);">
+          <div class="theory-pill">Theorem 1 (Menu–Partition Duality)</div>
+          <h3 style="margin: 10px 0; font-size: 1.15rem; color: var(--accent-primary);">Why Menus Ensure Feasibility Across Uncertainty</h3>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.65;">
+            Let \(\hat{\mathcal{S}}\) be the set of possible user states given partial information. Partitioning \(\hat{\mathcal{S}}\) into \(k^*\) compatible subsets where each subset shares at least one feasible action, the minimum menu size \(|M|\) required to guarantee at least one feasible action for every \(s \in \hat{\mathcal{S}}\) satisfies:
+          </p>
+          <div class="math-box">$$\min |M| = m^* = k^*(\hat{\mathcal{S}})$$</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 8px;">
+            <strong>Core Implication:</strong> When \(k^* \ge 2\), no single recommendation (\(m=1\)) can mathematically guarantee feasibility across all potential real-world states without prerequisite verification.
+          </p>
+        </div>
+
+        <!-- Theorem 2 Card -->
+        <div class="feature-card" style="border-left: 3px solid var(--accent-primary);">
+          <div class="theory-pill">Theorem 2 (Privacy Disclosure Lower Bound)</div>
+          <h3 style="margin: 10px 0; font-size: 1.15rem; color: var(--accent-primary);">Zero-Bit Privacy Protection via Menu Selection</h3>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.65;">
+            If the protocol insists on outputting a single action \(a^*\) guaranteed to be feasible for true state \(s^*\), the mutual information revealed by the user must satisfy \(\Delta I(s^*; \text{transcript}) \ge \log_2 k^*(\hat{\mathcal{S}})\) bits.
+          </p>
+          <div class="math-box">$$\text{Menu Protocol: } \Delta I(s^*; \text{transcript}) = 0 \text{ bits}$$</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 8px;">
+            <strong>Core Implication:</strong> Providing a compact menu of size \(k^*\) allows the user to self-select their feasible path with zero sensitive disclosure to the model.
+          </p>
+        </div>
+      </div>
+
+            <!-- Theory Framework Figures -->
+      <div class="figure-container" style="margin-top: 28px;">
+        <div class="figure-grid">
+          <div class="figure-card">
+            <img src="assets/figures/fig1_pomdp_framework-1.png" alt="Constrained POMDP Decision Framework" loading="lazy">
+            <div class="figure-caption"><strong>Figure 3: Constrained Sequential Decision Framework.</strong> Dynamic state transitions between explicit statements, hidden constraints, and feasible actions.</div>
+          </div>
+          <div class="figure-card">
+            <img src="assets/figures/fig_synthesis-1.png" alt="Theoretical Synthesis and Red Lines" loading="lazy">
+            <div class="figure-caption"><strong>Figure 4: Theoretical Synthesis Map.</strong> Mapping menu duality, disclosure bounds, and eight reference principles.</div>
+          </div>
+        </div>
+        <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 10px; text-align: center;">* Note: Complete mathematical proofs and technical appendices will be published soon.</p>
+      </div>
+    </section>
+
+    <!-- Section 3: Red Lines -->
+    <section id="redlines">
+      <div class="section-header">
+        <div class="section-tag">| Dignity-Preserving Principles</div>
+        <h2>III. Dignity-Preserving Principles: Non-Compensatory Constraints and Eight Reference Red Lines</h2>
+        <p>Outlining 8 formal reference principles governing feasibility, user agency, and instruction scope in high-stakes dialogue assistance.</p>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 80px;">Index</th>
+              <th style="width: 220px;">Reference Principle</th>
+              <th>Core Logic and Theoretical Basis</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="brand-badge">Line 1</span></td>
+              <td><strong>No Unauthorized Substitution</strong></td>
+              <td>Trilemma Impossibility: Single recommendation + no clarification + guaranteed feasibility form an impossible trinity when \(k^* \ge 2\).</td>
+            </tr>
+            <tr>
+              <td><span class="brand-badge">Line 2</span></td>
+              <td><strong>No Forced Disclosure</strong></td>
+              <td>Disclosure Lower Bound: Menus achieve complete feasibility with 0 bits of privacy leakage, protecting sensitive user conditions.</td>
+            </tr>
+            <tr>
+              <td><span class="brand-badge">Line 3</span></td>
+              <td><strong>Non-Compensatory Principles</strong></td>
+              <td>Hard safety constraints cannot be traded off or compensated by surface empathy or polite phrasing.</td>
+            </tr>
+            <tr>
+              <td><span class="brand-badge">Line 4</span></td>
+              <td><strong>Scope-Limited Compliance</strong></td>
+              <td>Compliance Scope Axiom: Format-level brevity requests must not propagate into cognitive prerequisite checking.</td>
+            </tr>
+            <tr>
+              <td><span class="brand-badge">Line 5</span></td>
+              <td><strong>Longitudinal Audit</strong></td>
+              <td>Memoryless single-turn audits miss cumulative erosion of user agency across multi-turn interactions.</td>
+            </tr>
+            <tr>
+              <td><span class="brand-badge">Line 6</span></td>
+              <td><strong>Transparent Safeguards</strong></td>
+              <td>Safety tripwires and refusal mechanisms must have transparent, explainable trigger criteria.</td>
+            </tr>
+            <tr>
+              <td><span class="brand-badge">Line 7</span></td>
+              <td><strong>Statistical Feasibility</strong></td>
+              <td>Single-instance anecdotal success cannot substitute for rigorous distributional feasibility evaluation.</td>
+            </tr>
+            <tr>
+              <td><span class="brand-badge">Line 8</span></td>
+              <td><strong>Annotation Rule Auditing</strong></td>
+              <td>Unanimous multi-model disagreement with reference keys indicates omitted real-world prerequisite conditions in the guidelines.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 10px;">* Note: Formal mathematical definitions and boundary discussions for the eight reference principles will be released soon.</p>
+    </section>
+
+    <!-- Section 4: Benchmark & Experiments -->
+    <section id="benchmark">
+      <div class="section-header">
+        <div class="section-tag">| Empirical Benchmark</div>
+        <h2>IV. Preliminary Benchmark Evaluation: 102 Standardized Scenarios and Ablations</h2>
+        <p>Evaluating frontier models on 102 standardized scenarios with stateful state-machine verifications (full dataset and code to be released soon).</p>
+      </div>
+
+      <!-- 7 Frontier Models Table -->
+      <div class="table-container">
+        <div style="margin-bottom: 12px; font-weight: 600; color: var(--accent-primary); font-size: 0.95rem;">
+          📊 7 Frontier Models Preliminary Evaluation Summary (102 Standardized Scenarios · Preliminary Data)
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Options Capacity (Base)</th>
+              <th>Options Capacity (Constrained)</th>
+              <th>Capacity Drop</th>
+              <th>Clarification Rate (Constrained)</th>
+              <th>Statistical Significance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Claude 3.5 Sonnet</strong></td>
+              <td>4.55</td>
+              <td>1.87</td>
+              <td><span style="color: #dc2626; font-weight: 600;">-58.9%</span></td>
+              <td><strong>0.0%</strong></td>
+              <td>\(p = 3.4 \times 10^{-17}\)</td>
+            </tr>
+            <tr>
+              <td><strong>Claude Opus</strong></td>
+              <td>4.49</td>
+              <td>2.08</td>
+              <td><span style="color: #dc2626; font-weight: 600;">-53.7%</span></td>
+              <td><strong>2.9%</strong></td>
+              <td>\(p = 8.2 \times 10^{-16}\)</td>
+            </tr>
+            <tr>
+              <td><strong>Claude 3.5 Haiku</strong></td>
+              <td>4.93</td>
+              <td>1.58</td>
+              <td><span style="color: #dc2626; font-weight: 600;">-67.9%</span></td>
+              <td><strong>0.0%</strong></td>
+              <td>\(p = 1.1 \times 10^{-17}\)</td>
+            </tr>
+            <tr>
+              <td><strong>Qwen 3.6-35B</strong></td>
+              <td>4.12</td>
+              <td>2.19</td>
+              <td><span style="color: #dc2626; font-weight: 600;">-46.9%</span></td>
+              <td><strong>34.3%</strong></td>
+              <td>\(p = 2.1 \times 10^{-13}\)</td>
+            </tr>
+            <tr>
+              <td><strong>Kimi k2.6</strong></td>
+              <td>4.31</td>
+              <td>1.92</td>
+              <td><span style="color: #dc2626; font-weight: 600;">-55.5%</span></td>
+              <td><strong>12.7%</strong></td>
+              <td>\(p = 4.8 \times 10^{-15}\)</td>
+            </tr>
+            <tr>
+              <td><strong>Kimi k3</strong></td>
+              <td>4.47</td>
+              <td>1.85</td>
+              <td><span style="color: #dc2626; font-weight: 600;">-58.6%</span></td>
+              <td><strong>8.8%</strong></td>
+              <td>\(p = 1.5 \times 10^{-16}\)</td>
+            </tr>
+            <tr>
+              <td><strong>GLM-5.2</strong></td>
+              <td>4.25</td>
+              <td>2.01</td>
+              <td><span style="color: #dc2626; font-weight: 600;">-52.7%</span></td>
+              <td><strong>18.6%</strong></td>
+              <td>\(p = 6.3 \times 10^{-14}\)</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 8px;">
+          * Note: Above figures represent preliminary evaluation results generated on the RIKEN AIP computing infrastructure. Full evaluation logs, per-question scores, and automated test scripts will be released soon.
+        </p>
+      </div>
+
+      <!-- 8 Ablation Experiments Summary -->
+      <div style="margin-top: 32px;">
+        <h3 style="color: var(--accent-primary); font-size: 1.12rem; margin-bottom: 16px;">
+          Summary of 8 Causal and Ablation Experiments (Preliminary Data)
+        </h3>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+          <div class="feature-card">
+            <h4 style="color: var(--accent-primary); margin: 0 0 6px;">Exp 1: Option Capacity Collapse (n=102)</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              Option capacity dropped by 46.9% ~ 67.9% under single-option brevity prompts (\(p < 10^{-15}\)).
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h4 style="color: var(--accent-primary); margin: 0 0 6px;">Exp 2: 2×2 Causal Ablation (n=102)</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              Format constraint is the dominant causal factor for verification suppression (\(p \approx 4 \times 10^{-31}\)).
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h4 style="color: var(--accent-primary); margin: 0 0 6px;">Exp 3: Closed-Loop Multi-Turn Simulation</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              First-turn feasibility reached 0.83~0.85 upon clarification, with constraint integration success of 96%~99%.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h4 style="color: var(--accent-primary); margin: 0 0 6px;">Exp 4: Scope Rule Intervention</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              Clarifying format scope boundaries restored question rates from 0%~33% back to 87%~100%.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h4 style="color: var(--accent-primary); margin: 0 0 6px;">Exp 5: Hard Constraint Tradeoffs (n=918)</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              Honesty and safety showed zero violations across templates, confirming non-compensatory hard walls.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h4 style="color: var(--accent-primary); margin: 0 0 6px;">Exp 6: Warmth vs Feasibility Orthogonality</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              Linguistic empathy was statistically uncorrelated with physical plan feasibility (\(\rho = -0.078\)).
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h4 style="color: var(--accent-primary); margin: 0 0 6px;">Exp 7: Multi-Model Unanimous Dissent</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              Multi-model consensus captured annotation guideline oversights with a 94.4% key-correction rate.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h4 style="color: var(--accent-primary); margin: 0 0 6px;">Exp 8: Constrained Channel Adaptation</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              Under monitored channels, safe phrasing increased from 9% to 56%~71%, verifying context adaptation.
+            </p>
+          </div>
+        </div>
+      </div>
+
+            <!-- Empirical Figures -->
+      <div class="figure-container" style="margin-top: 24px;">
+        <div class="figure-grid">
+          <div class="figure-card">
+            <img src="assets/figures/fig_dpoi_results-1.png" alt="DPOI Empirical Distribution" loading="lazy">
+            <div class="figure-caption"><strong>Figure 5: Exp 1 DPOI Empirical Distribution.</strong> Significant decline in option capacity under constrained vs baseline turns.</div>
+          </div>
+          <div class="figure-card">
+            <img src="assets/figures/fig_tradeoff-1.png" alt="Tradeoff Curve and Hard Constraints" loading="lazy">
+            <div class="figure-caption"><strong>Figure 6: Exp 5 Tradeoff Curve.</strong> Honesty and agency principles demonstrate rigid zero-violation boundaries.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Data Release Callout -->
+      <div class="feature-card" style="margin-top: 24px; border-left: 3px solid var(--accent-primary); background: var(--bg-card);">
+        <p style="font-size: 0.86rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+          💡 <strong>Data Release Note:</strong> This study is currently in its preliminary stage. Full multi-turn dialogue logs, raw 4D behavioral tensor matrices, and long-horizon simulation scripts will be organized and released soon.
+        </p>
+      </div>
+    </section>
+
+    <!-- Section 5: Scenario Explorer -->
+    <section id="interactive">
+      <div class="section-header">
+        <div class="section-tag">| Standardized Scenarios</div>
+        <h2>V. Standardized Scenario Sample Browser: Hidden Constraints and Action Transitions</h2>
+        <p>Displaying sample scenarios with hidden constraints and state-machine transitions (full 102 scenario dataset to be released soon).</p>
+      </div>
+
+      <!-- Scenario Explorer -->
+      <div>
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-bottom: 16px;">
+          <div>
+            <h3 style="color: var(--text-primary); margin: 0 0 6px; font-size: 1.25rem;">📂 Standardized Decision Scenario Browser</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0;">
+              Filter by domain or search by keyword to inspect state-machine definitions and hidden constraints (full 102 scenarios coming soon).
+            </p>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <input type="text" id="scenario-search" placeholder="🔍 Search scenario, keywords, ID..." style="padding: 8px 14px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font-size: 0.88rem; width: 240px; background: var(--bg-card); color: var(--text-primary);">
+            <span id="scenario-count-badge" class="brand-badge">102 / 102</span>
+          </div>
+        </div>
+
+        <!-- Section 5 Dataset Note -->
+        <div style="margin-bottom: 16px; padding: 12px 16px; background: var(--bg-card); border: 1px solid var(--border-subtle); border-left: 3px solid var(--accent-primary); border-radius: var(--radius-sm); font-size: 0.86rem; color: var(--text-secondary); line-height: 1.65;">
+          📌 <strong>Dataset Notice:</strong> Selected typical state-machine models and hidden constraints are shown below. The complete JSON configuration files, state transition rules, and automated test assertions for all 102 scenarios will be released soon.
+        </div>
+
+        <!-- Domain Tabs -->
+        <div class="domain-tabs-row">
+          <button class="domain-tab active" data-domain="all">All Domains</button>
+          <button class="domain-tab" data-domain="housing">🏠 Housing & Eviction</button>
+          <button class="domain-tab" data-domain="safety">🛡️ Physical Safety</button>
+          <button class="domain-tab" data-domain="health">🏥 Medical Debt</button>
+          <button class="domain-tab" data-domain="legal">⚖️ Legal Status</button>
+          <button class="domain-tab" data-domain="financial">💳 Debt & Finance</button>
+          <button class="domain-tab" data-domain="family">👨‍👩‍👧 Caregiving</button>
+        </div>
+
+        <!-- Scenario Cards Grid -->
+        <div id="scenario-list-container" class="scenario-grid">
+          <!-- Dynamically populated by assets/js/app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 6: Topic Notes & Detailed Pages -->
+    <section id="publications">
+      <div class="section-header">
+        <div class="section-tag">| Topic Notes</div>
+        <h2>VI. Topic Notes and Detailed Pages (Preliminary Notes)</h2>
+        <p>Curated supplementary notes, mathematical derivations, and benchmark analyses. Detailed datasets and technical appendices will be released soon.</p>
+      </div>
+
+      <div class="grid-4" style="margin-top: 24px;">
+
+        <!-- Card 1: Motivation -->
+        <div class="feature-card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 22px 18px;">
+          <div>
+            <h4 style="margin: 0 0 8px; color: var(--accent-primary); font-size: 1rem;">📌 Research Background & Motivation</h4>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.55; margin: 0 0 16px;">
+              High trial-and-error costs in adversity, shifting patterns toward conversational assistance, and format-induced verification suppression.
+            </p>
+          </div>
+          <div>
+            <a href="docs/motivation.html" class="pub-pill-btn" style="width: 100%; text-align: center; box-sizing: border-box;">📄 Read Background Note</a>
+          </div>
+        </div>
+
+        <!-- Card 2: Theory -->
+        <div class="feature-card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 22px 18px;">
+          <div>
+            <h4 style="margin: 0 0 8px; color: var(--accent-primary); font-size: 1rem;">📐 Decision Theory Notes</h4>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.55; margin: 0 0 16px;">
+              Constrained POMDP formulation, menu–partition duality, 0-bit privacy bounds, and 5 open theoretical questions.
+            </p>
+          </div>
+          <div>
+            <a href="docs/theory.html" class="pub-pill-btn" style="width: 100%; text-align: center; box-sizing: border-box;">📄 Read Theory Notes</a>
+          </div>
+        </div>
+
+        <!-- Card 3: Red Lines -->
+        <div class="feature-card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 22px 18px;">
+          <div>
+            <h4 style="margin: 0 0 8px; color: var(--accent-primary); font-size: 1rem;">🛡️ Eight Reference Principles</h4>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.55; margin: 0 0 16px;">
+              Formal explanations of the trilemma impossibility, non-compensatory constraints, and scope-limited compliance.
+            </p>
+          </div>
+          <div>
+            <a href="docs/dignity_redlines.html" class="pub-pill-btn" style="width: 100%; text-align: center; box-sizing: border-box;">📄 View Eight Principles</a>
+          </div>
+        </div>
+
+        <!-- Card 4: Benchmark & Findings -->
+        <div class="feature-card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 22px 18px;">
+          <div>
+            <h4 style="margin: 0 0 8px; color: var(--accent-primary); font-size: 1rem;">📊 Benchmark & Ablations</h4>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.55; margin: 0 0 16px;">
+              102 standardized evaluation methodology, 7 frontier model comparisons, and 8 causal ablation experiment records.
+            </p>
+          </div>
+          <div>
+            <a href="docs/adversitybench.html" class="pub-pill-btn" style="width: 100%; text-align: center; box-sizing: border-box;">📄 View Benchmark Records</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Section 7: Team & Affiliations -->
+    <section id="team">
+      <div class="section-header">
+        <div class="section-tag">| Research Team & Heritage</div>
+        <h2>Research Team, Affiliated Groups, and Background</h2>
+        <p>This project is a preliminary academic study rooted in the machine learning research environment at RIKEN AIP, integrating imperfect information decision-making, tensor representations, and social computing.</p>
+      </div>
+
+      <div class="two-col">
+        <!-- Researchers Block -->
+        <div class="feature-card">
+          <h4 style="color: var(--accent-primary); margin-top: 0;">👤 Researchers</h4>
+          
+          <div style="margin-bottom: 14px;">
+            <strong>Project Lead:</strong> Andong Wang, Ph.D.<br>
+            <span style="font-size: 0.88rem; color: var(--text-muted);">Research Scientist, RIKEN Center for Advanced Intelligence Project (RIKEN AIP)</span>
+          </div>
+
+          <div style="margin-bottom: 14px;">
+            <strong>Collaborating Researchers:</strong><br>
+            <span style="font-size: 0.9rem; color: var(--text-secondary);">• Yuning Qiu · RIKEN Center for Advanced Intelligence Project (RIKEN AIP)</span><br>
+            <span style="font-size: 0.9rem; color: var(--text-secondary);">• Haonan Huang · RIKEN Center for Advanced Intelligence Project (RIKEN AIP)</span>
+          </div>
+
+          <div style="margin-top: 14px; display: flex; gap: 10px;">
+            <a class="pub-pill-btn" href="../../AI4S/spread_homepage/index.html" target="_blank">🌐 Personal Homepage ↗</a>
+            <a class="pub-pill-btn" href="mailto:w.a.d@outlook.com">✉️ Contact Email</a>
+          </div>
+        </div>
+
+        <!-- Affiliated Teams & Heritage -->
+        <div class="feature-card">
+          <h4 style="color: var(--accent-primary); margin-top: 0;">🏛️ Affiliated Teams and Heritage</h4>
+          
+          <div style="margin-bottom: 14px;">
+            <strong>Affiliated Teams:</strong><br>
+            <span style="font-size: 0.9rem; color: var(--text-secondary);">RIKEN Center for Advanced Intelligence Project (RIKEN AIP) · Tensor Learning Team, Imperfect Information Learning Team</span>
+          </div>
+
+          <div style="border-top: 1px solid var(--border-subtle); padding-top: 10px; margin-top: 10px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.65;">
+            <strong>Academic Evolution:</strong> Deepening foundational research from AI for Science (AI4S) toward individual decision-making under adversity (AI4I) and Copresence Studies on artificial actor interaction.
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Scenario Detail Modal -->
+  <div id="scenario-modal" class="modal-overlay" onclick="closeScenarioModal()">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeScenarioModal()" aria-label="Close">&times;</button>
+      <h3 id="modal-scenario-title" style="color: var(--accent-primary); margin-bottom: 8px;"></h3>
+      <div id="modal-scenario-body"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="site-shell footer-content">
+      <div>
+        © <span id="year">2026</span> <strong>AI4I Research Group / Andong Wang</strong> · RIKEN AIP.
+      </div>
+      <div>
+        Academic Support: RIKEN Center for Advanced Intelligence Project (RIKEN AIP) · AI for Individuals (AI4I) Research Initiative
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/scenarios-data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>

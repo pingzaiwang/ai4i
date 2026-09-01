@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>研究背景与四阶动机梳理 | AI4I 专题说明</title>
+  <meta name="description" content="专题说明与阶段性推导笔记">
+
+  <!-- Google Fonts & MathJax -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .doc-page {
+      padding: 36px 0 80px;
+    }
+    .doc-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--ink-muted);
+      margin-bottom: 20px;
+    }
+    .doc-breadcrumb a {
+      color: var(--blue-primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .doc-breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    .doc-container {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+    .doc-toc {
+      position: sticky;
+      top: 80px;
+      background: var(--bg-surface-alt);
+      border: 1px solid var(--border-line);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      max-height: calc(100vh - 110px);
+      overflow-y: auto;
+    }
+    .doc-toc h4 {
+      font-size: 0.86rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--blue-primary);
+      margin: 0 0 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+    .doc-toc ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .doc-toc li {
+      margin-bottom: 8px;
+    }
+    .doc-toc a {
+      color: var(--ink-secondary);
+      text-decoration: none;
+      font-size: 0.84rem;
+      display: block;
+      line-height: 1.45;
+      transition: color 0.15s ease;
+    }
+    .doc-toc a:hover {
+      color: var(--blue-accent);
+      font-weight: 600;
+    }
+    .doc-article {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-line);
+      border-radius: var(--radius-md);
+      padding: 36px 44px;
+      box-shadow: var(--shadow-sm);
+    }
+    .doc-header-block {
+      border-bottom: 2px solid var(--border-line);
+      padding-bottom: 24px;
+      margin-bottom: 32px;
+    }
+    .doc-tag {
+      display: inline-block;
+      padding: 3px 10px;
+      background: var(--blue-soft);
+      color: var(--blue-primary);
+      border: 1px solid var(--blue-accent);
+      border-radius: var(--radius-pill);
+      font-size: 0.76rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .doc-title {
+      font-size: 1.8rem;
+      line-height: 1.35;
+      color: var(--ink-primary);
+      margin: 0 0 12px;
+    }
+    .doc-zh-title {
+      font-size: 1.15rem;
+      color: var(--ink-muted);
+      font-weight: 500;
+      margin: 0 0 16px;
+    }
+    .doc-meta {
+      font-size: 0.86rem;
+      color: var(--ink-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+    .doc-actions {
+      display: flex;
+      gap: 12px;
+    }
+    .doc-article section {
+      margin-bottom: 40px;
+    }
+    .doc-article section:last-child {
+      margin-bottom: 0;
+    }
+    .doc-article h2 {
+      font-size: 1.35rem;
+      color: var(--blue-primary);
+      border-bottom: 1px solid var(--border-soft);
+      padding-bottom: 8px;
+      margin: 28px 0 16px;
+    }
+    .doc-article h3 {
+      font-size: 1.12rem;
+      color: var(--ink-primary);
+      margin: 20px 0 10px;
+    }
+    .doc-article p {
+      font-size: 0.95rem;
+      line-height: 1.75;
+      color: var(--ink-secondary);
+      margin: 0 0 14px;
+    }
+    .doc-article ul, .doc-article ol {
+      margin: 0 0 16px 22px;
+      padding: 0;
+      font-size: 0.93rem;
+      color: var(--ink-secondary);
+      line-height: 1.7;
+    }
+    .doc-article li {
+      margin-bottom: 6px;
+    }
+    .doc-callout {
+      background: var(--bg-surface-alt);
+      border-left: 4px solid var(--blue-accent);
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+      margin: 18px 0;
+      font-size: 0.92rem;
+      line-height: 1.65;
+    }
+    .doc-math-box {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border-soft);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      margin: 18px 0;
+      text-align: center;
+      overflow-x: auto;
+    }
+    @media (max-width: 860px) {
+      .doc-container {
+        grid-template-columns: 1fr;
+      }
+      .doc-toc {
+        display: none;
+      }
+      .doc-article {
+        padding: 24px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="topbar">
+    <div class="site-shell topbar-inner">
+      <a href="../ai4adversity.html" class="wordmark">
+        <span class="wordmark-dot"></span>
+        <span>AI4I · ADVERSITYBENCH</span>
+      </a>
+
+      <nav>
+        <a href="../ai4adversity.html#overview">研究背景</a>
+        <a href="../ai4adversity.html#theory">形式理论</a>
+        <a href="../ai4adversity.html#benchmark">评测系统</a>
+        <a href="../ai4adversity.html#interactive">交互计算</a>
+        <a href="../ai4adversity.html#publications">专题页面</a>
+        <a href="../ai4adversity.html#team">研究团队</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme" title="切换深色/浅色模式">
+          <span id="theme-icon">🌙</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="site-shell doc-page">
+    <div class="doc-breadcrumb">
+      <a href="../ai4adversity.html">← 返回 AI4I 主页</a>
+      <span>/</span>
+      <span>项目专题说明页面</span>
+      <span>/</span>
+      <span>研究动机梳理</span>
+    </div>
+
+    <div class="doc-container">
+      <!-- Left Sticky Table of Contents -->
+      <aside class="doc-toc">
+        <h4>本篇目录索引</h4>
+        <ul>
+          <li><a href="#sec-stage1">01 · 现实背景：面临突发危机时，普通人承担不起试错成本</a></li>
+<li><a href="#sec-stage2">02 · 交互特征：人在极度疲惫焦虑时，往往希望 AI 替自己做决定</a></li>
+<li><a href="#sec-stage3">03 · 核心现象：AI 把“回答要简短”误解成了“不需要核实事实”</a></li>
+<li><a href="#sec-stage4">04 · 我们的探索：用平实理论与基准测试给顺从行为立规矩</a></li>
+        </ul>
+      </aside>
+
+      <!-- Main Content Article -->
+      <article class="doc-article">
+        <header class="doc-header-block">
+          <span class="doc-tag">专题导读 (Research Motivation)</span>
+          <h1 class="doc-title">研究背景与四阶动机梳理</h1>
+          <div class="doc-zh-title">研究动机梳理</div>
+          <div class="doc-meta">
+            <span><strong>作者 / 研究主体：</strong> AI4I Research Group (Wang, A., et al.)</span>
+            <span><strong>归档元数据：</strong> 专题说明与阶段性推导笔记</span>
+          </div>
+          <div class="doc-actions">
+            <a href="../ai4adversity.html#publications" class="btn btn-primary">📖 返回首页专题列表</a>
+          </div>
+        </header>
+
+        <!-- Release Soon Notice -->
+        <div class="doc-callout" style="background: var(--bg-surface-alt); border-left: 3px solid var(--blue-accent, #2563eb); margin: 0 0 24px; font-size: 0.86rem; color: var(--ink-secondary); line-height: 1.6;">
+          📌 <strong>阶段性说明：</strong>本文档为 AI4I 项目的初步梳理与专题笔记。完整评测数据集、形式推导附录与复现代码将于近期整理发布。
+        </div>
+
+        <!-- Dynamic Body Sections -->
+        <div class="doc-content-body">
+          <section id="sec-stage1"><h2>01 · 现实背景：面临突发危机时，普通人承担不起试错成本</h2><p><strong>现实中的规则复杂且不可逆：</strong>当一个人突然遭遇租房纠纷面临被驱逐、家庭变故需要法律救济、突发大额医疗支出无法报销，或者签证时效即将到期时，摆在面前的是极其复杂的专业规则和严格的截止时间。普通人通常缺少专业律师或咨询师的协助，一旦走错一步或错过申诉期限，后果往往无法挽回。</p>
+          <p><strong>技术系统的现实责任：</strong>在信息严重不对称、手头资源极为有限的情况下，如何让 AI 系统给出切实走得通、不产生意外损害的建议，是关乎个体切实利益的技术课题。</p></section>
+<section id="sec-stage2"><h2>02 · 交互特征：人在极度疲惫焦虑时，往往希望 AI 替自己做决定</h2><p><strong>从搜索引擎查条文，到直接向 AI 求助：</strong>过去遇到难题，人们通常在搜索引擎里输入关键词，面对成百上千条搜索结果自己甄别；而现在，很多人习惯直接在手机对话框里向 AI 大模型全盘托出自己的处境。</p>
+          <p><strong>信息过载下的极简指令：</strong>当身处危机、面对冗长繁琐的法律条款感到极度焦虑时，求助者往往没有心力再去逐项比较长长的备选清单，因而在对话中提出简化格式的请求：<br>
+          <code style="display:block; padding:12px; background:var(--bg-subtle, #f8fafc); border-left:3px solid var(--accent-primary, #2563eb); margin:10px 0; border-radius:4px; font-size:0.92rem;">“我实在看不懂这些复杂的条文，请不要给我列长清单，直接给我一个唯一的具体方案，替我做决定。”</code></p></section>
+<section id="sec-stage3"><h2>03 · 核心现象：AI 把“回答要简短”误解成了“不需要核实事实”</h2><p><strong>指令理解上的偏差：</strong>大模型在接收到上述“仅给单项简短方案”的要求时，普遍存在一个行为偏差——它将用户针对<strong>输出文字长短与格式</strong>的要求，错误地泛化为<strong>不需要再去核查用户的实际现实前提</strong>。</p>
+          <p><strong>单点建议在现实中容易落空：</strong>在没有探明求助者隐蔽现实条件（例如手头有没有私家车、银行流水是否达标、手机是否被他人监控等）的情况下，AI 就随口给出一个具体的单点方案。这个方案在字面上看似合理，但在求助者的实际现实中很可能根本无法执行，甚至带来意外的违规或安全风险。</p>
+          
+          <!-- Embedded Figures in Motivation -->
+          <div class="figure-container" style="margin: 24px 0;">
+            <div class="figure-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+              <div class="figure-card" style="background: var(--bg-surface-alt, #f8fafc); border: 1px solid var(--border-soft, #e2e8f0); padding: 12px; border-radius: 6px;">
+                <img src="../assets/figures/fig_ablation-1.png" alt="2x2 消融实验因果分离" style="width: 100%; border-radius: 4px;" loading="lazy">
+                <div class="figure-caption" style="font-size: 0.82rem; color: var(--ink-secondary, #475569); margin-top: 6px;"><strong>图 1：2×2 全因子消融实验。</strong>格式请求驱动提问机制关闭（主效应显著），情绪压力为次要修饰。</div>
+              </div>
+              <div class="figure-card" style="background: var(--bg-surface-alt, #f8fafc); border: 1px solid var(--border-soft, #e2e8f0); padding: 12px; border-radius: 6px;">
+                <img src="../assets/figures/fig_option_collapse-1.png" alt="选项坍塌与提问率暴跌" style="width: 100%; border-radius: 4px;" loading="lazy">
+                <div class="figure-caption" style="font-size: 0.82rem; color: var(--ink-secondary, #475569); margin-top: 6px;"><strong>图 2：选项容量与提问率同步坍缩。</strong>前沿模型在单项格式请求下提问率与选项容量同步下降。</div>
+              </div>
+            </div>
+          </div></section>
+<section id="sec-stage4"><h2>04 · 我们的探索：用平实理论与基准测试给顺从行为立规矩</h2><p><strong>核心目标：</strong>让 AI 在面对简短格式要求时，既能顺应求助者的表达偏好，又能守住现实可行性底线，同时不强迫求助者暴露过多敏感隐私。</p>
+          <p><strong>初步推导与实证工作：</strong></p>
+          <ul>
+          <li><strong>菜单与隐私的对偶推导：</strong>从数学上说明为什么给出一个包含两三个选项的“小菜单”，是在完全不逼问用户私密条件的前提下（0 比特隐私泄露）、确保方案切实可行的有效解法；</li>
+          <li><strong>102 个标准化场景测试：</strong>构建涵盖 6 大维度的标准化逆境场景基准，测试了 7 个主流前沿大模型的决策表现；</li>
+          <li><strong>作用域提示干预：</strong>初步验证了只要明确区分“回答文字简明”与“探索现实前提”的边界，就能让模型在保持简短回答的同时恢复必要的事实核查提问。</li>
+          </ul></section>
+        </div>
+
+        <!-- Footer Release Note -->
+        <div style="margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--border-soft); font-size: 0.84rem; color: var(--ink-muted); line-height: 1.6;">
+          <em>* 注：本项目处于学术初探阶段，更多实测样本、长程交互日志与数学推导附录将于近期整理发布。</em>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="site-shell footer-content">
+      <div>
+        © <span id="year">2026</span> <strong>AI4I Research Group / Andong Wang</strong> · RIKEN AIP.
+      </div>
+      <div>
+        学术支持：理化学研究所 革新知能統合研究センター (RIKEN AIP) · SPReAD Initiative
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../assets/js/app.js"></script>
+  <script>document.getElementById("year").textContent = new Date().getFullYear();</script>
+</body>
+</html>

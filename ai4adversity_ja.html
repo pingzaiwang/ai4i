@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI4I · AdversityBench | 慎重さと尊厳の保持：人間の逆境におけるAI対話的意思決定の予備的探求</title>
+  <meta name="description" content="AI4I / AdversityBench: 不完全情報および隠蔽制約下における対話的意思決定の予備的検討：実行可能性の保証、プライバシー下界、指示スコープ。研究主導：王 安東（理研AIP）。">
+  <meta name="author" content="AI4I Research Group / Andong Wang">
+
+  <!-- Google Fonts & MathJax -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Klee+One:wght@400;600&family=Shippori+Mincho:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="topbar">
+    <div class="site-shell topbar-inner">
+      <a href="#home" class="wordmark">
+        <span class="wordmark-dot"></span>
+        <span>AI4I · ADVERSITYBENCH</span>
+      </a>
+
+      <nav>
+        <a href="#motivation">研究背景</a>
+        <a href="#theory">理論検討</a>
+        <a href="#benchmark">評価実験</a>
+        <a href="#interactive">シナリオ</a>
+        <a href="#publications">トピック詳細</a>
+        <a href="#team">研究チーム</a>
+      </nav>
+
+                              <div class="nav-actions">
+        <div class="lang-switcher">
+          <a href="ai4adversity.html" class="lang-btn">EN</a>
+          <a href="ai4adversity_ja.html" class="lang-btn active">日本語</a>
+        </div>
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme" title="ライト/ダークモード切替">
+          <span id="theme-icon">🌙</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="home" class="site-shell">
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-badge-pill">
+        <span class="pulse-dot"></span>
+        <span>複雑な現実的制約下におけるLLM対話意思決定の信頼性・指示スコープ・プライバシー境界に関する予備的検討</span>
+      </div>
+
+      <h1 class="hero-title">
+        慎重さと尊厳の保持：人間の逆境におけるAI対話的意思決定の予備的探求
+      </h1>
+
+      <p class="hero-subtitle">
+        —— 102の標準化された逆境意思決定シナリオと7つの主要モデルに基づく予備的検討：形式制約下での事実確認抑制、メニュー・分割双対性、プライバシー下界の導出（詳細データおよびコードは近日公開予定）
+      </p>
+      <div style="font-size: 0.82rem; color: var(--text-muted); margin: 4px 0 16px;">※ 本日本語版ページは Gemini により翻訳・作成されました</div>
+
+      <!-- Section: Motivation (4-Stage Pipeline) -->
+      <div id="motivation" class="motivation-central-card" style="text-align: left; margin: 32px 0 20px;">
+        <div class="motivation-central-header" style="text-align: left; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
+          <div>
+            <span class="central-question-tag">研究背景と本質的問い</span>
+            <h2 style="font-size: 1.35rem; color: var(--accent-primary); margin: 8px 0 4px; text-align: left;">
+              なぜ対話型AIは現実の緊急的意思決定において誤った判断を下すのか？
+            </h2>
+          </div>
+          <span style="font-size: 0.82rem; color: var(--text-muted); font-family: var(--font-mono);">AI4I Problem Formulation</span>
+        </div>
+
+        <div class="motivation-flow-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+          
+          <!-- Stage 1 -->
+          <div class="motivation-step-item" style="text-align: left; background: var(--bg-secondary); border: 1px solid var(--border-subtle); padding: 18px; border-radius: var(--radius-md);">
+            <div class="motivation-step-num" style="color: var(--accent-primary); font-weight: 700; font-family: var(--font-mono); font-size: 0.88rem; margin-bottom: 6px;">01 · 現実的背景</div>
+            <h3 class="motivation-step-title" style="font-size: 1.02rem; margin: 0 0 8px; color: var(--text-primary);">不可逆で高い試行錯誤コスト</h3>
+            <p class="motivation-step-desc" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+              住宅立ち退き、突発的な医療費、ビザ期限などの突発的危機において、手続きは専門的で期限が厳格です。支援リソースの乏しい個人にとって、一度の判断ミスは不可逆な損失に直結します。
+            </p>
+          </div>
+
+          <!-- Stage 2 -->
+          <div class="motivation-step-item" style="text-align: left; background: var(--bg-secondary); border: 1px solid var(--border-subtle); padding: 18px; border-radius: var(--radius-md);">
+            <div class="motivation-step-num" style="color: var(--accent-primary); font-weight: 700; font-family: var(--font-mono); font-size: 0.88rem; margin-bottom: 6px;">02 · 対話の特性</div>
+            <h3 class="motivation-step-title" style="font-size: 1.02rem; margin: 0 0 8px; color: var(--text-primary);">検索から対話型AIへの相談への移行</h3>
+            <p class="motivation-step-desc" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+              従来の検索エンジンでの条文検索から、対話型AIに全般的な相談を行う形式への移行が進んでいます。情報過多と精神的ストレスの中で、「長いリストではなく、具体的な単一の案を提示して決めてほしい」という要請が生じます。
+            </p>
+          </div>
+
+          <!-- Stage 3 -->
+          <div class="motivation-step-item" style="text-align: left; background: var(--bg-secondary); border: 1px solid var(--border-subtle); padding: 18px; border-radius: var(--radius-md);">
+            <div class="motivation-step-num" style="color: var(--accent-primary); font-weight: 700; font-family: var(--font-mono); font-size: 0.88rem; margin-bottom: 6px;">03 · 核心的観察</div>
+            <h3 class="motivation-step-title" style="font-size: 1.02rem; margin: 0 0 8px; color: var(--text-primary);">形式の簡潔さ要求による事実確認の抑制</h3>
+            <p class="motivation-step-desc" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+              モデルが「回答の簡潔さや単一案の要求」を「現実的前提条件の確認を省略してよい」と誤認します。移動手段や資金、通信制限などの隠蔽制約を確認しないまま単一案を提示し、現実で実行不能に陥る現象が見られます。
+            </p>
+          </div>
+
+          <!-- Stage 4 -->
+          <div class="motivation-step-item" style="text-align: left; background: var(--bg-secondary); border: 1px solid var(--border-subtle); padding: 18px; border-radius: var(--radius-md);">
+            <div class="motivation-step-num" style="color: var(--accent-primary); font-weight: 700; font-family: var(--font-mono); font-size: 0.88rem; margin-bottom: 6px;">04 · 本取り組み</div>
+            <h3 class="motivation-step-title" style="font-size: 1.02rem; margin: 0 0 8px; color: var(--text-primary);">形式モデリング、予備検証とスコープ介入</h3>
+            <p class="motivation-step-desc" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
+              メニュー機構によるプライバシーと実行可能性の両立の導出、102シナリオに基づく予備的評価、および簡潔さを保ちながら事実確認を促すスコープルールの検証を進めています。
+            </p>
+          </div>
+
+        </div>
+
+        <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 14px;">
+          * 注：本研究は段階的な予備的探求です。詳細なベンチマークデータセット、シナリオ定義ファイル、対話ログは近日公開予定です。
+        </div>
+      </div>
+
+      <div class="tag-row">
+        <span class="tag">共在論の予備的検討</span>
+        <span class="tag">非搾取的な共在</span>
+        <span class="tag">逆境における意思決定支援</span>
+        <span class="tag">制約付きPOMDP</span>
+        <span class="tag">メニュー・分割双対性</span>
+        <span class="tag">102シナリオベンチマーク</span>
+        <span class="tag">7つの主要モデルの予備検証</span>
+        <span class="tag">4Dテンソル分析</span>
+      </div>
+    </section>
+
+    <!-- Section 1: Empirical Observation -->
+    <section id="mechanism">
+      <div class="section-header">
+        <div class="section-tag">| 実証的観察</div>
+        <h2>一、予備的実証観察：形式指示による事実確認プロセスの抑制</h2>
+        <p>制約付きプロンプト下におけるLLMの行動変化の分析：表層的な指示順従が基礎的な事実確認ルーチンをどのように抑制するか。</p>
+      </div>
+
+      <div class="two-col">
+        <!-- Feature Card 1 -->
+        <div class="feature-card">
+          <h4 style="color: var(--accent-primary); margin-top: 0;">7つの主要モデルの予備検証：順従の逸脱（Creeping Compliance）</h4>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.65; margin-bottom: 12px;">
+            相談者が「長いリストはいらないので、1つだけ案を出して決めてほしい」と求めた際、検証した全モデル（Claude Opus / Sonnet / Haiku、Qwen 3.6-35B、Kimi k2.6 / k3、GLM-5.2）において、提示される選択肢数が急激に減少（<strong>-46.9% 〜 -67.9%</strong>、Wilcoxon検定 \(p < 10^{-15}\)）し、事実確認の質問率が <strong>0% 〜 34%</strong> まで低下しました。
+          </p>
+          <div style="border-top: 1px solid var(--border-subtle); padding-top: 10px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+            相談者が対話で求めているのは回答の<em>表層的な表現形式</em>（簡潔さや単一案）であり、現実の物理的・制度的環境においてその案が<em>実行可能かどうかの確認を放棄すること</em>を許可したわけではありません。
+          </div>
+        </div>
+
+        <!-- Feature Card 2 -->
+        <div class="feature-card">
+          <h4 style="color: var(--accent-primary); margin-top: 0;">2×2 因子アブレーションと E2c 長さ制御実験（予備的データ）</h4>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.65; margin-bottom: 12px;">
+            感情的ストレスと単一案の形式要求を分離した 2×2 要因実験により、確認質問の抑制は感情的ストレスではなく、<strong>明示的な単一案形式要求</strong>によって直接引き起こされていることが確認されました（\(p \approx 4 \times 10^{-31}\)）。
+          </p>
+          <div style="border-top: 1px solid var(--border-subtle); padding-top: 10px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
+            <strong>スコープルールの介入：</strong>「簡潔さの要求は説明形式にのみ適用され、前提条件の確認を省略してはならない」という1行のルールを提示することで、質問率は <strong>87% 〜 100%</strong> まで回復しました。
+          </div>
+        </div>
+      </div>
+
+            <!-- Section 1 Figures Grid -->
+      <div class="figure-container" style="margin-top: 24px;">
+        <div class="figure-grid">
+          <div class="figure-card">
+            <img src="assets/figures/fig_ablation-1.png" alt="2x2 アブレーション結果" loading="lazy">
+            <div class="figure-caption"><strong>図1：2×2 全因子アブレーション実験。</strong>形式要求が確認質問の抑制を引き起こす主因であり（主効果 \(p < 10^{-30}\)）、感情ストレスは副次的影響。</div>
+          </div>
+          <div class="figure-card">
+            <img src="assets/figures/fig_option_collapse-1.png" alt="選択肢容量と確認率の減少" loading="lazy">
+            <div class="figure-caption"><strong>図2：単一案指示下での選択肢容量と質問率の減少。</strong>単一案要求下で選択肢数と確認質問率が同時に急低下。</div>
+          </div>
+        </div>
+        <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 10px; text-align: center;">* 注：上記は段階的な予備検証結果です。完全な対話ログおよび統計検定コードは近日公開予定です。</p>
+      </div>
+    </section>
+
+    <!-- Section 2: Theory -->
+    <section id="theory">
+      <div class="section-header">
+        <div class="section-tag">| 意思決定理論ノート</div>
+        <h2>二、制約付き意思決定の理論的検討：メニュー・分割双対性とプライバシー下界</h2>
+        <p>不完全情報下において、選択肢メニューの提示が過剰なプライバシー開示を伴わずに実行可能性を保証する理由についての検討。</p>
+      </div>
+
+      <div class="two-col">
+        <!-- Theorem 1 Card -->
+        <div class="feature-card" style="border-left: 3px solid var(--accent-primary);">
+          <div class="theory-pill">定理1（メニュー–分割双対性の導出）</div>
+          <h3 style="margin: 10px 0; font-size: 1.15rem; color: var(--accent-primary);">メニューが不確実性下で実行可能性を担保する理由</h3>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.65;">
+            限られた情報から推測される潜在的な状態集合を \(\hat{\mathcal{S}}\) とします。状態集合を共通の実行可能行動を持つ \(k^*\) 個の部分集合に分割した場合、すべての \(s \in \hat{\mathcal{S}}\) に対して実行可能な選択肢を必ず含む最小メニュー \(M\) のサイズは以下を満たします：
+          </p>
+          <div class="math-box">$$\min |M| = m^* = k^*(\hat{\mathcal{S}})$$</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 8px;">
+            <strong>理論的示唆：</strong>互換性のない分類が複数存在する場合（\(k^* \ge 2\)）、前提の確認なしに単一の案（\(m=1\)）のみを提示することは、あらゆる状態での実行可能性を数学的に保証できません。
+          </p>
+        </div>
+
+        <!-- Theorem 2 Card -->
+        <div class="feature-card" style="border-left: 3px solid var(--accent-primary);">
+          <div class="theory-pill">定理2（プライバシー開示下界の導出）</div>
+          <h3 style="margin: 10px 0; font-size: 1.15rem; color: var(--accent-primary);">メニュー選択によるプライバシーの保全（0ビット開示）</h3>
+          <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.65;">
+            システムが真の状態 \(s^*\) において実行可能な単一の行動 \(a^*\) を必ず提示するためには、相談者は \(\Delta I(s^*; \text{transcript}) \ge \log_2 k^*(\hat{\mathcal{S}})\) ビットの個人情報を開示する必要があります。
+          </p>
+          <div class="math-box">$$\text{メニュー方式: } \Delta I(s^*; \text{transcript}) = 0 \text{ bits}$$</div>
+          <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 8px;">
+            <strong>理論的示唆：</strong>サイズ \(k^*\) のメニューを提示して利用者に選択してもらうことで、AIに機微情報を明かすことなく（0ビット開示）、安全に実行可能な案を確保できます。
+          </p>
+        </div>
+      </div>
+
+            <!-- Theory Framework Figures -->
+      <div class="figure-container" style="margin-top: 28px;">
+        <div class="figure-grid">
+          <div class="figure-card">
+            <img src="assets/figures/fig1_pomdp_framework-1.png" alt="制約付きPOMDP意思決定フレームワーク" loading="lazy">
+            <div class="figure-caption"><strong>図3：制約付き逐次意思決定フレームワーク。</strong>明示的発言、隠蔽制約、実行可能行動集合の動的状態遷移。</div>
+          </div>
+          <div class="figure-card">
+            <img src="assets/figures/fig_synthesis-1.png" alt="理論的統合マップ" loading="lazy">
+            <div class="figure-caption"><strong>図4：理論的統合マップ。</strong>双対定理、情報開示境界、および8つの参照基準の数理マッピング。</div>
+          </div>
+        </div>
+        <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 10px; text-align: center;">* 注：完全な形式的導出過程と技術付録は近日公開予定です。</p>
+      </div>
+    </section>
+
+    <!-- Section 3: Red Lines -->
+    <section id="redlines">
+      <div class="section-header">
+        <div class="section-tag">| 尊厳保持の原則</div>
+        <h2>三、尊厳保持の原則：非補償的制約と8つの参照基準</h2>
+        <p>個人の安全と自己決定権に関わる高リスクな対話において考慮すべき8つの形式的参照基準の整理。</p>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th style="width: 80px;">番号</th>
+              <th style="width: 220px;">参照原則</th>
+              <th>基本的論理と理論的根拠</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="brand-badge">基準 1</span></td>
+              <td><strong>代行決定の回避</strong></td>
+              <td>トリレンマの不可能性：情報未確認の状況下で、単一推薦・質問なし・実行可能保証を同時に満たすことは不可能です（\(k^* \ge 2\)）。</td>
+            </tr>
+            <tr>
+              <td><span class="brand-badge">基準 2</span></td>
+              <td><strong>強制開示の回避</strong></td>
+              <td>プライバシー下界：主要分類をカバーするメニューを提示することで、機微な個人情報を聞き出すことなく実行可能性を担保します。</td>
+            </tr>
+            <tr>
+              <td><span class="brand-badge">基準 3</span></td>
+              <td><strong>非補償的制約</strong></td>
+              <td>身体の安全や法的期限などのハード制約は、丁寧な口調や共感的な表現などの表層的要素と相殺・代償できません。</td>
+            </tr>
+            <tr>
+              <td><span class="brand-badge">基準 4</span></td>
+              <td><strong>順従のスコープ限定</strong></td>
+              <td>「回答を短く」という形式上の要求を、前提条件を確認しない口実として拡大解釈してはなりません。</td>
+            </tr>
+            <tr>
+              <td><span class="brand-badge">基準 5</span></td>
+              <td><strong>対話シーケンスの監査</strong></td>
+              <td>1ターンごとの個別監査では、複数ターンの対話を通じて自己決定権が徐々に奪われるプロセスを検出できません。</td>
+            </tr>
+            <tr>
+              <td><span class="brand-badge">基準 6</span></td>
+              <td><strong>安全機構の透明性</strong></td>
+              <td>緊急時の保護機能や拒否動作は、利用者に理解可能な明確な基準に基づいて実行される必要があります。</td>
+            </tr>
+            <tr>
+              <td><span class="brand-badge">基準 7</span></td>
+              <td><strong>統計的実行可能性</strong></td>
+              <td>偶然の1回の成功をもって安全と見なすことはできず、多様な潜在状況における総合的な実行可能性を評価する必要があります。</td>
+            </tr>
+            <tr>
+              <td><span class="brand-badge">基準 8</span></td>
+              <td><strong>アノテーション基準の監査</strong></td>
+              <td>複数の独立したモデルが一致して正解ラベルと異なる判定を行う場合、ルール側に現実的前提の漏れが存在する可能性があります。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 10px;">* 注：8つの参照基準に関する形式的定義および境界条件の検討ノートは近日公開予定です。</p>
+    </section>
+
+    <!-- Section 4: Benchmark & Experiments -->
+    <section id="benchmark">
+      <div class="section-header">
+        <div class="section-tag">| 実証的ベンチマーク</div>
+        <h2>四、予備的ベンチマーク評価：102シナリオにおける検証とアブレーション</h2>
+        <p>102の標準化シナリオと状態遷移モデルに基づく主要モデルの予備的評価（データセットおよびコードは近日公開予定）。</p>
+      </div>
+
+      <!-- 7 Frontier Models Table -->
+      <div class="table-container">
+        <div style="margin-bottom: 12px; font-weight: 600; color: var(--accent-primary); font-size: 0.95rem;">
+          📊 7つの主要モデルの予備的実測結果まとめ (102の標準化シナリオ · 段階的データ)
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>モデル名</th>
+              <th>選択肢容量 (通常)</th>
+              <th>選択肢容量 (制約時)</th>
+              <th>減少率</th>
+              <th>確認質問率 (制約時)</th>
+              <th>統計的有意性</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Claude 3.5 Sonnet</strong></td>
+              <td>4.55</td>
+              <td>1.87</td>
+              <td><span style="color: #dc2626; font-weight: 600;">-58.9%</span></td>
+              <td><strong>0.0%</strong></td>
+              <td>\(p = 3.4 \times 10^{-17}\)</td>
+            </tr>
+            <tr>
+              <td><strong>Claude Opus</strong></td>
+              <td>4.49</td>
+              <td>2.08</td>
+              <td><span style="color: #dc2626; font-weight: 600;">-53.7%</span></td>
+              <td><strong>2.9%</strong></td>
+              <td>\(p = 8.2 \times 10^{-16}\)</td>
+            </tr>
+            <tr>
+              <td><strong>Claude 3.5 Haiku</strong></td>
+              <td>4.93</td>
+              <td>1.58</td>
+              <td><span style="color: #dc2626; font-weight: 600;">-67.9%</span></td>
+              <td><strong>0.0%</strong></td>
+              <td>\(p = 1.1 \times 10^{-17}\)</td>
+            </tr>
+            <tr>
+              <td><strong>Qwen 3.6-35B</strong></td>
+              <td>4.12</td>
+              <td>2.19</td>
+              <td><span style="color: #dc2626; font-weight: 600;">-46.9%</span></td>
+              <td><strong>34.3%</strong></td>
+              <td>\(p = 2.1 \times 10^{-13}\)</td>
+            </tr>
+            <tr>
+              <td><strong>Kimi k2.6</strong></td>
+              <td>4.31</td>
+              <td>1.92</td>
+              <td><span style="color: #dc2626; font-weight: 600;">-55.5%</span></td>
+              <td><strong>12.7%</strong></td>
+              <td>\(p = 4.8 \times 10^{-15}\)</td>
+            </tr>
+            <tr>
+              <td><strong>Kimi k3</strong></td>
+              <td>4.47</td>
+              <td>1.85</td>
+              <td><span style="color: #dc2626; font-weight: 600;">-58.6%</span></td>
+              <td><strong>8.8%</strong></td>
+              <td>\(p = 1.5 \times 10^{-16}\)</td>
+            </tr>
+            <tr>
+              <td><strong>GLM-5.2</strong></td>
+              <td>4.25</td>
+              <td>2.01</td>
+              <td><span style="color: #dc2626; font-weight: 600;">-52.7%</span></td>
+              <td><strong>18.6%</strong></td>
+              <td>\(p = 6.3 \times 10^{-14}\)</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size: 0.82rem; color: var(--text-muted); margin-top: 8px;">
+          * 注：上記データは理化学研究所AIPの計算環境で得られた段階的な予備検証結果です。詳細な対話ログ、スコア明細、自動検証コードは近日公開予定です。
+        </p>
+      </div>
+
+      <!-- 8 Ablation Experiments Summary -->
+      <div style="margin-top: 32px;">
+        <h3 style="color: var(--accent-primary); font-size: 1.12rem; margin-bottom: 16px;">
+          8つの検証・アブレーション実験の概要（予備的データ）
+        </h3>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+          <div class="feature-card">
+            <h4 style="color: var(--accent-primary); margin: 0 0 6px;">実験1: 選択肢容量の縮減 (n=102)</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              単一案要求下で選択肢容量が46.9%〜67.9%低下（\(p < 10^{-15}\)）。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h4 style="color: var(--accent-primary); margin: 0 0 6px;">実験2: 2×2 因果アブレーション (n=102)</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              形式要求が事実確認抑制の主要な原因であることを分離実証（\(p \approx 4 \times 10^{-31}\)）。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h4 style="color: var(--accent-primary); margin: 0 0 6px;">実験3: 閉ループ対話シミュレーション</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              確認質問を通じた隠蔽制約の特定により、実行可能解到達率は0.83〜0.85に向上。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h4 style="color: var(--accent-primary); margin: 0 0 6px;">実験4: スコープルールの介入</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              指示スコープの境界を明示することで、質問率が0%〜33%から87%〜100%に回復。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h4 style="color: var(--accent-primary); margin: 0 0 6px;">実験5: ハード制約のトレードオフ (n=918)</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              誠実性および安全性原則において違反ゼロを維持し、ハード制約の性質を確認。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h4 style="color: var(--accent-primary); margin: 0 0 6px;">実験6: 共感性と実行可能性の直交性</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              言語的共感の強さと提案の物理的実行可能性には統計的相関が認められず（\(\rho = -0.078\)）。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h4 style="color: var(--accent-primary); margin: 0 0 6px;">実験7: 複数モデルの一致した異議</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              複数モデルの一致した異議により、アノテーション基準自体の漏れを94.4%特定。
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <h4 style="color: var(--accent-primary); margin: 0 0 6px;">実験8: 制約環境下での適応</h4>
+            <p style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+              通信監視下において、安全な表現を用いる割合が9%から56%〜71%へ適応的に上昇。
+            </p>
+          </div>
+        </div>
+      </div>
+
+            <!-- Empirical Figures -->
+      <div class="figure-container" style="margin-top: 24px;">
+        <div class="figure-grid">
+          <div class="figure-card">
+            <img src="assets/figures/fig_dpoi_results-1.png" alt="DPOI実証結果分布" loading="lazy">
+            <div class="figure-caption"><strong>図5：Exp 1 DPOI 実測分布。</strong>通常ターン vs 制約ターンにおける選択肢容量の顕著な減少。</div>
+          </div>
+          <div class="figure-card">
+            <img src="assets/figures/fig_tradeoff-1.png" alt="トレードオフ曲線とハード制約" loading="lazy">
+            <div class="figure-caption"><strong>図6：Exp 5 トレードオフ曲線。</strong>誠実性と自己決定権原則における厳格なゼロ違反境界。</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Data Release Callout -->
+      <div class="feature-card" style="margin-top: 24px; border-left: 3px solid var(--accent-primary); background: var(--bg-card);">
+        <p style="font-size: 0.86rem; color: var(--text-secondary); line-height: 1.65; margin: 0;">
+          💡 <strong>データ公開に関するお知らせ：</strong>本研究は現在予備的検討の段階にあります。各実験の詳細な対話ログ、4Dテンソル行列データ、長期シミュレーションコードは近日整理の上公開いたします。
+        </p>
+      </div>
+    </section>
+
+    <!-- Section 5: Scenario Explorer -->
+    <section id="interactive">
+      <div class="section-header">
+        <div class="section-tag">| 標準化シナリオ</div>
+        <h2>五、標準化逆境シナリオのサンプルブラウザ：隠蔽制約と状態遷移</h2>
+        <p>隠蔽制約と状態遷移モデルを含む代表的なシナリオサンプルの閲覧（102シナリオの完全版は近日公開予定）。</p>
+      </div>
+
+      <!-- Scenario Explorer -->
+      <div>
+        <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-bottom: 16px;">
+          <div>
+            <h3 style="color: var(--text-primary); margin: 0 0 6px; font-size: 1.25rem;">📂 標準化意思決定シナリオブラウザ</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0;">
+              分野別の絞り込みやキーワード検索に対応し、状態遷移と隠蔽制約を確認できます（102シナリオの完全版は近日公開）。
+            </p>
+          </div>
+          <div style="display: flex; align-items: center; gap: 12px;">
+            <input type="text" id="scenario-search" placeholder="🔍 シナリオ名、キーワード、IDで検索..." style="padding: 8px 14px; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); font-size: 0.88rem; width: 240px; background: var(--bg-card); color: var(--text-primary);">
+            <span id="scenario-count-badge" class="brand-badge">102 / 102</span>
+          </div>
+        </div>
+
+        <!-- Section 5 Dataset Note -->
+        <div style="margin-bottom: 16px; padding: 12px 16px; background: var(--bg-card); border: 1px solid var(--border-subtle); border-left: 3px solid var(--accent-primary); border-radius: var(--radius-sm); font-size: 0.86rem; color: var(--text-secondary); line-height: 1.65;">
+          📌 <strong>シナリオデータに関するお知らせ：</strong>ここでは代表的な状態マシンと隠蔽制約のサンプルを展示しています。102の全標準化シナリオのJSON定義ファイルおよび自動検証ルールは近日公開予定です。
+        </div>
+
+        <!-- Domain Tabs -->
+        <div class="domain-tabs-row">
+          <button class="domain-tab active" data-domain="all">全分野</button>
+          <button class="domain-tab" data-domain="housing">🏠 住宅・立ち退き</button>
+          <button class="domain-tab" data-domain="safety">🛡️ 身体的安全</button>
+          <button class="domain-tab" data-domain="health">🏥 医療・債務</button>
+          <button class="domain-tab" data-domain="legal">⚖️ 法的地位・ビザ</button>
+          <button class="domain-tab" data-domain="financial">💳 債務・金融</button>
+          <button class="domain-tab" data-domain="family">👨‍👩‍👧 家族・介護</button>
+        </div>
+
+        <!-- Scenario Cards Grid -->
+        <div id="scenario-list-container" class="scenario-grid">
+          <!-- Dynamically populated by assets/js/app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Section 6: Topic Notes & Detailed Pages -->
+    <section id="publications">
+      <div class="section-header">
+        <div class="section-tag">| トピック詳細</div>
+        <h2>六、トピックノートと詳細ページ（予備的整理）</h2>
+        <p>プロジェクト各部の予備的検討ノート、理論導出、シナリオ評価分析を収録しています。詳細なデータや完全な資料は近日公開予定です。</p>
+      </div>
+
+      <div class="grid-4" style="margin-top: 24px;">
+
+        <!-- Card 1: Motivation -->
+        <div class="feature-card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 22px 18px;">
+          <div>
+            <h4 style="margin: 0 0 8px; color: var(--accent-primary); font-size: 1rem;">📌 背景と4段階の動機整理</h4>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.55; margin: 0 0 16px;">
+              逆境における高い試行錯誤コスト、検索から相談への移行、および形式制約による確認プロセスの抑制。
+            </p>
+          </div>
+          <div>
+            <a href="docs/motivation.html" class="pub-pill-btn" style="width: 100%; text-align: center; box-sizing: border-box;">📄 背景と動機ノートを読む</a>
+          </div>
+        </div>
+
+        <!-- Card 2: Theory -->
+        <div class="feature-card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 22px 18px;">
+          <div>
+            <h4 style="margin: 0 0 8px; color: var(--accent-primary); font-size: 1rem;">📐 意思決定理論ノート</h4>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.55; margin: 0 0 16px;">
+              制約付きPOMDPモデル、メニュー・分割双対性、0ビットプライバシー下界、および5つの理論的問い。
+            </p>
+          </div>
+          <div>
+            <a href="docs/theory.html" class="pub-pill-btn" style="width: 100%; text-align: center; box-sizing: border-box;">📄 理論検討ノートを読む</a>
+          </div>
+        </div>
+
+        <!-- Card 3: Red Lines -->
+        <div class="feature-card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 22px 18px;">
+          <div>
+            <h4 style="margin: 0 0 8px; color: var(--accent-primary); font-size: 1rem;">🛡️ 8つの参照基準の解説</h4>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.55; margin: 0 0 16px;">
+              トリレンマの不可能性、非補償的制約、順従スコープの境界など、8つの参照原則に関する検討。
+            </p>
+          </div>
+          <div>
+            <a href="docs/dignity_redlines.html" class="pub-pill-btn" style="width: 100%; text-align: center; box-sizing: border-box;">📄 8つの参照基準を見る</a>
+          </div>
+        </div>
+
+        <!-- Card 4: Benchmark & Findings -->
+        <div class="feature-card" style="display: flex; flex-direction: column; justify-content: space-between; padding: 22px 18px;">
+          <div>
+            <h4 style="margin: 0 0 8px; color: var(--accent-primary); font-size: 1rem;">📊 評価実験とアブレーション</h4>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.55; margin: 0 0 16px;">
+              102の標準化シナリオ評価方法、7つの主要モデルの比較、および8つの要因アブレーション実験。
+            </p>
+          </div>
+          <div>
+            <a href="docs/adversitybench.html" class="pub-pill-btn" style="width: 100%; text-align: center; box-sizing: border-box;">📄 実験記録を見る</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Section 7: Team & Affiliations -->
+    <section id="team">
+      <div class="section-header">
+        <div class="section-tag">| 研究チームと学術的経緯</div>
+        <h2>研究メンバー、所属チーム、学術的背景</h2>
+        <p>本プロジェクトは、理化学研究所 革新知能統合研究センター (RIKEN AIP) の機械学習研究環境を基盤とし、不完全情報下の意思決定、テンソル表現、社会計算の融合を模索する予備的研究です。</p>
+      </div>
+
+      <div class="two-col">
+        <!-- Researchers Block -->
+        <div class="feature-card">
+          <h4 style="color: var(--accent-primary); margin-top: 0;">👤 研究メンバー (Researchers)</h4>
+          
+          <div style="margin-bottom: 14px;">
+            <strong>研究主導 (Project Lead)：</strong> 王 安東 博士 (WANG Andong, Ph.D.)<br>
+            <span style="font-size: 0.88rem; color: var(--text-muted);">理化学研究所 革新知能統合研究センター (RIKEN AIP) 研究員</span>
+          </div>
+
+          <div style="margin-bottom: 14px;">
+            <strong>協力研究者 (Collaborating Researchers)：</strong><br>
+            <span style="font-size: 0.9rem; color: var(--text-secondary);">• 邱 育寧 (QIU Yuning) · 理化学研究所 革新知能統合研究センター (RIKEN AIP)</span><br>
+            <span style="font-size: 0.9rem; color: var(--text-secondary);">• 黄 昊楠 (HUANG Haonan) · 理化学研究所 革新知能統合研究センター (RIKEN AIP)</span>
+          </div>
+
+          <div style="margin-top: 14px; display: flex; gap: 10px;">
+            <a class="pub-pill-btn" href="../../AI4S/spread_homepage/index.html" target="_blank">🌐 個人HPを見る ↗</a>
+            <a class="pub-pill-btn" href="mailto:w.a.d@outlook.com">✉️ 連絡先メール</a>
+          </div>
+        </div>
+
+        <!-- Affiliated Teams & Heritage -->
+        <div class="feature-card">
+          <h4 style="color: var(--accent-primary); margin-top: 0;">🏛️ 所属チームと学術的経緯</h4>
+          
+          <div style="margin-bottom: 14px;">
+            <strong>所属チーム：</strong><br>
+            <span style="font-size: 0.9rem; color: var(--text-secondary);">理化学研究所 (RIKEN AIP) · テンソル学習チーム (Tensor Learning Team / 张量学习团队)、不完全情報学習チーム (Imperfect Information Learning Team)</span>
+          </div>
+
+          <div style="border-top: 1px solid var(--border-subtle); padding-top: 10px; margin-top: 10px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.65;">
+            <strong>学術的経緯：</strong>基礎科学向けAI (AI4S) から個人の逆境意思決定 (AI4I) および人工主体との共在論 (Copresence Studies) への深化と理論的展開。
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Scenario Detail Modal -->
+  <div id="scenario-modal" class="modal-overlay" onclick="closeScenarioModal()">
+    <div class="modal-card" onclick="event.stopPropagation()">
+      <button class="modal-close" onclick="closeScenarioModal()" aria-label="閉じる">&times;</button>
+      <h3 id="modal-scenario-title" style="color: var(--accent-primary); margin-bottom: 8px;"></h3>
+      <div id="modal-scenario-body"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="site-shell footer-content">
+      <div>
+        © <span id="year">2026</span> <strong>AI4I Research Group / Andong Wang</strong> · RIKEN AIP.
+      </div>
+      <div>
+        学術的支援：理化学研究所 革新知能統合研究センター (RIKEN AIP) · AI for Individuals (AI4I) Research Initiative
+      </div>
+      <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 4px;">
+        ※ 本日本語版ページは Gemini により翻訳・作成されました
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/scenarios-data.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
