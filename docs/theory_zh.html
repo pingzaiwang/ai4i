@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>受约束决策形式理论与推导笔记 | AI4I</title>
+  <meta name="description" content="记录受约束 POMDP 形式化模型、菜单–划分对偶推导、0 比特隐私披露下界与提炼出的 5 个理论问题记录。">
+
+  <!-- Google Fonts & MathJax -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .doc-page {
+      padding: 36px 0 80px;
+    }
+    .doc-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    .doc-breadcrumb a {
+      color: var(--accent-primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .doc-breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    .doc-container {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+    .doc-toc {
+      position: sticky;
+      top: 80px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      max-height: calc(100vh - 110px);
+      overflow-y: auto;
+    }
+    .doc-toc h4 {
+      font-size: 0.86rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent-primary);
+      margin: 0 0 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .doc-toc ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .doc-toc li {
+      margin-bottom: 8px;
+    }
+    .doc-toc a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.84rem;
+      display: block;
+      line-height: 1.45;
+      transition: color 0.15s ease;
+    }
+    .doc-toc a:hover {
+      color: var(--accent-primary);
+      font-weight: 600;
+    }
+    .doc-article {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 36px 44px;
+      box-shadow: var(--shadow-sm);
+    }
+    .doc-header-block {
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 24px;
+      margin-bottom: 24px;
+    }
+    .doc-tag {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent-primary);
+      background: var(--bg-secondary);
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-subtle);
+      margin-bottom: 12px;
+    }
+    .doc-title {
+      font-family: var(--font-serif);
+      font-size: 1.75rem;
+      line-height: 1.3;
+      color: var(--text-primary);
+      margin: 0 0 8px;
+    }
+    .doc-desc {
+      font-size: 0.96rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin: 0 0 16px;
+    }
+    .doc-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .doc-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .doc-article section {
+      margin-bottom: 32px;
+    }
+    .doc-article h2 {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      color: var(--accent-primary);
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 8px;
+      margin: 28px 0 16px;
+    }
+    .doc-article h3 {
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      margin: 20px 0 10px;
+    }
+    .doc-article p {
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      margin: 0 0 14px;
+    }
+    .doc-article ul, .doc-article ol {
+      margin: 0 0 16px 20px;
+      padding: 0;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .doc-article li {
+      margin-bottom: 6px;
+    }
+    .doc-callout {
+      background: var(--bg-secondary);
+      border-left: 3px solid var(--accent-primary);
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+      margin: 18px 0;
+      font-size: 0.88rem;
+      line-height: 1.65;
+    }
+    .doc-math-box {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      margin: 18px 0;
+      text-align: center;
+      overflow-x: auto;
+    }
+    @media (max-width: 860px) {
+      .doc-container {
+        grid-template-columns: 1fr;
+      }
+      .doc-toc {
+        display: none;
+      }
+      .doc-article {
+        padding: 24px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="topbar">
+    <div class="site-shell topbar-inner">
+      <a href="../ai4adversity_zh.html" class="wordmark">
+        <span class="wordmark-dot"></span>
+        <span>AI4I · ADVERSITYBENCH</span>
+      </a>
+
+      <nav>
+        <a href="../ai4adversity_zh.html#motivation">研究背景</a>
+        <a href="../ai4adversity_zh.html#theory">形式理论</a>
+        <a href="../ai4adversity_zh.html#benchmark">评测系统</a>
+        <a href="../ai4adversity_zh.html#interactive">交互计算</a>
+        <a href="../ai4adversity_zh.html#publications">专题页面</a>
+        <a href="../ai4adversity_zh.html#team">研究团队</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme" title="切换深色/浅色模式">
+          <span id="theme-icon">🌙</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="site-shell doc-page">
+    <div class="doc-breadcrumb">
+      <a href="../ai4adversity_zh.html">← 返回 AI4I 主页</a>
+      <span>/</span>
+      <span>项目专题说明页面</span>
+      <span>/</span>
+      <span>受约束决策形式理论与推导笔记</span>
+    </div>
+
+    <div class="doc-container">
+      <aside class="doc-toc">
+        <h4>本篇目录索引</h4>
+        <ul>
+          <li><a href="#sec-duality-intro">引言：为什么“给选项菜单”不是不负责，而是兜底？</a></li>
+<li><a href="#sec-duality">定理一：菜单–划分对偶推导（小菜单如何覆盖所有可能处境）</a></li>
+<li><a href="#sec-disclosure">定理二：隐私披露下界推导（为什么给菜单能保护个人隐私）</a></li>
+<li><a href="#sec-questions">从实证测试中提炼出的 5 个理论问题记录</a></li>
+        </ul>
+      </aside>
+
+      <article class="doc-article">
+        <header class="doc-header-block">
+          <span class="doc-tag">推导笔记</span>
+          <h1 class="doc-title">受约束决策形式理论与推导笔记</h1>
+          <div class="doc-desc">记录受约束 POMDP 形式化模型、菜单–划分对偶推导、0 比特隐私披露下界与提炼出的 5 个理论问题记录。</div>
+          <div class="doc-meta">
+            <span><strong>作者 / 研究主体：</strong> AI4I Research Group (Wang, A., et al.)</span>
+            <span><strong>归档元数据：</strong> 专题说明与阶段性推导笔记</span>
+          </div>
+          <div class="doc-actions">
+            <a href="../ai4adversity_zh.html#publications" class="pub-pill-btn">📖 返回首页专题列表</a>
+          </div>
+        </header>
+
+        <div class="doc-callout">
+          📌 <strong>阶段性说明：</strong>本文档为 AI4I 项目的初步梳理与专题笔记。完整评测数据集、形式推导附录与复现代码将于近期整理发布。
+        </div>
+
+        <div class="doc-content-body">
+          <section id="sec-duality-intro"><h2>引言：为什么“给选项菜单”不是不负责，而是兜底？</h2><p>很多时候，求助者在对话中并没有说出自己的全部私密条件（例如手头有没有车、是否被限制人身自由、银行账户是否被冻结）。此时，求助者在现实中可能处于几种不同的“潜在状态”。</p>
+      <p>如果 AI 迫于用户的催促，直接给出唯一的具体方案，它实质上是在<strong>盲目押宝</strong>——赌用户的真实情况正好符合这个方案的前提。一旦押错，方案在现实中就会彻底失效。</p>
+      <p>那么，AI 到底该怎么做，才能在不确定的情况下确保用户一定有路可走？数学推导给出了清晰的答案：<strong>提供选项菜单</strong>。</p></section>
+<section id="sec-duality"><h2>定理一：菜单–划分对偶推导（小菜单如何覆盖所有可能处境）</h2><p>假设根据当前已知的有限信息，求助者在现实中可能处于若干种潜在情况之一（集合记为 \(\hat{\mathcal{S}}\)）。如果我们将这些可能的情况分门别类，归纳为 \(k^*\) 种互不冲突的类型（每一类内部总有一条共同能走通的路），那么：</p>
+      <div class="doc-callout">
+      <strong>核心推导结论（菜单–划分对偶关系）：</strong><br>
+      AI 系统如果不想来回盘问用户，直接给出一份备选方案清单（菜单 \(M\)），那么这份清单最少需要包含多少个选项，才能保证<strong>无论用户的真实处境是哪一种，清单里都必定有一条路能走得通</strong>？<br>
+      答案是：<strong>最小选项数量不多不少，严格等于相容分类数 \(k^*\)</strong>。
+      <div class="doc-math-box" style="margin-top: 10px;">$$\min |M| = m^* = k^*(\hat{\mathcal{S}})$$</div>
+      </div>
+      <p><strong>推论：</strong>如果潜在情况至少存在 2 种截然不同、不可通用的分类（\(k^* \ge 2\)），那么任何单一方案（\(m=1\)）在数学上都绝不可能保证对所有情况都有效。此时提供包含 2~3 个选项的小清单，是唯一能稳健兜底的解法。</p>
+      
+      <div class="figure-container" style="margin: 20px 0;">
+        <div class="figure-card" style="background: var(--bg-secondary); border: 1px solid var(--border-subtle); padding: 12px; border-radius: 6px;">
+          <img src="../assets/figures/fig1_pomdp_framework-1.png" alt="受约束序列决策 POMDP 理论框架" style="width: 100%; border-radius: 4px;" loading="lazy">
+          <div class="figure-caption" style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 6px;"><strong>图 3：受约束序列决策 POMDP 框架。</strong>显式陈述、隐蔽约束与可行行动集合的状态转移。</div>
+        </div>
+      </div></section>
+<section id="sec-disclosure"><h2>定理二：隐私披露下界推导（为什么给菜单能保护个人隐私）</h2><p>如果非要 AI 替用户做主、直接给出一个唯一的确定方案，AI 就必须先把用户的隐蔽隐私打听得一清二楚（比如逼问：“你名下到底有没有房产？”“你的手机是否正在被监控？”）。</p>
+      <div class="doc-callout">
+      <strong>核心推导结论（隐私披露与菜单的权衡）：</strong>
+      <ol style="margin-top: 8px; padding-left: 20px;">
+        <li><strong>单点推荐强制隐私泄露：</strong>若系统必须给出唯一可行的单一建议，求助者必须向系统透露足够的个人隐私信息（互信息量满足 \(\Delta I \ge \log_2 k^*\) 比特）；</li>
+        <li><strong>菜单机制实现零隐私泄露：</strong>若系统给出一份覆盖各类情况的 \(k^*\) 项小菜单，让求助者在自己的心里自主对号入座，求助者就<strong>完全不需要向 AI 吐露任何私密处境</strong>（\(\Delta I = 0\) 比特）。</li>
+      </ol>
+      </div>
+      <p><strong>推导意义：</strong>给用户提供选项菜单，不仅保护了用户的自主选择权，更在数学上实现了对个人隐私的零侵犯保护。</p>
+      
+      <div class="figure-container" style="margin: 20px 0;">
+        <div class="figure-card" style="background: var(--bg-secondary); border: 1px solid var(--border-subtle); padding: 12px; border-radius: 6px;">
+          <img src="../assets/figures/fig_synthesis-1.png" alt="理论综合与映射图谱" style="width: 100%; border-radius: 4px;" loading="lazy">
+          <div class="figure-caption" style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 6px;"><strong>图 4：理论综合映射。</strong>菜单对偶、0 比特信息披露边界与决策准则的数理映射。</div>
+        </div>
+      </div></section>
+<section id="sec-questions"><h2>从实证测试中提炼出的 5 个理论问题记录</h2><p>基于对大语言模型的初步实测观察，我们梳理出以下 5 个值得深入探讨的理论问题：</p>
+      <ol style="line-height: 1.8; color: var(--text-secondary);">
+        <li><strong>选项菜单的组合规律：</strong>如何用最少的选项数量覆盖最多样的突发逆境，并在不逼问隐私的前提下实现决策兜底。</li>
+        <li><strong>顺从行为的作用域边界：</strong>用户要求的“文字简短”是格式层面的，而“事实核查”是逻辑层面的，如何用数学规则防止格式要求侵入逻辑核查。</li>
+        <li><strong>不能相互折抵的硬约束：</strong>人身安全、法律时效等底线问题属于不可妥协的硬约束，不能用“语气温和”、“态度诚恳”等软性指标来折抵补偿。</li>
+        <li><strong>表面微调与底层决策机制的差异：</strong>仅在提示词中加入客套话，并不能根本解决模型在面临简短指令时关闭条件探索的底层问题。</li>
+        <li><strong>当标准答案本身存在疏漏时的反向审计：</strong>当多个独立的大模型一致对某条标注规则提出异议时，往往反映了人类标注规则本身漏掉了重要的现实前提条件。</li>
+      </ol></section>
+        </div>
+
+        <div style="margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--border-subtle); font-size: 0.84rem; color: var(--text-muted); line-height: 1.6;">
+          <em>* 注：本项目处于学术初探阶段，更多实测样本、长程交互日志与数学推导附录将于近期整理发布。</em>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    <div class="site-shell footer-content">
+      <div>
+        © <span id="year">2026</span> <strong>AI4I Research Group / 王安东</strong> · RIKEN AIP.
+      </div>
+      <div>
+        学术支持：理化学研究所 革新知能統合研究センター (RIKEN AIP) · 个体决策智能 (AI4I) 研究计划
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

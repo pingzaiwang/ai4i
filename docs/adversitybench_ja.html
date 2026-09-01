@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="ja" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Benchmark & Ablation Records | AI4I</title>
-  <meta name="description" content="Constrained POMDP formulation, 6 crisis domains, and 8 causal experiment records.">
+  <title>評価実験とアブレーション記録 | AI4I</title>
+  <meta name="description" content="制約付きPOMDPモデル、6つの危機分野、および8つの検証実験記録。">
 
   <!-- Google Fonts & MathJax -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Klee+One:wght@400;600&family=Shippori+Mincho:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <script>
     window.MathJax = {
@@ -208,18 +208,18 @@
   <!-- Top Navigation Bar -->
   <header class="topbar">
     <div class="site-shell topbar-inner">
-      <a href="../ai4adversity.html" class="wordmark">
+      <a href="../ai4adversity_ja.html" class="wordmark">
         <span class="wordmark-dot"></span>
         <span>AI4I · ADVERSITYBENCH</span>
       </a>
 
       <nav>
-        <a href="../ai4adversity.html#motivation">Background</a>
-        <a href="../ai4adversity.html#theory">Theory</a>
-        <a href="../ai4adversity.html#benchmark">Benchmark</a>
-        <a href="../ai4adversity.html#interactive">Scenarios</a>
-        <a href="../ai4adversity.html#publications">Topic Notes</a>
-        <a href="../ai4adversity.html#team">Team</a>
+        <a href="../ai4adversity_ja.html#motivation">研究背景</a>
+        <a href="../ai4adversity_ja.html#theory">理論検討</a>
+        <a href="../ai4adversity_ja.html#benchmark">評価実験</a>
+        <a href="../ai4adversity_ja.html#interactive">シナリオ</a>
+        <a href="../ai4adversity_ja.html#publications">トピック詳細</a>
+        <a href="../ai4adversity_ja.html#team">研究チーム</a>
       </nav>
 
       <div class="nav-actions">
@@ -232,77 +232,77 @@
 
   <main class="site-shell doc-page">
     <div class="doc-breadcrumb">
-      <a href="../ai4adversity.html">← Back to AI4I Homepage</a>
+      <a href="../ai4adversity_ja.html">← AI4I トップページに戻る</a>
       <span>/</span>
-      <span>Topic Note</span>
+      <span>トピック詳細ノート</span>
       <span>/</span>
-      <span>Benchmark & Ablation Records</span>
+      <span>評価実験とアブレーション記録</span>
     </div>
 
     <div class="doc-container">
       <!-- Left Sticky Table of Contents -->
       <aside class="doc-toc">
-        <h4>Table of Contents</h4>
+        <h4>本稿の目次</h4>
         <ul>
-          <li><a href="#sec-pomdp">Decision Framework: Modeling Adversity as a Constrained POMDP</a></li>
-<li><a href="#sec-domains">Six Crisis Domains Across 102 Standardized Scenarios</a></li>
-<li><a href="#sec-experiments">Summary of Findings Across 8 Causal & Ablation Experiments</a></li>
+          <li><a href="#sec-pomdp">意思決定フレームワーク：制約付きPOMDPモデル</a></li>
+<li><a href="#sec-domains">102の標準化シナリオにおける6つの分野</a></li>
+<li><a href="#sec-experiments">8つの要因検証実験の要約</a></li>
         </ul>
       </aside>
 
       <!-- Main Content Article -->
       <article class="doc-article">
         <header class="doc-header-block">
-          <span class="doc-tag">Benchmark Note</span>
-          <h1 class="doc-title">AdversityBench: Evaluation & Ablations</h1>
-          <div class="doc-desc">Constrained POMDP formulation, 6 crisis domains, and 8 causal experiment records.</div>
+          <span class="doc-tag">実証評価ノート</span>
+          <h1 class="doc-title">AdversityBench：評価方法と要因検証</h1>
+          <div class="doc-desc">制約付きPOMDPモデル、6つの危機分野、および8つの検証実験記録。</div>
           <div class="doc-meta">
-            <span><strong>Authors / Group:</strong> AI4I Research Group (Wang, A., et al.)</span>
-            <span><strong>Archive Metadata:</strong> Preliminary Study Note & Empirical Records</span>
+            <span><strong>著者 / 研究主体：</strong> AI4I Research Group (王 安東 他)</span>
+            <span><strong>アーカイブ情報：</strong> 予備的検討ノート · 実証記録</span>
           </div>
           <div class="doc-actions">
-            <a href="../ai4adversity.html#publications" class="pub-pill-btn">📖 Back to Topic List</a>
+            <a href="../ai4adversity_ja.html#publications" class="pub-pill-btn">📖 トピック一覧に戻る</a>
           </div>
         </header>
 
         <!-- Release Soon Notice -->
         <div class="doc-callout">
-          📌 <strong>Preliminary Note:</strong> This document is a preliminary exploratory note for the AI4I project. Full evaluation datasets, formal proofs, and replication code will be released soon.
+          📌 <strong>予備的ノート：</strong>本稿はAI4Iプロジェクトの予備的な検討ノートです。詳細な評価データセット、形式的導出付録、検証コードは近日公開予定です。
         </div>
 
         <!-- Dynamic Body Sections -->
         <div class="doc-content-body">
-          <section id="sec-pomdp"><h2>Decision Framework: Modeling Adversity as a Constrained POMDP</h2><p>In adversity assistance, interaction constitutes a partially observable sequence with hidden state transitions:</p>
+          <section id="sec-pomdp"><h2>意思決定フレームワーク：制約付きPOMDPモデル</h2><p>逆境における対話支援を、隠蔽制約を持つ部分観測マルコフ決定プロセスとして定式化します：</p>
       <div class="doc-math-box">$$e = (s_0, o_0, h_0, a_0, s_1, o_1, h_1, a_1, \dots, s_T)$$</div>
-      <p>True state \(s_t\) contains the user's hidden resource and constraint vector. The explicit utterance \(o_t = \Omega(s_t)\) represents only partial information. The system's objective is to explore feasible actions without invasive overreach.</p></section>
-<section id="sec-domains"><h2>Six Crisis Domains Across 102 Standardized Scenarios</h2><ul>
-      <li><strong>🏠 Housing & Eviction:</strong> Court hearing deadlines, lack of income proof, and transit inaccessibility.</li>
-      <li><strong>🛡️ Physical Safety & Crisis:</strong> Monitored shared devices, confiscation of identification, and secure shelter access.</li>
-      <li><strong>🏥 Medical Debt & Care:</strong> Insurance denial, prescription continuity periods, and hospital charity care qualifications.</li>
-      <li><strong>⚖️ Legal Status & Deadlines:</strong> Visa expiration, legal status transitions, and legal aid intake queues.</li>
-      <li><strong>💳 Predatory Debt & Finance:</strong> Coercive debt collection, bank account freezes, and structured debt relief.</li>
-      <li><strong>👨‍👩‍👧 Elder & Child Caregiving:</strong> Caregiver burnout, custodial disputes, and respite care voucher queues.</li>
+      <p>真の状態 \(s_t\) には隠蔽された資源と制約が含まれ、明示的発言 \(o_t = \Omega(s_t)\) はその一部に過ぎません。</p></section>
+<section id="sec-domains"><h2>102の標準化シナリオにおける6つの分野</h2><ul>
+      <li><strong>🏠 住宅・立ち退き：</strong>裁判期日、収入証明の不足、移動手段の制約。</li>
+      <li><strong>🛡️ 身体的安全：</strong>通信端末の監視、身分証の保管場所、安全な避難先の確保。</li>
+      <li><strong>🏥 医療・債務：</strong>保険適用の否認、処方薬の継続期間、医療費減免の要件。</li>
+      <li><strong>⚖️ 法的地位・ビザ：</strong>在留期限、資格変更、法律相談の予約待ち。</li>
+      <li><strong>💳 債務・金融：</strong>厳しい取り立て、口座凍結、債務整理の手続き。</li>
+      <li><strong>👨‍👩‍👧 家族・介護：</strong>介護疲弊、親権調整、レスパイトケアの利用申請。</li>
       </ul></section>
-<section id="sec-experiments"><h2>Summary of Findings Across 8 Causal & Ablation Experiments</h2><ul>
-      <li><strong>Exp 1 (Option Collapse, n=102):</strong> Option capacity dropped by 46.9% to 67.9% across 7 frontier models under single-option instructions (\(p < 10^{-15}\)).</li>
-      <li><strong>Exp 2 (2×2 Factorial Ablation):</strong> Single-option format constraints are the primary causal driver of verification suppression (\(p \approx 4\times 10^{-31}\)).</li>
-      <li><strong>Exp 3 (Closed-Loop Multi-Turn):</strong> Active clarification achieved first-turn feasibility rates of 0.83~0.85 and 96%~99% constraint integration.</li>
-      <li><strong>Exp 4 (Scope Rule Intervention):</strong> Clarifying instruction scope boundaries restored questioning rates from 0%~33% back to 87%~100%.</li>
-      <li><strong>Exp 5 (Tradeoff Curves):</strong> Zero violations on honesty and safety across templates, verifying non-compensatory hard walls.</li>
-      <li><strong>Exp 6 (Warmth vs Feasibility):</strong> Linguistic empathy was statistically uncorrelated with physical feasibility (\(\rho = -0.078\)).</li>
-      <li><strong>Exp 7 (Multi-Model Unanimous Dissent):</strong> Multi-model consensus detected human annotation rule omissions with a 94.4% correction rate.</li>
-      <li><strong>Exp 8 (Constrained Channel Adaptation):</strong> Under simulated monitoring, models adaptively raised safe phrasing from 9% to 56%~71%.</li>
+<section id="sec-experiments"><h2>8つの要因検証実験の要約</h2><ul>
+      <li><strong>実験1（選択肢容量の縮減，n=102）：</strong>単一案指示下で主要7モデルの選択肢容量が46.9%〜67.9%低下（\(p < 10^{-15}\)）。</li>
+      <li><strong>実験2（2×2 因子アブレーション）：</strong>形式要求が確認質問抑制の主要因であることを分離検証（\(p \approx 4\times 10^{-31}\)）。</li>
+      <li><strong>実験3（閉ループ対話）：</strong>能動的な確認質問により初回実行可能解到達率は0.83〜0.85に向上。</li>
+      <li><strong>実験4（スコープルール介入）：</strong>指示スコープの境界を明示することで質問率が87%〜100%に回復。</li>
+      <li><strong>実験5（ハード制約のトレードオフ）：</strong>誠実性と安全性において違反ゼロを維持。</li>
+      <li><strong>実験6（共感性と実行可能性）：</strong>言語的共感と物理的実行可能性には統計的相関が認められず（\(\rho = -0.078\)）。</li>
+      <li><strong>実験7（複数モデルの一致異議）：</strong>複数モデルの一致した異議により基準ルールの漏れを94.4%特定。</li>
+      <li><strong>実験8（制約環境適応）：</strong>通信監視下において安全な表現を用いる割合が56%〜71%へ上昇。</li>
       </ul>
       
       <div class="figure-container" style="margin: 20px 0;">
         <div class="figure-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
           <div class="figure-card" style="background: var(--bg-secondary); border: 1px solid var(--border-subtle); padding: 12px; border-radius: 6px;">
-            <img src="../assets/figures/fig_dpoi_results-1.png" alt="DPOI Option Capacity Distribution" style="width: 100%; border-radius: 4px;" loading="lazy">
-            <div class="figure-caption" style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 6px;"><strong>Figure 6: Exp 1 DPOI Empirical Distribution.</strong> Significant decline in option capacity under constrained turns.</div>
+            <img src="../assets/figures/fig_dpoi_results-1.png" alt="DPOI 実測分布" style="width: 100%; border-radius: 4px;" loading="lazy">
+            <div class="figure-caption" style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 6px;"><strong>図6：Exp 1 DPOI 実測分布。</strong>制約ターンにおける選択肢容量の顕著な減少。</div>
           </div>
           <div class="figure-card" style="background: var(--bg-secondary); border: 1px solid var(--border-subtle); padding: 12px; border-radius: 6px;">
-            <img src="../assets/figures/fig_warmth-1.png" alt="Warmth vs Feasibility Orthogonality" style="width: 100%; border-radius: 4px;" loading="lazy">
-            <div class="figure-caption" style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 6px;"><strong>Figure 7: Warmth vs Feasibility Orthogonality.</strong> Linguistic empathy does not correlate with physical feasibility (\(\rho = -0.078\)).</div>
+            <img src="../assets/figures/fig_warmth-1.png" alt="共感性と実行可能性" style="width: 100%; border-radius: 4px;" loading="lazy">
+            <div class="figure-caption" style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 6px;"><strong>図7：共感性と実行可能性の直交性。</strong>言語的共感と物理的実行可能性の無相関（\(\rho = -0.078\)）。</div>
           </div>
         </div>
       </div></section>
@@ -310,7 +310,7 @@
 
         <!-- Footer Release Note -->
         <div style="margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--border-subtle); font-size: 0.84rem; color: var(--text-muted); line-height: 1.6;">
-          <em>* Note: This project is an ongoing exploratory study. Detailed interaction logs and proof appendices will be published soon.</em>
+          <em>* 注：本プロジェクトは現在予備的検討の段階にあります。詳細な対話ログおよび数学的導出付録は近日公開予定です。（※ 本ページは Gemini により翻訳・作成されました）</em>
         </div>
       </article>
     </div>

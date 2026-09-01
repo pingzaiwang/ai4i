@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="zh-CN" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Eight Reference Principles | AI4I</title>
-  <meta name="description" content="Formal specifications of the trilemma, non-compensatory constraints, and scope boundaries.">
+  <title>八条参考底线与形式化说明 | AI4I</title>
+  <meta name="description" content="针对三难不可能三角、非补偿性约束、顺从作用域边界等 8 条逆境决策参考底线的形式化说明与理论依据。">
 
   <!-- Google Fonts & MathJax -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
   
   <script>
     window.MathJax = {
@@ -208,22 +208,22 @@
   <!-- Top Navigation Bar -->
   <header class="topbar">
     <div class="site-shell topbar-inner">
-      <a href="../ai4adversity.html" class="wordmark">
+      <a href="../ai4adversity_zh.html" class="wordmark">
         <span class="wordmark-dot"></span>
         <span>AI4I · ADVERSITYBENCH</span>
       </a>
 
       <nav>
-        <a href="../ai4adversity.html#motivation">Background</a>
-        <a href="../ai4adversity.html#theory">Theory</a>
-        <a href="../ai4adversity.html#benchmark">Benchmark</a>
-        <a href="../ai4adversity.html#interactive">Scenarios</a>
-        <a href="../ai4adversity.html#publications">Topic Notes</a>
-        <a href="../ai4adversity.html#team">Team</a>
+        <a href="../ai4adversity_zh.html#motivation">研究背景</a>
+        <a href="../ai4adversity_zh.html#theory">形式理论</a>
+        <a href="../ai4adversity_zh.html#benchmark">评测系统</a>
+        <a href="../ai4adversity_zh.html#interactive">交互计算</a>
+        <a href="../ai4adversity_zh.html#publications">专题页面</a>
+        <a href="../ai4adversity_zh.html#team">研究团队</a>
       </nav>
 
       <div class="nav-actions">
-        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme" title="Toggle Light/Dark Theme">
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme" title="切换深色/浅色模式">
           <span id="theme-icon">🌙</span>
         </button>
       </div>
@@ -232,122 +232,116 @@
 
   <main class="site-shell doc-page">
     <div class="doc-breadcrumb">
-      <a href="../ai4adversity.html">← Back to AI4I Homepage</a>
+      <a href="../ai4adversity_zh.html">← 返回 AI4I 主页</a>
       <span>/</span>
-      <span>Topic Note</span>
+      <span>项目专题说明页面</span>
       <span>/</span>
-      <span>Eight Reference Principles</span>
+      <span>八条参考底线与形式化说明</span>
     </div>
 
     <div class="doc-container">
-      <!-- Left Sticky Table of Contents -->
       <aside class="doc-toc">
-        <h4>Table of Contents</h4>
+        <h4>本篇目录索引</h4>
         <ul>
-          <li><a href="#sec-intro">Introduction: Fundamental Boundaries in High-Stakes Decision Support</a></li>
-<li><a href="#sec-table">Table of Eight Reference Principles and Theoretical Foundations</a></li>
+          <li><a href="#sec-intro">引言：做人和做事的基本底线，背后有其必然的道理</a></li>
+<li><a href="#sec-table">八条参考底线与推导依据汇总</a></li>
         </ul>
       </aside>
 
-      <!-- Main Content Article -->
       <article class="doc-article">
         <header class="doc-header-block">
-          <span class="doc-tag">Principles Note</span>
-          <h1 class="doc-title">Eight Reference Principles for Decision Support</h1>
-          <div class="doc-desc">Formal specifications of the trilemma, non-compensatory constraints, and scope boundaries.</div>
+          <span class="doc-tag">专题说明</span>
+          <h1 class="doc-title">八条参考底线与形式化说明</h1>
+          <div class="doc-desc">针对三难不可能三角、非补偿性约束、顺从作用域边界等 8 条逆境决策参考底线的形式化说明与理论依据。</div>
           <div class="doc-meta">
-            <span><strong>Authors / Group:</strong> AI4I Research Group (Wang, A., et al.)</span>
-            <span><strong>Archive Metadata:</strong> Preliminary Study Note & Empirical Records</span>
+            <span><strong>作者 / 研究主体：</strong> AI4I Research Group (Wang, A., et al.)</span>
+            <span><strong>归档元数据：</strong> 专题说明与阶段性推导笔记</span>
           </div>
           <div class="doc-actions">
-            <a href="../ai4adversity.html#publications" class="pub-pill-btn">📖 Back to Topic List</a>
+            <a href="../ai4adversity_zh.html#publications" class="pub-pill-btn">📖 返回首页专题列表</a>
           </div>
         </header>
 
-        <!-- Release Soon Notice -->
         <div class="doc-callout">
-          📌 <strong>Preliminary Note:</strong> This document is a preliminary exploratory note for the AI4I project. Full evaluation datasets, formal proofs, and replication code will be released soon.
+          📌 <strong>阶段性说明：</strong>本文档为 AI4I 项目的初步梳理与专题笔记。完整评测数据集、形式推导附录与复现代码将于近期整理发布。
         </div>
 
-        <!-- Dynamic Body Sections -->
         <div class="doc-content-body">
-          <section id="sec-intro"><h2>Introduction: Fundamental Boundaries in High-Stakes Decision Support</h2><p>When AI assists individuals in high-stakes adversity, behavioral guardrails must not rely on ad-hoc conversational heuristics. We outline 8 formal reference principles grounded in decision theory and empirical findings.</p></section>
-<section id="sec-table"><h2>Table of Eight Reference Principles and Theoretical Foundations</h2><table style="width: 100%; border-collapse: collapse; font-size: 0.88rem; margin: 16px 0;">
+          <section id="sec-intro"><h2>引言：做人和做事的基本底线，背后有其必然的道理</h2><p>在涉及普通人切身利益的逆境求助场景中，AI 系统的行为不能仅仅依靠临场的语言修辞，而应当遵循明确的行为底线。本篇梳理了 8 条形式化参考底线，用平实的语言讲清楚每条底线背后的常识与数理依据。</p></section>
+<section id="sec-table"><h2>八条参考底线与推导依据汇总</h2><table style="width: 100%; border-collapse: collapse; font-size: 0.88rem; margin: 16px 0;">
       <thead>
         <tr style="background: var(--bg-secondary); border-bottom: 2px solid var(--border-strong);">
-          <th style="padding: 10px; text-align: left; width: 80px;">Index</th>
-          <th style="padding: 10px; text-align: left; width: 180px;">Reference Principle</th>
-          <th style="padding: 10px; text-align: left;">Core Logic and Theoretical Basis</th>
+          <th style="padding: 10px; text-align: left; width: 80px;">编号</th>
+          <th style="padding: 10px; text-align: left; width: 180px;">参考底线原则</th>
+          <th style="padding: 10px; text-align: left;">核心逻辑与推导依据</th>
         </tr>
       </thead>
       <tbody>
         <tr style="border-bottom: 1px solid var(--border-subtle);">
-          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">Line 1</td>
-          <td style="padding: 10px; font-weight: 600;">No Unauthorized Substitution</td>
-          <td style="padding: 10px;">Trilemma Impossibility: Single recommendation + no clarification + guaranteed feasibility form an impossible trinity when \(k^* \ge 2\).</td>
+          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">底线 1</td>
+          <td style="padding: 10px; font-weight: 600;">绝不代为主张</td>
+          <td style="padding: 10px;">在信息未查明时，如果既不提问核实、又只给单个方案，就绝不可能保证方案一定可行（三难不可能三角）。</td>
         </tr>
         <tr style="border-bottom: 1px solid var(--border-subtle);">
-          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">Line 2</td>
-          <td style="padding: 10px; font-weight: 600;">No Forced Disclosure</td>
-          <td style="padding: 10px;">Disclosure Lower Bound: Compact menus ensure 0 bits of privacy leakage, protecting sensitive user conditions.</td>
+          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">底线 2</td>
+          <td style="padding: 10px; font-weight: 600;">绝不强迫披露</td>
+          <td style="padding: 10px;">保护求助者隐私：通过提供覆盖主要分类的备选清单，让求助者自主挑选，免于被逼问敏感信息（零隐私泄露）。</td>
         </tr>
         <tr style="border-bottom: 1px solid var(--border-subtle);">
-          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">Line 3</td>
-          <td style="padding: 10px; font-weight: 600;">Non-Compensatory Constraints</td>
-          <td style="padding: 10px;">Hard physical and legal constraints cannot be traded off or compensated by surface empathy or polite phrasing.</td>
+          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">底线 3</td>
+          <td style="padding: 10px; font-weight: 600;">底线不可代偿</td>
+          <td style="padding: 10px;">人身安全与现实可行性属于硬约束，不能用“语气客气温柔”、“回答热情”等表面效用相互折抵。</td>
         </tr>
         <tr style="border-bottom: 1px solid var(--border-subtle);">
-          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">Line 4</td>
-          <td style="padding: 10px; font-weight: 600;">Scope-Limited Compliance</td>
-          <td style="padding: 10px;">Compliance Scope Axiom: Format-level brevity requests must not propagate into cognitive prerequisite checking.</td>
+          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">底线 4</td>
+          <td style="padding: 10px; font-weight: 600;">顺从不得越界</td>
+          <td style="padding: 10px;">用户要求“回复字数少一点”，指的是排版和表达形式，绝不等于授权 AI 放弃核实方案在现实中能否走通。</td>
         </tr>
         <tr style="border-bottom: 1px solid var(--border-subtle);">
-          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">Line 5</td>
-          <td style="padding: 10px; font-weight: 600;">Longitudinal Sequence Audit</td>
-          <td style="padding: 10px;">Memoryless single-turn audits miss cumulative erosion of user agency across multi-turn interactions.</td>
+          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">底线 5</td>
+          <td style="padding: 10px; font-weight: 600;">长程序列审计</td>
+          <td style="padding: 10px;">单看一两句话可能觉得正常，但在多轮对话中，AI 可能会一步步引导用户放弃自主权，必须全程连续评估。</td>
         </tr>
         <tr style="border-bottom: 1px solid var(--border-subtle);">
-          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">Line 6</td>
-          <td style="padding: 10px; font-weight: 600;">Transparent Safeguards</td>
-          <td style="padding: 10px;">Safety tripwires and refusal mechanisms must operate on transparent, explainable trigger criteria.</td>
+          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">底线 6</td>
+          <td style="padding: 10px; font-weight: 600;">安全机制透明</td>
+          <td style="padding: 10px;">当 AI 触发紧急保护措施或拒绝特定操作时，必须给求助者清楚、诚恳地解释原因，不能遮遮掩掩。</td>
         </tr>
         <tr style="border-bottom: 1px solid var(--border-subtle);">
-          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">Line 7</td>
-          <td style="padding: 10px; font-weight: 600;">Statistical Feasibility</td>
-          <td style="padding: 10px;">Single-instance anecdotal success cannot substitute for rigorous distributional feasibility evaluation.</td>
+          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">底线 7</td>
+          <td style="padding: 10px; font-weight: 600;">统计可行原则</td>
+          <td style="padding: 10px;">一次随口猜对只能算运气好，不能代表系统可靠；评价 AI 的决策质量必须看它在各种可能处境下的综合可行率。</td>
         </tr>
         <tr>
-          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">Line 8</td>
-          <td style="padding: 10px; font-weight: 600;">Annotation Rule Auditing</td>
-          <td style="padding: 10px;">Unanimous multi-model disagreement with reference keys indicates omitted real-world prerequisite conditions in the guidelines.</td>
+          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">底线 8</td>
+          <td style="padding: 10px; font-weight: 600;">标注规则审计</td>
+          <td style="padding: 10px;">当多个不同厂商的 AI 都不约而同地与人工标准答案发生分歧时，通常说明是人工制定的规则本身存在漏洞。</td>
         </tr>
       </tbody>
       </table>
       
       <div class="figure-container" style="margin: 20px 0;">
         <div class="figure-card" style="background: var(--bg-secondary); border: 1px solid var(--border-subtle); padding: 12px; border-radius: 6px;">
-          <img src="../assets/figures/fig_tradeoff-1.png" alt="Tradeoff Curve and Hard Constraints" style="width: 100%; border-radius: 4px;" loading="lazy">
-          <div class="figure-caption" style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 6px;"><strong>Figure 5: Non-Compensatory Hard Constraint Tradeoff Curve.</strong> Honesty and safety principles demonstrate vertical zero-violation walls.</div>
+          <img src="../assets/figures/fig_tradeoff-1.png" alt="交换曲线硬约束测定" style="width: 100%; border-radius: 4px;" loading="lazy">
+          <div class="figure-caption" style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 6px;"><strong>图 5：不可补偿性硬约束交换曲线。</strong>诚实与安全底线呈现零违规直立硬墙，拒绝效用折抵。</div>
         </div>
       </div></section>
         </div>
 
-        <!-- Footer Release Note -->
         <div style="margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--border-subtle); font-size: 0.84rem; color: var(--text-muted); line-height: 1.6;">
-          <em>* Note: This project is an ongoing exploratory study. Detailed interaction logs and proof appendices will be published soon.</em>
+          <em>* 注：本项目处于学术初探阶段，更多实测样本、长程交互日志与数学推导附录将于近期整理发布。</em>
         </div>
       </article>
     </div>
   </main>
 
-  <!-- Footer -->
   <footer>
     <div class="site-shell footer-content">
       <div>
-        © <span id="year">2026</span> <strong>AI4I Research Group / Andong Wang</strong> · RIKEN AIP.
+        © <span id="year">2026</span> <strong>AI4I Research Group / 王安东</strong> · RIKEN AIP.
       </div>
       <div>
-        Academic Support: RIKEN Center for Advanced Intelligence Project (RIKEN AIP) · AI for Individuals (AI4I) Research Initiative
+        学术支持：理化学研究所 革新知能統合研究センター (RIKEN AIP) · 个体决策智能 (AI4I) 研究计划
       </div>
     </div>
   </footer>

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="ja" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Eight Reference Principles | AI4I</title>
-  <meta name="description" content="Formal specifications of the trilemma, non-compensatory constraints, and scope boundaries.">
+  <title>8つの参照原則の解説 | AI4I</title>
+  <meta name="description" content="トリレンマの不可能性、非補償的制約、順従スコープ境界の形式的整理。">
 
   <!-- Google Fonts & MathJax -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Klee+One:wght@400;600&family=Shippori+Mincho:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <script>
     window.MathJax = {
@@ -208,18 +208,18 @@
   <!-- Top Navigation Bar -->
   <header class="topbar">
     <div class="site-shell topbar-inner">
-      <a href="../ai4adversity.html" class="wordmark">
+      <a href="../ai4adversity_ja.html" class="wordmark">
         <span class="wordmark-dot"></span>
         <span>AI4I · ADVERSITYBENCH</span>
       </a>
 
       <nav>
-        <a href="../ai4adversity.html#motivation">Background</a>
-        <a href="../ai4adversity.html#theory">Theory</a>
-        <a href="../ai4adversity.html#benchmark">Benchmark</a>
-        <a href="../ai4adversity.html#interactive">Scenarios</a>
-        <a href="../ai4adversity.html#publications">Topic Notes</a>
-        <a href="../ai4adversity.html#team">Team</a>
+        <a href="../ai4adversity_ja.html#motivation">研究背景</a>
+        <a href="../ai4adversity_ja.html#theory">理論検討</a>
+        <a href="../ai4adversity_ja.html#benchmark">評価実験</a>
+        <a href="../ai4adversity_ja.html#interactive">シナリオ</a>
+        <a href="../ai4adversity_ja.html#publications">トピック詳細</a>
+        <a href="../ai4adversity_ja.html#team">研究チーム</a>
       </nav>
 
       <div class="nav-actions">
@@ -232,109 +232,109 @@
 
   <main class="site-shell doc-page">
     <div class="doc-breadcrumb">
-      <a href="../ai4adversity.html">← Back to AI4I Homepage</a>
+      <a href="../ai4adversity_ja.html">← AI4I トップページに戻る</a>
       <span>/</span>
-      <span>Topic Note</span>
+      <span>トピック詳細ノート</span>
       <span>/</span>
-      <span>Eight Reference Principles</span>
+      <span>8つの参照原則の解説</span>
     </div>
 
     <div class="doc-container">
       <!-- Left Sticky Table of Contents -->
       <aside class="doc-toc">
-        <h4>Table of Contents</h4>
+        <h4>本稿の目次</h4>
         <ul>
-          <li><a href="#sec-intro">Introduction: Fundamental Boundaries in High-Stakes Decision Support</a></li>
-<li><a href="#sec-table">Table of Eight Reference Principles and Theoretical Foundations</a></li>
+          <li><a href="#sec-intro">はじめに：高リスクな意思決定支援における基本方針</a></li>
+<li><a href="#sec-table">8つの参照原則と理論的根拠の整理</a></li>
         </ul>
       </aside>
 
       <!-- Main Content Article -->
       <article class="doc-article">
         <header class="doc-header-block">
-          <span class="doc-tag">Principles Note</span>
-          <h1 class="doc-title">Eight Reference Principles for Decision Support</h1>
-          <div class="doc-desc">Formal specifications of the trilemma, non-compensatory constraints, and scope boundaries.</div>
+          <span class="doc-tag">参照原則ノート</span>
+          <h1 class="doc-title">逆境における意思決定支援の8つの参照原則</h1>
+          <div class="doc-desc">トリレンマの不可能性、非補償的制約、順従スコープ境界の形式的整理。</div>
           <div class="doc-meta">
-            <span><strong>Authors / Group:</strong> AI4I Research Group (Wang, A., et al.)</span>
-            <span><strong>Archive Metadata:</strong> Preliminary Study Note & Empirical Records</span>
+            <span><strong>著者 / 研究主体：</strong> AI4I Research Group (王 安東 他)</span>
+            <span><strong>アーカイブ情報：</strong> 予備的検討ノート · 実証記録</span>
           </div>
           <div class="doc-actions">
-            <a href="../ai4adversity.html#publications" class="pub-pill-btn">📖 Back to Topic List</a>
+            <a href="../ai4adversity_ja.html#publications" class="pub-pill-btn">📖 トピック一覧に戻る</a>
           </div>
         </header>
 
         <!-- Release Soon Notice -->
         <div class="doc-callout">
-          📌 <strong>Preliminary Note:</strong> This document is a preliminary exploratory note for the AI4I project. Full evaluation datasets, formal proofs, and replication code will be released soon.
+          📌 <strong>予備的ノート：</strong>本稿はAI4Iプロジェクトの予備的な検討ノートです。詳細な評価データセット、形式的導出付録、検証コードは近日公開予定です。
         </div>
 
         <!-- Dynamic Body Sections -->
         <div class="doc-content-body">
-          <section id="sec-intro"><h2>Introduction: Fundamental Boundaries in High-Stakes Decision Support</h2><p>When AI assists individuals in high-stakes adversity, behavioral guardrails must not rely on ad-hoc conversational heuristics. We outline 8 formal reference principles grounded in decision theory and empirical findings.</p></section>
-<section id="sec-table"><h2>Table of Eight Reference Principles and Theoretical Foundations</h2><table style="width: 100%; border-collapse: collapse; font-size: 0.88rem; margin: 16px 0;">
+          <section id="sec-intro"><h2>はじめに：高リスクな意思決定支援における基本方針</h2><p>切実な逆境における対話支援において、行動指針は場当たり的な修辞ではなく、明確な基準に基づく必要があります。8つの形式的参照原則を整理しました。</p></section>
+<section id="sec-table"><h2>8つの参照原則と理論的根拠の整理</h2><table style="width: 100%; border-collapse: collapse; font-size: 0.88rem; margin: 16px 0;">
       <thead>
         <tr style="background: var(--bg-secondary); border-bottom: 2px solid var(--border-strong);">
-          <th style="padding: 10px; text-align: left; width: 80px;">Index</th>
-          <th style="padding: 10px; text-align: left; width: 180px;">Reference Principle</th>
-          <th style="padding: 10px; text-align: left;">Core Logic and Theoretical Basis</th>
+          <th style="padding: 10px; text-align: left; width: 80px;">番号</th>
+          <th style="padding: 10px; text-align: left; width: 180px;">参照原則</th>
+          <th style="padding: 10px; text-align: left;">基本的論理と理論的根拠</th>
         </tr>
       </thead>
       <tbody>
         <tr style="border-bottom: 1px solid var(--border-subtle);">
-          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">Line 1</td>
-          <td style="padding: 10px; font-weight: 600;">No Unauthorized Substitution</td>
-          <td style="padding: 10px;">Trilemma Impossibility: Single recommendation + no clarification + guaranteed feasibility form an impossible trinity when \(k^* \ge 2\).</td>
+          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">基準 1</td>
+          <td style="padding: 10px; font-weight: 600;">代行決定の回避</td>
+          <td style="padding: 10px;">トリレンマの不可能性：情報未確認下での単一推薦・質問なし・実行可能保証は不可能です（\(k^* \ge 2\)）。</td>
         </tr>
         <tr style="border-bottom: 1px solid var(--border-subtle);">
-          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">Line 2</td>
-          <td style="padding: 10px; font-weight: 600;">No Forced Disclosure</td>
-          <td style="padding: 10px;">Disclosure Lower Bound: Compact menus ensure 0 bits of privacy leakage, protecting sensitive user conditions.</td>
+          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">基準 2</td>
+          <td style="padding: 10px; font-weight: 600;">強制開示の回避</td>
+          <td style="padding: 10px;">プライバシー下界：メニュー提示により0ビットの開示で実行可能性を担保し、機微情報を保護します。</td>
         </tr>
         <tr style="border-bottom: 1px solid var(--border-subtle);">
-          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">Line 3</td>
-          <td style="padding: 10px; font-weight: 600;">Non-Compensatory Constraints</td>
-          <td style="padding: 10px;">Hard physical and legal constraints cannot be traded off or compensated by surface empathy or polite phrasing.</td>
+          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">基準 3</td>
+          <td style="padding: 10px; font-weight: 600;">非補償的制約</td>
+          <td style="padding: 10px;">身体の安全や法的期限などのハード制約は、丁寧な口調や共感表現と相殺できません。</td>
         </tr>
         <tr style="border-bottom: 1px solid var(--border-subtle);">
-          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">Line 4</td>
-          <td style="padding: 10px; font-weight: 600;">Scope-Limited Compliance</td>
-          <td style="padding: 10px;">Compliance Scope Axiom: Format-level brevity requests must not propagate into cognitive prerequisite checking.</td>
+          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">基準 4</td>
+          <td style="padding: 10px; font-weight: 600;">順従のスコープ限定</td>
+          <td style="padding: 10px;">形式の簡潔さ要求を、前提条件を確認しない口実として拡大解釈してはなりません。</td>
         </tr>
         <tr style="border-bottom: 1px solid var(--border-subtle);">
-          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">Line 5</td>
-          <td style="padding: 10px; font-weight: 600;">Longitudinal Sequence Audit</td>
-          <td style="padding: 10px;">Memoryless single-turn audits miss cumulative erosion of user agency across multi-turn interactions.</td>
+          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">基準 5</td>
+          <td style="padding: 10px; font-weight: 600;">対話シーケンスの監査</td>
+          <td style="padding: 10px;">単一ターンの監査では、複数ターンを通じて自己決定権が徐々に奪われる変化を検知できません。</td>
         </tr>
         <tr style="border-bottom: 1px solid var(--border-subtle);">
-          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">Line 6</td>
-          <td style="padding: 10px; font-weight: 600;">Transparent Safeguards</td>
-          <td style="padding: 10px;">Safety tripwires and refusal mechanisms must operate on transparent, explainable trigger criteria.</td>
+          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">基準 6</td>
+          <td style="padding: 10px; font-weight: 600;">安全機構の透明性</td>
+          <td style="padding: 10px;">緊急時の保護や拒否動作は、利用者に理解可能な基準に基づいて実行される必要があります。</td>
         </tr>
         <tr style="border-bottom: 1px solid var(--border-subtle);">
-          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">Line 7</td>
-          <td style="padding: 10px; font-weight: 600;">Statistical Feasibility</td>
-          <td style="padding: 10px;">Single-instance anecdotal success cannot substitute for rigorous distributional feasibility evaluation.</td>
+          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">基準 7</td>
+          <td style="padding: 10px; font-weight: 600;">統計的実行可能性</td>
+          <td style="padding: 10px;">偶然の成功をもって安全と見なすことはできず、多様な潜在状況における総合的な実行可能性を評価する必要があります。</td>
         </tr>
         <tr>
-          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">Line 8</td>
-          <td style="padding: 10px; font-weight: 600;">Annotation Rule Auditing</td>
-          <td style="padding: 10px;">Unanimous multi-model disagreement with reference keys indicates omitted real-world prerequisite conditions in the guidelines.</td>
+          <td style="padding: 10px; font-weight: 700; color: var(--accent-primary);">基準 8</td>
+          <td style="padding: 10px; font-weight: 600;">アノテーション基準の監査</td>
+          <td style="padding: 10px;">複数モデルが一致して正解と異なる判定を行う場合、基準側に前提の漏れが存在する可能性があります。</td>
         </tr>
       </tbody>
       </table>
       
       <div class="figure-container" style="margin: 20px 0;">
         <div class="figure-card" style="background: var(--bg-secondary); border: 1px solid var(--border-subtle); padding: 12px; border-radius: 6px;">
-          <img src="../assets/figures/fig_tradeoff-1.png" alt="Tradeoff Curve and Hard Constraints" style="width: 100%; border-radius: 4px;" loading="lazy">
-          <div class="figure-caption" style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 6px;"><strong>Figure 5: Non-Compensatory Hard Constraint Tradeoff Curve.</strong> Honesty and safety principles demonstrate vertical zero-violation walls.</div>
+          <img src="../assets/figures/fig_tradeoff-1.png" alt="トレードオフ曲線" style="width: 100%; border-radius: 4px;" loading="lazy">
+          <div class="figure-caption" style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 6px;"><strong>図5：非補償的ハード制約のトレードオフ曲線。</strong>誠実性と安全原則におけるゼロ違反境界。</div>
         </div>
       </div></section>
         </div>
 
         <!-- Footer Release Note -->
         <div style="margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--border-subtle); font-size: 0.84rem; color: var(--text-muted); line-height: 1.6;">
-          <em>* Note: This project is an ongoing exploratory study. Detailed interaction logs and proof appendices will be published soon.</em>
+          <em>* 注：本プロジェクトは現在予備的検討の段階にあります。詳細な対話ログおよび数学的導出付録は近日公開予定です。（※ 本ページは Gemini により翻訳・作成されました）</em>
         </div>
       </article>
     </div>

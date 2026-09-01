@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AdversityBench 评测方法与消融实验记录 | AI4I</title>
+  <meta name="description" content="102 个标准化场景评测方法、7 大模型实测数据对比与 8 项因果消融实验的阶段性数据记录。">
+
+  <!-- Google Fonts & MathJax -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@400;500;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .doc-page {
+      padding: 36px 0 80px;
+    }
+    .doc-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    .doc-breadcrumb a {
+      color: var(--accent-primary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .doc-breadcrumb a:hover {
+      text-decoration: underline;
+    }
+    .doc-container {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      gap: 32px;
+      align-items: start;
+    }
+    .doc-toc {
+      position: sticky;
+      top: 80px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      max-height: calc(100vh - 110px);
+      overflow-y: auto;
+    }
+    .doc-toc h4 {
+      font-size: 0.86rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent-primary);
+      margin: 0 0 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .doc-toc ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .doc-toc li {
+      margin-bottom: 8px;
+    }
+    .doc-toc a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.84rem;
+      display: block;
+      line-height: 1.45;
+      transition: color 0.15s ease;
+    }
+    .doc-toc a:hover {
+      color: var(--accent-primary);
+      font-weight: 600;
+    }
+    .doc-article {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 36px 44px;
+      box-shadow: var(--shadow-sm);
+    }
+    .doc-header-block {
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 24px;
+      margin-bottom: 24px;
+    }
+    .doc-tag {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent-primary);
+      background: var(--bg-secondary);
+      padding: 4px 10px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border-subtle);
+      margin-bottom: 12px;
+    }
+    .doc-title {
+      font-family: var(--font-serif);
+      font-size: 1.75rem;
+      line-height: 1.3;
+      color: var(--text-primary);
+      margin: 0 0 8px;
+    }
+    .doc-desc {
+      font-size: 0.96rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin: 0 0 16px;
+    }
+    .doc-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+    .doc-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .doc-article section {
+      margin-bottom: 32px;
+    }
+    .doc-article h2 {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      color: var(--accent-primary);
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 8px;
+      margin: 28px 0 16px;
+    }
+    .doc-article h3 {
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      margin: 20px 0 10px;
+    }
+    .doc-article p {
+      font-size: 0.92rem;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      margin: 0 0 14px;
+    }
+    .doc-article ul, .doc-article ol {
+      margin: 0 0 16px 20px;
+      padding: 0;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+    .doc-article li {
+      margin-bottom: 6px;
+    }
+    .doc-callout {
+      background: var(--bg-secondary);
+      border-left: 3px solid var(--accent-primary);
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+      margin: 18px 0;
+      font-size: 0.88rem;
+      line-height: 1.65;
+    }
+    .doc-math-box {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      margin: 18px 0;
+      text-align: center;
+      overflow-x: auto;
+    }
+    @media (max-width: 860px) {
+      .doc-container {
+        grid-template-columns: 1fr;
+      }
+      .doc-toc {
+        display: none;
+      }
+      .doc-article {
+        padding: 24px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="topbar">
+    <div class="site-shell topbar-inner">
+      <a href="../ai4adversity_zh.html" class="wordmark">
+        <span class="wordmark-dot"></span>
+        <span>AI4I · ADVERSITYBENCH</span>
+      </a>
+
+      <nav>
+        <a href="../ai4adversity_zh.html#motivation">研究背景</a>
+        <a href="../ai4adversity_zh.html#theory">形式理论</a>
+        <a href="../ai4adversity_zh.html#benchmark">评测系统</a>
+        <a href="../ai4adversity_zh.html#interactive">交互计算</a>
+        <a href="../ai4adversity_zh.html#publications">专题页面</a>
+        <a href="../ai4adversity_zh.html#team">研究团队</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme" title="切换深色/浅色模式">
+          <span id="theme-icon">🌙</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="site-shell doc-page">
+    <div class="doc-breadcrumb">
+      <a href="../ai4adversity_zh.html">← 返回 AI4I 主页</a>
+      <span>/</span>
+      <span>项目专题说明页面</span>
+      <span>/</span>
+      <span>AdversityBench 评测方法与消融实验记录</span>
+    </div>
+
+    <div class="doc-container">
+      <aside class="doc-toc">
+        <h4>本篇目录索引</h4>
+        <ul>
+          <li><a href="#sec-pomdp">决策模型：把现实逆境看作不完全信息的逐步探索过程</a></li>
+<li><a href="#sec-domains">102 个标准化场景的 6 大现实生活领域</a></li>
+<li><a href="#sec-experiments">8 组初步实测的主要发现</a></li>
+        </ul>
+      </aside>
+
+      <article class="doc-article">
+        <header class="doc-header-block">
+          <span class="doc-tag">评测记录</span>
+          <h1 class="doc-title">AdversityBench 评测方法与消融实验记录</h1>
+          <div class="doc-desc">102 个标准化场景评测方法、7 大模型实测数据对比与 8 项因果消融实验的阶段性数据记录。</div>
+          <div class="doc-meta">
+            <span><strong>作者 / 研究主体：</strong> AI4I Research Group (Wang, A., et al.)</span>
+            <span><strong>归档元数据：</strong> 专题说明与阶段性推导笔记</span>
+          </div>
+          <div class="doc-actions">
+            <a href="../ai4adversity_zh.html#publications" class="pub-pill-btn">📖 返回首页专题列表</a>
+          </div>
+        </header>
+
+        <div class="doc-callout">
+          📌 <strong>阶段性说明：</strong>本文档为 AI4I 项目的初步梳理与专题笔记。完整评测数据集、形式推导附录与复现代码将于近期整理发布。
+        </div>
+
+        <div class="doc-content-body">
+          <section id="sec-pomdp"><h2>决策模型：把现实逆境看作不完全信息的逐步探索过程</h2><p><strong>现实中的信息是不完全的：</strong>当求助者向 AI 提问时，求助者说出来的只是冰山一角，很多关键的现实约束（如手头积蓄、是否有合法居留凭证、是否受到人身监视等）并没有在一开始就全部说出来。</p>
+      <p>AI 的任务不是凭空瞎猜，而是像一个耐心的专业协作者一样，在必要时发起关键提问，逐步弄清楚哪些方案在现实中真正可行。</p></section>
+<section id="sec-domains"><h2>102 个标准化场景的 6 大现实生活领域</h2><p>为了全面测试 AI 在各种紧急情况下的决策表现，我们整理了 6 大生活领域的 102 个标准化场景：</p>
+      <ul>
+      <li><strong>🏠 住房与租住：</strong>面临突然被房东驱逐、申请紧急租金补贴、准备法庭抗辩等高时效场景。</li>
+      <li><strong>🛡️ 人身安全与庇护：</strong>手机通信受限、证件被扣押、需要寻找临时庇护所等涉及人身安全的紧急场景。</li>
+      <li><strong>🏥 医疗保障与救济：</strong>商业医保拒赔、突发重大疾病缺少自费药物、申请医院慈善救济等医疗场景。</li>
+      <li><strong>⚖️ 法律时效与居留：</strong>签证即将过期、合法身份面临转换、申请法律援助排期等法律时效场景。</li>
+      <li><strong>💳 债务处置与流动性：</strong>遭遇高利借贷纠纷、银行账户冻结、申请个人债务重组等资金流危机场景。</li>
+      <li><strong>👨‍👩‍👧 家庭看护与抚养：</strong>重度失能老人长期看护负荷、抚养权益纠纷、申请社区护理服务等家庭场景。</li>
+      </ul></section>
+<section id="sec-experiments"><h2>8 组初步实测的主要发现</h2><ul>
+      <li><strong>测试 1（选项数量坍缩）：</strong>当用户要求“只给一个选项”时，7 个前沿大模型的备选方案数量普遍下降 46.9% 至 67.9%，提问核实意愿显著降低。</li>
+      <li><strong>测试 2（因果消融检验）：</strong>实验证实，让 AI 停止提问核实的主要原因正是“单方案的格式要求”，而不是用户语气中的焦虑情绪。</li>
+      <li><strong>测试 3（多轮互动与信息整合）：</strong>如果 AI 主动发起关键提问，一旦获知了用户的具体条件，整合正确条件的成功率高达 96%~99%，说明模型本身的推理能力是没有问题的。</li>
+      <li><strong>测试 4（一句话规则干预）：</strong>如果在系统提示中明确告诉 AI“用户要求简短只是指回答形式，你依然要核实前提”，提问率就能恢复到 87%~100%。</li>
+      <li><strong>测试 5（原则不能妥协）：</strong>在模拟测试中，诚实和不害人是绝对底线，但在极端生命危险的例外情况下需要透明说明。</li>
+      <li><strong>测试 6（高情商不能代替解决问题）：</strong>统计表明，AI 说的话听起来再温柔、再有同理心，如果给出的方案现实中走不通，依然无法帮助求助者解决问题。</li>
+      <li><strong>测试 7（多模型一致异议）：</strong>当 4 家厂商的模型一致认为某道题的参考答案不合理时，经人工复查发现 94.4% 的情况下是人工制定的规则漏掉了现实前提。</li>
+      <li><strong>测试 8（受限环境适应）：</strong>在模拟通信受监视的情况下，模型能够自适应地采用隐蔽、安全的措辞来保护求助者。</li>
+      </ul>
+      
+      <div class="figure-container" style="margin: 20px 0;">
+        <div class="figure-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px;">
+          <div class="figure-card" style="background: var(--bg-secondary); border: 1px solid var(--border-subtle); padding: 12px; border-radius: 6px;">
+            <img src="../assets/figures/fig_dpoi_results-1.png" alt="DPOI 选项容量分布" style="width: 100%; border-radius: 4px;" loading="lazy">
+            <div class="figure-caption" style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 6px;"><strong>图 6：Exp 1 DPOI 实测分布。</strong>普通轮次 vs 压力轮次下选项容量显著下滑。</div>
+          </div>
+          <div class="figure-card" style="background: var(--bg-secondary); border: 1px solid var(--border-subtle); padding: 12px; border-radius: 6px;">
+            <img src="../assets/figures/fig_warmth-1.png" alt="语言同理心与物理可行性正交性" style="width: 100%; border-radius: 4px;" loading="lazy">
+            <div class="figure-caption" style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 6px;"><strong>图 7：同理心与可行性正交分布。</strong>语言温度与方案物理可行性不相关（\(\rho = -0.078\)）。</div>
+          </div>
+        </div>
+      </div></section>
+        </div>
+
+        <div style="margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--border-subtle); font-size: 0.84rem; color: var(--text-muted); line-height: 1.6;">
+          <em>* 注：本项目处于学术初探阶段，更多实测样本、长程交互日志与数学推导附录将于近期整理发布。</em>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <footer>
+    <div class="site-shell footer-content">
+      <div>
+        © <span id="year">2026</span> <strong>AI4I Research Group / 王安东</strong> · RIKEN AIP.
+      </div>
+      <div>
+        学术支持：理化学研究所 革新知能統合研究センター (RIKEN AIP) · 个体决策智能 (AI4I) 研究计划
+      </div>
+    </div>
+  </footer>
+
+  <script src="../assets/js/app.js"></script>
+</body>
+</html>

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="ja" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Decision Theory & Derivation Notes | AI4I</title>
-  <meta name="description" content="Mathematical derivations on menu-partition duality and 0-bit privacy lower bounds.">
+  <title>制約付き意思決定理論ノート | AI4I</title>
+  <meta name="description" content="不確実性下でのメニューによる実行可能性担保と0ビットプライバシー下界の導出。">
 
   <!-- Google Fonts & MathJax -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Klee+One:wght@400;600&family=Shippori+Mincho:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   
   <script>
     window.MathJax = {
@@ -208,18 +208,18 @@
   <!-- Top Navigation Bar -->
   <header class="topbar">
     <div class="site-shell topbar-inner">
-      <a href="../ai4adversity.html" class="wordmark">
+      <a href="../ai4adversity_ja.html" class="wordmark">
         <span class="wordmark-dot"></span>
         <span>AI4I · ADVERSITYBENCH</span>
       </a>
 
       <nav>
-        <a href="../ai4adversity.html#motivation">Background</a>
-        <a href="../ai4adversity.html#theory">Theory</a>
-        <a href="../ai4adversity.html#benchmark">Benchmark</a>
-        <a href="../ai4adversity.html#interactive">Scenarios</a>
-        <a href="../ai4adversity.html#publications">Topic Notes</a>
-        <a href="../ai4adversity.html#team">Team</a>
+        <a href="../ai4adversity_ja.html#motivation">研究背景</a>
+        <a href="../ai4adversity_ja.html#theory">理論検討</a>
+        <a href="../ai4adversity_ja.html#benchmark">評価実験</a>
+        <a href="../ai4adversity_ja.html#interactive">シナリオ</a>
+        <a href="../ai4adversity_ja.html#publications">トピック詳細</a>
+        <a href="../ai4adversity_ja.html#team">研究チーム</a>
       </nav>
 
       <div class="nav-actions">
@@ -232,93 +232,93 @@
 
   <main class="site-shell doc-page">
     <div class="doc-breadcrumb">
-      <a href="../ai4adversity.html">← Back to AI4I Homepage</a>
+      <a href="../ai4adversity_ja.html">← AI4I トップページに戻る</a>
       <span>/</span>
-      <span>Topic Note</span>
+      <span>トピック詳細ノート</span>
       <span>/</span>
-      <span>Decision Theory & Derivation Notes</span>
+      <span>制約付き意思決定理論ノート</span>
     </div>
 
     <div class="doc-container">
       <!-- Left Sticky Table of Contents -->
       <aside class="doc-toc">
-        <h4>Table of Contents</h4>
+        <h4>本稿の目次</h4>
         <ul>
-          <li><a href="#sec-duality-intro">Introduction: Why Menus Are Safeguards, Not Evasion</a></li>
-<li><a href="#sec-duality">Theorem 1: Menu–Partition Duality (Guaranteed Feasibility under Uncertainty)</a></li>
-<li><a href="#sec-disclosure">Theorem 2: Privacy Disclosure Lower Bound (Zero-Bit Privacy via Menus)</a></li>
-<li><a href="#sec-questions">Five Open Theoretical Questions from Empirical Observations</a></li>
+          <li><a href="#sec-duality-intro">はじめに：なぜメニュー提示が安全の確保につながるのか</a></li>
+<li><a href="#sec-duality">定理1：メニュー–分割双対性の導出（実行可能性の担保）</a></li>
+<li><a href="#sec-disclosure">定理2：プライバシー開示下界の導出（0ビット開示）</a></li>
+<li><a href="#sec-questions">実証的観察から整理された5つの理論的問い</a></li>
         </ul>
       </aside>
 
       <!-- Main Content Article -->
       <article class="doc-article">
         <header class="doc-header-block">
-          <span class="doc-tag">Theory Note</span>
-          <h1 class="doc-title">Constrained Decision Theory: Menus & Privacy</h1>
-          <div class="doc-desc">Mathematical derivations on menu-partition duality and 0-bit privacy lower bounds.</div>
+          <span class="doc-tag">理論検討ノート</span>
+          <h1 class="doc-title">意思決定理論：メニュー・分割双対性とプライバシー</h1>
+          <div class="doc-desc">不確実性下でのメニューによる実行可能性担保と0ビットプライバシー下界の導出。</div>
           <div class="doc-meta">
-            <span><strong>Authors / Group:</strong> AI4I Research Group (Wang, A., et al.)</span>
-            <span><strong>Archive Metadata:</strong> Preliminary Study Note & Empirical Records</span>
+            <span><strong>著者 / 研究主体：</strong> AI4I Research Group (王 安東 他)</span>
+            <span><strong>アーカイブ情報：</strong> 予備的検討ノート · 実証記録</span>
           </div>
           <div class="doc-actions">
-            <a href="../ai4adversity.html#publications" class="pub-pill-btn">📖 Back to Topic List</a>
+            <a href="../ai4adversity_ja.html#publications" class="pub-pill-btn">📖 トピック一覧に戻る</a>
           </div>
         </header>
 
         <!-- Release Soon Notice -->
         <div class="doc-callout">
-          📌 <strong>Preliminary Note:</strong> This document is a preliminary exploratory note for the AI4I project. Full evaluation datasets, formal proofs, and replication code will be released soon.
+          📌 <strong>予備的ノート：</strong>本稿はAI4Iプロジェクトの予備的な検討ノートです。詳細な評価データセット、形式的導出付録、検証コードは近日公開予定です。
         </div>
 
         <!-- Dynamic Body Sections -->
         <div class="doc-content-body">
-          <section id="sec-duality-intro"><h2>Introduction: Why Menus Are Safeguards, Not Evasion</h2><p>When a user presents a crisis without fully stating all background conditions (e.g., whether they own a car or have a frozen bank account), the user may reside in one of several potential real-world states.</p>
-      <p>If an AI insists on outputting a single action, it is placing a <strong>blind bet</strong> that the user's situation matches that action's prerequisites. If wrong, the action fails completely.</p>
-      <p>Mathematical derivation demonstrates that presenting an option menu provides the rigorous foundation for feasibility under incomplete information.</p></section>
-<section id="sec-duality"><h2>Theorem 1: Menu–Partition Duality (Guaranteed Feasibility under Uncertainty)</h2><p>Let \(\hat{\mathcal{S}}\) be the set of possible states. Partitioning \(\hat{\mathcal{S}}\) into \(k^*\) compatible subsets where each subset shares at least one common feasible action:</p>
+          <section id="sec-duality-intro"><h2>はじめに：なぜメニュー提示が安全の確保につながるのか</h2><p>相談者が背景条件（車の有無や口座状況など）を明示していない場合、相談者は複数の潜在的状況のいずれかに置かれています。</p>
+      <p>AIが単一の案を決め打ちで提示することは、その案の前提が利用者の状況と合致しているという<strong>賭け</strong>をしていることと同義です。</p>
+      <p>不確実性下において実行可能性を担保する基礎として、選択肢メニューの提示が導出されます。</p></section>
+<section id="sec-duality"><h2>定理1：メニュー–分割双対性の導出（実行可能性の担保）</h2><p>潜在的状況の集合を \(\hat{\mathcal{S}}\) とし、共通の実行可能行動を持つ \(k^*\) 個の部分集合に分割します：</p>
       <div class="doc-callout">
-      <strong>Core Conclusion (Menu–Partition Duality):</strong><br>
-      What is the minimum menu size \(|M|\) required to ensure that regardless of the user's true state \(s \in \hat{\mathcal{S}}\), the menu contains at least one executable action?<br>
-      The answer is: <strong>the minimum menu size strictly equals the compatible partition number \(k^*\)</strong>.
+      <strong>基本的論理（メニュー–分割双対性）：</strong><br>
+      すべての潜在的状況 \(s \in \hat{\mathcal{S}}\) において実行可能な選択肢を必ず含む最小メニュー \(M\) のサイズは：<br>
+      <strong>厳密に互換性のある分類数 \(k^*\) に等しくなります</strong>。
       <div class="doc-math-box" style="margin-top: 10px;">$$\min |M| = m^* = k^*(\hat{\mathcal{S}})$$</div>
       </div>
-      <p><strong>Core Implication:</strong> When \(k^* \ge 2\), no single recommendation (\(m=1\)) can mathematically guarantee feasibility across all states without prior verification. A menu of size \(k^*\) is the unique robust solution.</p>
+      <p><strong>示唆：</strong>\(k^* \ge 2\) の状況下では、前提確認のない単一案（\(m=1\)）があらゆる状態で実行可能であることは数学的に保証できません。\(k^*\) 個の選択肢メニューが堅牢な解法となります。</p>
       
       <div class="figure-container" style="margin: 20px 0;">
         <div class="figure-card" style="background: var(--bg-secondary); border: 1px solid var(--border-subtle); padding: 12px; border-radius: 6px;">
-          <img src="../assets/figures/fig1_pomdp_framework-1.png" alt="Constrained POMDP Decision Framework" style="width: 100%; border-radius: 4px;" loading="lazy">
-          <div class="figure-caption" style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 6px;"><strong>Figure 3: Constrained Sequential Decision Framework.</strong> Dynamic state transitions between explicit statements, hidden constraints, and feasible actions.</div>
+          <img src="../assets/figures/fig1_pomdp_framework-1.png" alt="制約付きPOMDPフレームワーク" style="width: 100%; border-radius: 4px;" loading="lazy">
+          <div class="figure-caption" style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 6px;"><strong>図3：制約付き逐次意思決定フレームワーク。</strong>発言、隠蔽制約、実行可能行動集合の状態遷移。</div>
         </div>
       </div></section>
-<section id="sec-disclosure"><h2>Theorem 2: Privacy Disclosure Lower Bound (Zero-Bit Privacy via Menus)</h2><p>If a protocol forces the AI to output a single definitive recommendation, the user must first disclose sufficient private information to identify their state.</p>
+<section id="sec-disclosure"><h2>定理2：プライバシー開示下界の導出（0ビット開示）</h2><p>単一の確定案を必ず成立させるためには、利用者は状況を特定するための機微情報を開示しなければなりません。</p>
       <div class="doc-callout">
-      <strong>Core Conclusion (Privacy Tradeoff):</strong>
+      <strong>プライバシー開示のトレードオフ：</strong>
       <ol style="margin-top: 8px; padding-left: 20px;">
-        <li><strong>Single Recommendation Mandates Disclosure:</strong> To guarantee feasibility of a single recommendation, the mutual information revealed by the user satisfies \(\Delta I(s^*; \text{transcript}) \ge \log_2 k^*\) bits;</li>
-        <li><strong>Menu Selection Achieves Zero Disclosure:</strong> Presenting a menu of size \(k^*\) allows the user to self-select their option in private, requiring <strong>zero sensitive disclosure to the AI (\(\Delta I = 0\) bits)</strong>.</li>
+        <li><strong>単一推薦における情報開示：</strong>単一案の成立を保証するには、\(\Delta I(s^*; \text{transcript}) \ge \log_2 k^*\) ビットの開示が必要です；</li>
+        <li><strong>メニュー方式によるゼロ開示：</strong>サイズ \(k^*\) のメニューを提示して利用者が選択する場合、<strong>AIに対する機微情報の開示は不要（\(\Delta I = 0\) ビット）</strong>となります。</li>
       </ol>
       </div>
-      <p><strong>Significance:</strong> Providing a menu preserves user agency and achieves mathematical zero-leakage privacy protection.</p>
+      <p><strong>意義：</strong>メニュー提示は利用者の自己決定権を守り、プライバシーへの干渉を避ける有効な手段です。</p>
       
       <div class="figure-container" style="margin: 20px 0;">
         <div class="figure-card" style="background: var(--bg-secondary); border: 1px solid var(--border-subtle); padding: 12px; border-radius: 6px;">
-          <img src="../assets/figures/fig_synthesis-1.png" alt="Theoretical Synthesis Map" style="width: 100%; border-radius: 4px;" loading="lazy">
-          <div class="figure-caption" style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 6px;"><strong>Figure 4: Theoretical Synthesis Map.</strong> Mapping menu duality, 0-bit disclosure boundaries, and reference principles.</div>
+          <img src="../assets/figures/fig_synthesis-1.png" alt="理論統合マップ" style="width: 100%; border-radius: 4px;" loading="lazy">
+          <div class="figure-caption" style="font-size: 0.82rem; color: var(--text-secondary); margin-top: 6px;"><strong>図4：理論的統合マップ。</strong>メニュー双対性、0ビット情報開示境界、参照基準の対応。</div>
         </div>
       </div></section>
-<section id="sec-questions"><h2>Five Open Theoretical Questions from Empirical Observations</h2><ol style="line-height: 1.8; color: var(--text-secondary);">
-        <li><strong>Combinatorics of Menus:</strong> Minimum option sets under heterogeneous state spaces and 0-bit privacy bounds.</li>
-        <li><strong>Axiomatics of the Compliance Operator:</strong> Formalizing scope boundaries between surface formatting and cognitive verification.</li>
-        <li><strong>Measurement of Non-Compensatory Hard Constraints:</strong> Preventing soft stylistic utilities (politeness) from compensating for safety violations.</li>
-        <li><strong>Gating vs Internal Representation:</strong> Why surface prompt tuning fails to address deep suppression mechanisms.</li>
-        <li><strong>Epistemology under Fallible Keys:</strong> Auditing reference guidelines when multi-model consensus detects omitted real-world prerequisites.</li>
+<section id="sec-questions"><h2>実証的観察から整理された5つの理論的問い</h2><ol style="line-height: 1.8; color: var(--text-secondary);">
+        <li><strong>メニューの組合せ論：</strong>多様な潜在状態下での最小選択肢集合とプライバシー境界。</li>
+        <li><strong>順従算子の公理化：</strong>表層の表現形式と論理的確認プロセスのスコープ分離。</li>
+        <li><strong>非補償的ハード制約の測定：</strong>丁寧さなどの表層的要素による安全違反の相殺防止。</li>
+        <li><strong>表層ゲーティングと内部表現の差異：</strong>プロンプト調整が深層の抑制メカニズムに及ぼす限界。</li>
+        <li><strong>不完全な正解基準下での監査論：</strong>複数モデルの一致した異議に基づく基準ルールの補正。</li>
       </ol></section>
         </div>
 
         <!-- Footer Release Note -->
         <div style="margin-top: 36px; padding-top: 18px; border-top: 1px solid var(--border-subtle); font-size: 0.84rem; color: var(--text-muted); line-height: 1.6;">
-          <em>* Note: This project is an ongoing exploratory study. Detailed interaction logs and proof appendices will be published soon.</em>
+          <em>* 注：本プロジェクトは現在予備的検討の段階にあります。詳細な対話ログおよび数学的導出付録は近日公開予定です。（※ 本ページは Gemini により翻訳・作成されました）</em>
         </div>
       </article>
     </div>
