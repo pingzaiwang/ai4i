@@ -43,6 +43,7 @@
         <a href="#interactive">シナリオ</a>
         <a href="#publications">トピック詳細</a>
         <a href="#team">研究チーム</a>
+        <a href="manifesto_ja.html" style="color:var(--accent-primary); font-weight:600;">AI4I随想</a>
       </nav>
 
                               <div class="nav-actions">
@@ -70,109 +71,71 @@
         慎重さと尊厳の保持：人間の逆境におけるAI対話的意思決定の予備的探求
       </h1>
 
-      <p class="hero-subtitle">
+            <div style="margin: 0 auto 14px; text-align: center;">
+        <a href="manifesto_ja.html" class="pub-pill-btn" style="background: rgba(41, 140, 209, 0.08); color: var(--accent-primary); border-color: var(--border-subtle); font-weight: 600; padding: 5px 16px; border-radius: var(--radius-pill); display: inline-flex; align-items: center; gap: 6px; font-size: 0.88rem;">
+          📖 AI4I（AI for Individuals）に関する随想 ↗
+        </a>
+      </div>
+
+<p class="hero-subtitle">
         —— 102の標準化された逆境意思決定シナリオと7つの主要モデルに基づく予備的検討：形式制約下での事実確認抑制、メニュー・分割双対性、プライバシー下界の導出（詳細データおよびコードは近日公開予定）
       </p>
       <div style="font-size: 0.82rem; color: var(--text-muted); margin: 4px 0 16px;">※ 本日本語版ページは Gemini により翻訳・作成されました</div>
 
-      <!-- Section: Motivation (4-Stage Pipeline) -->
-      <div id="motivation" class="motivation-central-card" style="text-align: left; margin: 32px 0 20px;">
-        <div class="motivation-central-header" style="text-align: left; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
+            <!-- Section: Motivation (4-Stage Pipeline) -->
+      <div id="motivation" class="motivation-central-card">
+        <div class="motivation-central-header">
           <div>
-            <span class="central-question-tag">研究背景と本質的問い</span>
-            <h2 style="font-size: 1.35rem; color: var(--accent-primary); margin: 8px 0 4px; text-align: left;">
-              なぜ対話型AIは現実の緊急的意思決定において誤った判断を下すのか？
+            <span class="central-question-tag">研究の背景と核心的問い</span>
+            <h2 style="font-size: 1.35rem; color: var(--accent-primary); margin: 6px 0 2px; text-align: left;">
+              なぜ対話型AIは現実の緊急意思決定において誤りを起こすのか？
             </h2>
           </div>
           <span style="font-size: 0.82rem; color: var(--text-muted); font-family: var(--font-mono);">AI4I Problem Formulation</span>
         </div>
 
-        <div class="motivation-flow-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+        <div class="motivation-flow-grid">
           
           <!-- Stage 1 -->
-          <div class="motivation-step-item" style="text-align: left; background: var(--bg-secondary); border: 1px solid var(--border-subtle); padding: 18px; border-radius: var(--radius-md);">
-            <div class="motivation-step-num" style="color: var(--accent-primary); font-weight: 700; font-family: var(--font-mono); font-size: 0.88rem; margin-bottom: 6px;">01 · 現実的背景</div>
-            <h3 class="motivation-step-title" style="font-size: 1.02rem; margin: 0 0 8px; color: var(--text-primary);">不可逆で高い試行錯誤コスト</h3>
-            <p class="motivation-step-desc" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
-              住宅立ち退き、突発的な医療費、ビザ期限などの突発的危機において、手続きは専門的で期限が厳格です。支援リソースの乏しい個人にとって、一度の判断ミスは不可逆な損失に直結します。
+          <div class="motivation-step-item">
+            <div class="motivation-step-num">01 · 現実の背景</div>
+            <h3 class="motivation-step-title">不可逆で高い試行錯誤コスト</h3>
+            <p class="motivation-step-desc">
+              住宅立ち退きや医療費、ビザ期限などの危機において、手続きは厳格です。一度の判断ミスは不可逆な損失に直結します。
             </p>
           </div>
 
           <!-- Stage 2 -->
-          <div class="motivation-step-item" style="text-align: left; background: var(--bg-secondary); border: 1px solid var(--border-subtle); padding: 18px; border-radius: var(--radius-md);">
-            <div class="motivation-step-num" style="color: var(--accent-primary); font-weight: 700; font-family: var(--font-mono); font-size: 0.88rem; margin-bottom: 6px;">02 · 対話の特性</div>
-            <h3 class="motivation-step-title" style="font-size: 1.02rem; margin: 0 0 8px; color: var(--text-primary);">検索から対話型AIへの相談への移行</h3>
-            <p class="motivation-step-desc" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
-              従来の検索エンジンでの条文検索から、対話型AIに全般的な相談を行う形式への移行が進んでいます。情報過多と精神的ストレスの中で、「長いリストではなく、具体的な単一の案を提示して決めてほしい」という要請が生じます。
+          <div class="motivation-step-item">
+            <div class="motivation-step-num">02 · 対話の特性</div>
+            <h3 class="motivation-step-title">対話型AIへの相談への移行</h3>
+            <p class="motivation-step-desc">
+              検索から対話型AIへの移行が進む中、ストレス下で「長いリストではなく単一の案を出して決めてほしい」という要請が生じます。
             </p>
           </div>
 
           <!-- Stage 3 -->
-          <div class="motivation-step-item" style="text-align: left; background: var(--bg-secondary); border: 1px solid var(--border-subtle); padding: 18px; border-radius: var(--radius-md);">
-            <div class="motivation-step-num" style="color: var(--accent-primary); font-weight: 700; font-family: var(--font-mono); font-size: 0.88rem; margin-bottom: 6px;">03 · 核心的観察</div>
-            <h3 class="motivation-step-title" style="font-size: 1.02rem; margin: 0 0 8px; color: var(--text-primary);">形式の簡潔さ要求による事実確認の抑制</h3>
-            <p class="motivation-step-desc" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
-              モデルが「回答の簡潔さや単一案の要求」を「現実的前提条件の確認を省略してよい」と誤認します。移動手段や資金、通信制限などの隠蔽制約を確認しないまま単一案を提示し、現実で実行不能に陥る現象が見られます。
+          <div class="motivation-step-item">
+            <div class="motivation-step-num">03 · 核心的観察</div>
+            <h3 class="motivation-step-title">簡潔さ要求による確認の抑制</h3>
+            <p class="motivation-step-desc">
+              モデルが「簡潔な回答要求」を「前提条件の確認省略」と誤認し、隠蔽制約を確認しないまま実行不能な案を提示してしまいます。
             </p>
           </div>
 
           <!-- Stage 4 -->
-          <div class="motivation-step-item" style="text-align: left; background: var(--bg-secondary); border: 1px solid var(--border-subtle); padding: 18px; border-radius: var(--radius-md);">
-            <div class="motivation-step-num" style="color: var(--accent-primary); font-weight: 700; font-family: var(--font-mono); font-size: 0.88rem; margin-bottom: 6px;">04 · 本取り組み</div>
-            <h3 class="motivation-step-title" style="font-size: 1.02rem; margin: 0 0 8px; color: var(--text-primary);">形式モデリング、予備検証とスコープ介入</h3>
-            <p class="motivation-step-desc" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
-              メニュー機構によるプライバシーと実行可能性の両立の導出、102シナリオに基づく予備的評価、および簡潔さを保ちながら事実確認を促すスコープルールの検証を進めています。
+          <div class="motivation-step-item">
+            <div class="motivation-step-num">04 · 本取り組み</div>
+            <h3 class="motivation-step-title">双対性理論とスコープ介入</h3>
+            <p class="motivation-step-desc">
+              メニュー機構によるプライバシー保護、102シナリオでの予備検証、および前提確認を促すスコープルールの検証を進めています。
             </p>
           </div>
 
         </div>
 
-        <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 14px;">
+        <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 14px; text-align: left;">
           * 注：本研究は段階的な予備的探求です。詳細なベンチマークデータセット、シナリオ定義ファイル、対話ログは近日公開予定です。
-        </div>
-      </div>
-
-      <div class="tag-row">
-        <span class="tag">共在論の予備的検討</span>
-        <span class="tag">非搾取的な共在</span>
-        <span class="tag">逆境における意思決定支援</span>
-        <span class="tag">制約付きPOMDP</span>
-        <span class="tag">メニュー・分割双対性</span>
-        <span class="tag">102シナリオベンチマーク</span>
-        <span class="tag">7つの主要モデルの予備検証</span>
-        <span class="tag">4Dテンソル分析</span>
-      </div>
-    </section>
-
-    <!-- Section 1: Empirical Observation -->
-    <section id="mechanism">
-      <div class="section-header">
-        <div class="section-tag">| 実証的観察</div>
-        <h2>一、予備的実証観察：形式指示による事実確認プロセスの抑制</h2>
-        <p>制約付きプロンプト下におけるLLMの行動変化の分析：表層的な指示順従が基礎的な事実確認ルーチンをどのように抑制するか。</p>
-      </div>
-
-      <div class="two-col">
-        <!-- Feature Card 1 -->
-        <div class="feature-card">
-          <h4 style="color: var(--accent-primary); margin-top: 0;">7つの主要モデルの予備検証：順従の逸脱（Creeping Compliance）</h4>
-          <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.65; margin-bottom: 12px;">
-            相談者が「長いリストはいらないので、1つだけ案を出して決めてほしい」と求めた際、検証した全モデル（Claude Opus / Sonnet / Haiku、Qwen 3.6-35B、Kimi k2.6 / k3、GLM-5.2）において、提示される選択肢数が急激に減少（<strong>-46.9% 〜 -67.9%</strong>、Wilcoxon検定 \(p < 10^{-15}\)）し、事実確認の質問率が <strong>0% 〜 34%</strong> まで低下しました。
-          </p>
-          <div style="border-top: 1px solid var(--border-subtle); padding-top: 10px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
-            相談者が対話で求めているのは回答の<em>表層的な表現形式</em>（簡潔さや単一案）であり、現実の物理的・制度的環境においてその案が<em>実行可能かどうかの確認を放棄すること</em>を許可したわけではありません。
-          </div>
-        </div>
-
-        <!-- Feature Card 2 -->
-        <div class="feature-card">
-          <h4 style="color: var(--accent-primary); margin-top: 0;">2×2 因子アブレーションと E2c 長さ制御実験（予備的データ）</h4>
-          <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.65; margin-bottom: 12px;">
-            感情的ストレスと単一案の形式要求を分離した 2×2 要因実験により、確認質問の抑制は感情的ストレスではなく、<strong>明示的な単一案形式要求</strong>によって直接引き起こされていることが確認されました（\(p \approx 4 \times 10^{-31}\)）。
-          </p>
-          <div style="border-top: 1px solid var(--border-subtle); padding-top: 10px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
-            <strong>スコープルールの介入：</strong>「簡潔さの要求は説明形式にのみ適用され、前提条件の確認を省略してはならない」という1行のルールを提示することで、質問率は <strong>87% 〜 100%</strong> まで回復しました。
-          </div>
         </div>
       </div>
 
@@ -633,8 +596,13 @@
             <span style="font-size: 0.9rem; color: var(--text-secondary);">理化学研究所 (RIKEN AIP) · テンソル学習チーム (Tensor Learning Team / 张量学习团队)、不完全情報学習チーム (Imperfect Information Learning Team)</span>
           </div>
 
-          <div style="border-top: 1px solid var(--border-subtle); padding-top: 10px; margin-top: 10px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.65;">
+                              <div style="border-top: 1px solid var(--border-subtle); padding-top: 10px; margin-top: 10px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.65;">
             <strong>学術的経緯：</strong>基礎科学向けAI (AI4S) から個人の逆境意思決定 (AI4I) および人工主体との共在論 (Copresence Studies) への深化と理論的展開。
+          </div>
+
+          <div style="border-top: 1px solid var(--border-subtle); padding-top: 10px; margin-top: 10px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.65;">
+            <strong>AI4Iの随想：</strong>技術加速下での個人の主体性、尊厳、および低コストな意思決定支援のあり方を考察した記録。詳しくは <a href="manifesto_ja.html" style="color: var(--accent-primary); font-weight: 600; text-decoration: underline;">『AI4Iに関する随想』↗</a> をご覧ください。
+          </div>
           </div>
         </div>
       </div>

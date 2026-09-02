@@ -43,6 +43,7 @@
         <a href="#interactive">Scenarios</a>
         <a href="#publications">Topic Notes</a>
         <a href="#team">Team</a>
+        <a href="manifesto.html" style="color:var(--accent-primary); font-weight:600;">AI4I Reflections</a>
       </nav>
 
                               <div class="nav-actions">
@@ -70,108 +71,70 @@
         Prudence and Dignity: Dialogue Decision-Making in Human Adversity
       </h1>
 
-      <p class="hero-subtitle">
+            <div style="margin: 0 auto 14px; text-align: center;">
+        <a href="manifesto.html" class="pub-pill-btn" style="background: rgba(41, 140, 209, 0.08); color: var(--accent-primary); border-color: var(--border-subtle); font-weight: 600; padding: 5px 16px; border-radius: var(--radius-pill); display: inline-flex; align-items: center; gap: 6px; font-size: 0.88rem;">
+          📖 Reflections on AI4I (AI for Individuals) ↗
+        </a>
+      </div>
+
+<p class="hero-subtitle">
         — A preliminary study across 102 standardized decision scenarios and 7 frontier models: examining constraint-checking suppression under formatting instructions, menu-partition duality, and privacy lower bounds (full dataset and code to be released soon)
       </p>
 
-      <!-- Section: Motivation (4-Stage Pipeline) -->
-      <div id="motivation" class="motivation-central-card" style="text-align: left; margin: 32px 0 20px;">
-        <div class="motivation-central-header" style="text-align: left; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 20px;">
+            <!-- Section: Motivation (4-Stage Pipeline) -->
+      <div id="motivation" class="motivation-central-card">
+        <div class="motivation-central-header">
           <div>
             <span class="central-question-tag">Research Context and Core Questions</span>
-            <h2 style="font-size: 1.35rem; color: var(--accent-primary); margin: 8px 0 4px; text-align: left;">
+            <h2 style="font-size: 1.35rem; color: var(--accent-primary); margin: 6px 0 2px; text-align: left;">
               Why Do Conversational AIs Fail in Urgent Real-World Decision-Making?
             </h2>
           </div>
           <span style="font-size: 0.82rem; color: var(--text-muted); font-family: var(--font-mono);">AI4I Problem Formulation</span>
         </div>
 
-        <div class="motivation-flow-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px;">
+        <div class="motivation-flow-grid">
           
           <!-- Stage 1 -->
-          <div class="motivation-step-item" style="text-align: left; background: var(--bg-secondary); border: 1px solid var(--border-subtle); padding: 18px; border-radius: var(--radius-md);">
-            <div class="motivation-step-num" style="color: var(--accent-primary); font-weight: 700; font-family: var(--font-mono); font-size: 0.88rem; margin-bottom: 6px;">01 · Realistic Setting</div>
-            <h3 class="motivation-step-title" style="font-size: 1.02rem; margin: 0 0 8px; color: var(--text-primary);">High Irreversible Trial-and-Error Costs</h3>
-            <p class="motivation-step-desc" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
-              In urgent situations such as housing eviction, medical debt, or visa deadlines, rules are highly technical with strict deadlines. Individuals face irreversible consequences if erroneous actions are taken.
+          <div class="motivation-step-item">
+            <div class="motivation-step-num">01 · Reality</div>
+            <h3 class="motivation-step-title">High Irreversible Costs of Error</h3>
+            <p class="motivation-step-desc">
+              In urgent situations like eviction, medical debt, or visa deadlines, rules are strict. Individuals face irreversible consequences if erroneous actions are taken.
             </p>
           </div>
 
           <!-- Stage 2 -->
-          <div class="motivation-step-item" style="text-align: left; background: var(--bg-secondary); border: 1px solid var(--border-subtle); padding: 18px; border-radius: var(--radius-md);">
-            <div class="motivation-step-num" style="color: var(--accent-primary); font-weight: 700; font-family: var(--font-mono); font-size: 0.88rem; margin-bottom: 6px;">02 · Interaction Pattern</div>
-            <h3 class="motivation-step-title" style="font-size: 1.02rem; margin: 0 0 8px; color: var(--text-primary);">Transition to Conversational AI Assistance</h3>
-            <p class="motivation-step-desc" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
-              Users increasingly seek holistic advice directly from conversational LLMs instead of keyword search engines. Under stress, they often ask for single-option advice: <em>“Don't give me a long list, just give me a single concrete plan and decide for me.”</em>
+          <div class="motivation-step-item">
+            <div class="motivation-step-num">02 · User Pattern</div>
+            <h3 class="motivation-step-title">Shift to Direct AI Assistance</h3>
+            <p class="motivation-step-desc">
+              Users increasingly ask conversational LLMs for single-option advice: <em>“Don't give me a long list, just give me a single concrete plan and decide for me.”</em>
             </p>
           </div>
 
           <!-- Stage 3 -->
-          <div class="motivation-step-item" style="text-align: left; background: var(--bg-secondary); border: 1px solid var(--border-subtle); padding: 18px; border-radius: var(--radius-md);">
-            <div class="motivation-step-num" style="color: var(--accent-primary); font-weight: 700; font-family: var(--font-mono); font-size: 0.88rem; margin-bottom: 6px;">03 · Core Observation</div>
-            <h3 class="motivation-step-title" style="font-size: 1.02rem; margin: 0 0 8px; color: var(--text-primary);">Brevity Requests Suppress Verification</h3>
-            <p class="motivation-step-desc" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
-              Frontier models often confuse requests for concise output formats with an authorization to skip checking real-world prerequisites. Recommending a single plan without verifying hidden constraints leads to physically or legally infeasible advice.
+          <div class="motivation-step-item">
+            <div class="motivation-step-num">03 · Observation</div>
+            <h3 class="motivation-step-title">Brevity Skips Verification</h3>
+            <p class="motivation-step-desc">
+              Frontier models confuse requests for brief output with permission to skip checking prerequisites, recommending actions that fail in reality.
             </p>
           </div>
 
           <!-- Stage 4 -->
-          <div class="motivation-step-item" style="text-align: left; background: var(--bg-secondary); border: 1px solid var(--border-subtle); padding: 18px; border-radius: var(--radius-md);">
-            <div class="motivation-step-num" style="color: var(--accent-primary); font-weight: 700; font-family: var(--font-mono); font-size: 0.88rem; margin-bottom: 6px;">04 · Our Approach</div>
-            <h3 class="motivation-step-title" style="font-size: 1.02rem; margin: 0 0 8px; color: var(--text-primary);">Principled Modeling, Benchmarking & Scope Intervention</h3>
-            <p class="motivation-step-desc" style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; margin: 0;">
-              We formulate menu-partition duality to guarantee feasibility under 0-bit privacy leakage, evaluate 7 frontier models across 102 standardized scenarios, and demonstrate that lightweight scope rules restore crucial verification questions.
+          <div class="motivation-step-item">
+            <div class="motivation-step-num">04 · Our Approach</div>
+            <h3 class="motivation-step-title">Duality, Benchmarks & Scope Rules</h3>
+            <p class="motivation-step-desc">
+              We formulate menu-partition duality for zero-privacy leakage, test 7 models across 102 cases, and prove that scope rules restore crucial verification questions.
             </p>
           </div>
 
         </div>
 
-        <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 14px;">
+        <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 14px; text-align: left;">
           * Note: This project is an ongoing exploratory study. Detailed benchmark datasets, scenario configuration files, and interaction logs will be released soon.
-        </div>
-      </div>
-
-      <div class="tag-row">
-        <span class="tag">Copresence Studies</span>
-        <span class="tag">Non-Extractive Interaction</span>
-        <span class="tag">Decision Support in Adversity</span>
-        <span class="tag">Constrained POMDP</span>
-        <span class="tag">Menu-Partition Duality</span>
-        <span class="tag">102 Scenarios Benchmark</span>
-        <span class="tag">7 Frontier Models Tested</span>
-        <span class="tag">4D Tensor Analysis</span>
-      </div>
-    </section>
-
-    <!-- Section 1: Empirical Observation -->
-    <section id="mechanism">
-      <div class="section-header">
-        <div class="section-tag">| Empirical Observation</div>
-        <h2>I. Preliminary Empirical Observation: Suppression of Verification under Formatting Constraints</h2>
-        <p>Analyzing the behavioral discrepancy in LLMs under constrained prompt formats: how surface compliance suppresses underlying fact-checking routines.</p>
-      </div>
-
-      <div class="two-col">
-        <!-- Feature Card 1 -->
-        <div class="feature-card">
-          <h4 style="color: var(--accent-primary); margin-top: 0;">7 Frontier Models Tested: Creeping Compliance</h4>
-          <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.65; margin-bottom: 12px;">
-            When users include requests such as <em>“Don't give me a long list, give me only one option and decide for me”</em>, all tested models (Claude Opus / Sonnet / Haiku, Qwen 3.6-35B, Kimi k2.6 / k3, GLM-5.2) exhibit a sharp decline in candidate option volume (<strong>-46.9% to -67.9%</strong>, Wilcoxon test \(p < 10^{-15}\)), and clarification questioning rates collapse to <strong>0% ~ 34%</strong>.
-          </p>
-          <div style="border-top: 1px solid var(--border-subtle); padding-top: 10px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
-            Users restrict the <em>surface presentation format</em> of the response (demanding brevity), but do not authorize the system to abandon verifying whether the proposed action is <em>physically and legally executable in reality</em>.
-          </div>
-        </div>
-
-        <!-- Feature Card 2 -->
-        <div class="feature-card">
-          <h4 style="color: var(--accent-primary); margin-top: 0;">2×2 Factorial Ablation & E2c Length Control (Preliminary Data)</h4>
-          <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.65; margin-bottom: 12px;">
-            A 2×2 factorial experiment isolating emotional stress from single-option format requests demonstrates that the suppression of questioning is driven by the <strong>explicit single-option format constraint</strong> (\(p \approx 4 \times 10^{-31}\)), with emotional stress acting only as a secondary modifier.
-          </p>
-          <div style="border-top: 1px solid var(--border-subtle); padding-top: 10px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.6;">
-            <strong>Scope Rule Intervention:</strong> By adding a single scope constraint rule (<em>“Conciseness applies to the explanation layer; do not omit critical prerequisite verification”</em>), questioning rates robustly recover to <strong>87% ~ 100%</strong>.
-          </div>
         </div>
       </div>
 
@@ -632,8 +595,13 @@
             <span style="font-size: 0.9rem; color: var(--text-secondary);">RIKEN Center for Advanced Intelligence Project (RIKEN AIP) · Tensor Learning Team, Imperfect Information Learning Team</span>
           </div>
 
-          <div style="border-top: 1px solid var(--border-subtle); padding-top: 10px; margin-top: 10px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.65;">
+                              <div style="border-top: 1px solid var(--border-subtle); padding-top: 10px; margin-top: 10px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.65;">
             <strong>Academic Evolution:</strong> Deepening foundational research from AI for Science (AI4S) toward individual decision-making under adversity (AI4I) and Copresence Studies on artificial actor interaction.
+          </div>
+
+          <div style="border-top: 1px solid var(--border-subtle); padding-top: 10px; margin-top: 10px; font-size: 0.85rem; color: var(--text-muted); line-height: 1.65;">
+            <strong>AI4I Reflections:</strong> Exploring human choices, personal dignity, and low-cost decision support in an era of technological acceleration. Read our <a href="manifesto.html" style="color: var(--accent-primary); font-weight: 600; text-decoration: underline;">Reflections on AI4I ↗</a>.
+          </div>
           </div>
         </div>
       </div>

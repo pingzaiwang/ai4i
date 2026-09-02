@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>個人、技術、そして人間の尊厳について | AI4I (AI for Individuals)</title>
+  <meta name="description" content="自己決定権・低プライバシーコスト・現実的実行可能性を堅持する探求">
+
+  <!-- Fonts & Stylesheet -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=EB+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Klee+One:wght@400;600&family=Shippori+Mincho:wght@400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <style>
+    /* Adaptive, Spacious Desktop Canvas */
+    .statement-shell {
+      width: 100%;
+      max-width: 1040px !important;
+      margin: 0 auto;
+      padding: 24px 32px 56px !important;
+      box-sizing: border-box;
+    }
+    @media (max-width: 1120px) {
+      .statement-shell {
+        max-width: 920px !important;
+        padding: 20px 24px 44px !important;
+      }
+    }
+    @media (max-width: 768px) {
+      .statement-shell {
+        max-width: 100% !important;
+        padding: 16px 16px 40px !important;
+      }
+    }
+
+    .statement-header {
+      margin-bottom: 16px !important;
+      padding: 0 !important;
+      border: none !important;
+    }
+    .statement-title {
+      font-family: var(--font-serif);
+      font-size: 2.35rem;
+      line-height: 1.24;
+      color: var(--text-primary);
+      margin: 0 0 8px !important;
+      font-weight: 700;
+      letter-spacing: -0.018em;
+    }
+    @media (max-width: 768px) {
+      .statement-title {
+        font-size: 1.85rem;
+      }
+    }
+    .statement-subtitle {
+      font-size: 1.05rem;
+      line-height: 1.55;
+      color: var(--text-muted);
+      margin: 0 0 8px !important;
+      font-style: normal;
+    }
+    .statement-meta {
+      font-size: 0.88rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      margin: 0 0 4px !important;
+    }
+    
+    /* Panoramic Logic Overview Map */
+    .panoramic-map-box {
+      margin: 14px 0 24px !important;
+      padding: 14px 18px !important;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+    }
+    .panoramic-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .panoramic-badge {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+      background: rgba(41, 140, 209, 0.12);
+      padding: 2px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .panoramic-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .panoramic-grid {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    @media (max-width: 768px) {
+      .panoramic-grid {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .panoramic-arrow {
+        transform: rotate(90deg);
+        text-align: center;
+      }
+    }
+    .panoramic-step {
+      flex: 1;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+      text-align: left;
+    }
+    .panoramic-step.active-step {
+      border-color: var(--accent-primary);
+      background: var(--bg-card);
+      box-shadow: 0 0 0 1px rgba(41, 140, 209, 0.2);
+    }
+    .p-step-num {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--accent-primary);
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .p-step-heading {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 3px;
+      line-height: 1.25;
+    }
+    .p-step-desc {
+      font-size: 0.75rem;
+      line-height: 1.4;
+      color: var(--text-muted);
+    }
+    .panoramic-arrow {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      font-weight: 700;
+      opacity: 0.6;
+      user-select: none;
+    }
+
+    /* Blocks with Increased Distinct Distance */
+    .statement-block {
+      margin-top: 32px !important;
+      padding-top: 26px !important;
+      border-top: 1px solid var(--border-subtle) !important;
+      margin-bottom: 0 !important;
+      padding-bottom: 0 !important;
+    }
+    .statement-block:first-child {
+      margin-top: 16px !important;
+      padding-top: 16px !important;
+    }
+    @media (max-width: 768px) {
+      .statement-block {
+        margin-top: 24px !important;
+        padding-top: 20px !important;
+      }
+    }
+    .statement-block h2 {
+      font-family: var(--font-serif);
+      font-size: 1.32rem;
+      color: var(--text-primary);
+      margin: 0 0 12px !important;
+      padding: 0 !important;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .statement-block p {
+      font-size: 1.02rem;
+      line-height: 1.82;
+      color: var(--text-secondary);
+      margin: 0 0 12px !important;
+      padding: 0 !important;
+      text-align: justify;
+    }
+    @media (max-width: 768px) {
+      .statement-block p {
+        font-size: 0.96rem;
+        line-height: 1.74;
+        margin-bottom: 10px !important;
+      }
+    }
+    .statement-block strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    .statement-block p:last-child {
+      margin-bottom: 0 !important;
+    }
+
+    /* 3D Phase Space Box */
+    .coord-3d-box.rigorous-phase-space {
+      margin: 12px 0 16px !important;
+      padding: 14px 18px !important;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      box-shadow: 0 4px 20px rgba(19, 93, 148, 0.05);
+    }
+    .coord-3d-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .coord-3d-title-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .coord-3d-badge {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--accent-primary);
+      background: rgba(41, 140, 209, 0.12);
+      padding: 2px 8px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .coord-3d-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .coord-3d-sub {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+    
+    .phase-space-disclaimer {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+
+    .coord-3d-canvas-wrap {
+      width: 100%;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+    }
+    .coord-3d-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      overflow: visible;
+    }
+    .coord-3d-question.deluxe-q {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px dashed var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      color: var(--accent-primary);
+    }
+    .coord-q-pulse {
+      font-size: 0.95rem;
+    }
+    .coord-q-text {
+      line-height: 1.45;
+    }
+    
+    .statement-footer-nav {
+      margin-top: 36px !important;
+      padding-top: 16px !important;
+      border-top: 1px solid var(--border-subtle) !important;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Minimal Topbar -->
+  <header class="topbar">
+    <div class="site-shell topbar-inner">
+      <a href="ai4adversity_ja.html" class="wordmark">
+        <span class="wordmark-dot"></span>
+        <span>AI4I（AI for Individuals）に関する随想</span>
+      </a>
+
+            <nav>
+        <a href="ai4adversity_ja.html">具体的な研究事例</a>
+        <a href="ai4adversity_ja.html#team">研究チーム</a>
+        <a href="manifesto_ja.html" class="active">AI4I随想</a>
+      </nav>
+
+      <div class="nav-actions">
+        <div class="lang-switcher">
+          <a href="manifesto.html" class="lang-btn">EN</a>
+          <a href="manifesto_ja.html" class="lang-btn active">日本語</a>
+        </div>
+        <button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle Theme" title="Toggle Light/Dark Theme">
+          <span id="theme-icon">🌙</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Clean, Spacious Canvas -->
+  <main class="statement-shell">
+    <header class="statement-header">
+      <h1 class="statement-title">個人、技術、そして人間の尊厳について</h1>
+      <p class="statement-subtitle">自己決定権・低プライバシーコスト・現実的実行可能性を堅持する探求</p>
+      <div class="statement-meta">AI4I 探究グループ</div>
+      <div style="font-size: 0.82rem; color: var(--text-muted); margin-top: 6px;">※ 本日本語版ページは Gemini により翻訳・作成されました</div>
+    </header>
+
+    <!-- Overview Map Directly Below Header -->
+    
+<div class="panoramic-map-box">
+  <div class="panoramic-header">
+    <span class="panoramic-badge">Overview Map</span>
+    <span class="panoramic-title">随想の核心的論理マップ</span>
+  </div>
+  
+  <div class="panoramic-grid">
+    <div class="panoramic-step">
+      <div class="p-step-num">01 時代の境遇</div>
+      <div class="p-step-heading">三重の構造的負荷</div>
+      <div class="p-step-desc">個人間競争 · 人間対AI · 集団生態</div>
+    </div>
+    
+    <div class="panoramic-arrow">→</div>
+
+    <div class="panoramic-step">
+      <div class="p-step-num">02 技術の境界</div>
+      <div class="p-step-heading">道具の省察</div>
+      <div class="p-step-desc">疲弊加速の排除 · 気休め排除 · 代行排除</div>
+    </div>
+
+    <div class="panoramic-arrow">→</div>
+
+    <div class="panoramic-step active-step">
+      <div class="p-step-num">03 探求の原則</div>
+      <div class="p-step-heading">3つの基本原則</div>
+      <div class="p-step-desc">自己決定 · 低コスト · 現実的実行性</div>
+    </div>
+
+    <div class="panoramic-arrow">→</div>
+
+    <div class="panoramic-step">
+      <div class="p-step-num">04 目指す地平</div>
+      <div class="p-step-heading">静かで確かな力</div>
+      <div class="p-step-desc">自律 · 信頼 · 尊厳ある支え</div>
+    </div>
+  </div>
+</div>
+
+
+    <article class="statement-body">
+      <div class="statement-block">
+  <h2>1. 時代がもたらす境遇：技術の進展に伴う3つの構造的負荷</h2>
+  
+<div class="coord-3d-box deluxe-3d rigorous-phase-space">
+  <div class="coord-3d-header">
+    <div class="coord-3d-title-wrap">
+      <span class="coord-3d-badge">定性的相空間分析</span>
+      <span class="coord-3d-name">個人の境遇を表す3次元相空間モデル</span>
+      <span class="coord-3d-sub">(3D Phase Space of Individual Structural Strain)</span>
+    </div>
+    <div class="phase-space-disclaimer">
+      <span>※ 本図は定性的概念モデルであり、3次元負荷が個人の許容余白を狭める機理を示しています</span>
+    </div>
+  </div>
+
+  <div class="coord-3d-canvas-wrap">
+    <svg viewBox="0 0 700 350" class="coord-3d-svg" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Gradients for Phase Shells in RIKEN Palette -->
+        <linearGradient id="phaseSafeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#298cd1" stop-opacity="0.22" />
+          <stop offset="100%" stop-color="#2284c8" stop-opacity="0.08" />
+        </linearGradient>
+
+        <linearGradient id="phaseFrictionGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#d97706" stop-opacity="0.25" />
+          <stop offset="100%" stop-color="#f59e0b" stop-opacity="0.10" />
+        </linearGradient>
+
+        <linearGradient id="phaseCriticalGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#e11d48" stop-opacity="0.38" />
+          <stop offset="60%" stop-color="#be123c" stop-opacity="0.20" />
+          <stop offset="100%" stop-color="#9f1239" stop-opacity="0.05" />
+        </linearGradient>
+
+        <!-- Trajectory Gradient -->
+        <linearGradient id="driftGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#298cd1" />
+          <stop offset="50%" stop-color="#d97706" />
+          <stop offset="100%" stop-color="#e11d48" />
+        </linearGradient>
+
+        <!-- Delicate Fine Markers -->
+        <marker id="arrXRigFine" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+          <path d="M 0 2 L 8 5 L 0 8 z" fill="var(--accent-purple, #6366f1)" />
+        </marker>
+        <marker id="arrYRigFine" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+          <path d="M 0 2 L 8 5 L 0 8 z" fill="var(--accent-secondary, #2284c8)" />
+        </marker>
+        <marker id="arrZRigFine" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+          <path d="M 0 2 L 8 5 L 0 8 z" fill="var(--accent-primary, #298cd1)" />
+        </marker>
+      </defs>
+
+      <!-- 1. Isometric 3D Coordinate Bounding Grid -->
+      <polygon points="350,165 160,250 160,120 350,35" fill="var(--bg-secondary)" stroke="var(--border-subtle)" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.5" />
+      <polygon points="350,165 540,250 540,120 350,35" fill="var(--bg-secondary)" stroke="var(--border-subtle)" stroke-width="0.8" stroke-dasharray="3,3" opacity="0.5" />
+      <polygon points="350,165 160,250 350,325 540,250" fill="var(--bg-card)" stroke="var(--border-subtle)" stroke-width="1.0" />
+
+      <!-- Isometric Floor Grid Curvature -->
+      <line x1="255" y1="207" x2="445" y2="287" stroke="var(--border-subtle)" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.5" />
+      <line x1="445" y1="207" x2="255" y2="287" stroke="var(--border-subtle)" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.5" />
+      <line x1="208" y1="229" x2="398" y2="306" stroke="var(--border-subtle)" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.35" />
+      <line x1="492" y1="229" x2="302" y2="306" stroke="var(--border-subtle)" stroke-width="0.8" stroke-dasharray="2,2" opacity="0.35" />
+
+      <!-- 2. Phase Zone Shaded Shells -->
+      <!-- Phase Zone 1: Safe Zone (Near Origin) -->
+      <path d="M 350,165 Q 310,195 295,210 Q 350,235 405,210 Q 390,195 350,165 Z" fill="url(#phaseSafeGrad)" stroke="#298cd1" stroke-width="0.9" stroke-dasharray="3,2" />
+
+      <!-- Phase Zone 2: Friction Band (Mid Shell) -->
+      <path d="M 350,165 Q 260,220 240,240 Q 350,280 460,240 Q 440,220 350,165 Z" fill="url(#phaseFrictionGrad)" stroke="#d97706" stroke-width="1.0" stroke-dasharray="4,2" opacity="0.75" />
+
+      <!-- Phase Zone 3: Critical Overload (Frontier Surface) -->
+      <path d="M 350,165 Q 210,240 180,257 Q 350,320 520,257 Q 490,240 350,165 Z" fill="url(#phaseCriticalGrad)" stroke="#e11d48" stroke-width="1.2" opacity="0.8">
+        <animate attributeName="opacity" values="0.7;0.9;0.7" dur="3.5s" repeatCount="indefinite" />
+      </path>
+
+      <!-- 3. Nonlinear Acceleration Trajectory -->
+      <path d="M 350,165 Q 300,235 365,260" fill="none" stroke="url(#driftGrad)" stroke-width="2.0" stroke-dasharray="4,3">
+        <animate attributeName="stroke-dashoffset" values="0;-14" dur="1.4s" repeatCount="indefinite" />
+      </path>
+
+      <!-- 4. 3 Primary Coordinate Axes (Slim, Elegant 1.5px Stroke) -->
+      <!-- Z-Axis -->
+      <line x1="350" y1="165" x2="350" y2="36" stroke="var(--accent-primary, #298cd1)" stroke-width="1.5" marker-end="url(#arrZRigFine)" />
+      <!-- X-Axis -->
+      <line x1="350" y1="165" x2="148" y2="257" stroke="var(--accent-purple, #6366f1)" stroke-width="1.5" marker-end="url(#arrXRigFine)" />
+      <!-- Y-Axis -->
+      <line x1="350" y1="165" x2="552" y2="257" stroke="var(--accent-secondary, #2284c8)" stroke-width="1.5" marker-end="url(#arrYRigFine)" />
+
+      <!-- Origin Point O -->
+      <circle cx="350" cy="165" r="3" fill="var(--text-muted)" />
+      <text x="358" y="172" font-size="9.5" font-family="var(--font-mono)" fill="var(--text-muted)">O(0,0,0)</text>
+
+      <!-- Projection lines -->
+      <line x1="365" y1="260" x2="365" y2="135" stroke="#e11d48" stroke-width="1.1" stroke-dasharray="2,2" opacity="0.8" />
+      <line x1="365" y1="260" x2="275" y2="220" stroke="#e11d48" stroke-width="0.9" stroke-dasharray="2,2" opacity="0.5" />
+      <line x1="365" y1="260" x2="455" y2="220" stroke="#e11d48" stroke-width="0.9" stroke-dasharray="2,2" opacity="0.5" />
+
+      <!-- Floor Projection Ring -->
+      <ellipse cx="365" cy="260" rx="7" ry="3.5" fill="#e11d48" opacity="0.3" />
+
+      <!-- Contemporary State Node in 3D Space -->
+      <circle cx="365" cy="135" r="14" fill="#e11d48" opacity="0.18">
+        <animate attributeName="r" values="8;20;8" dur="2.6s" repeatCount="indefinite" />
+        <animate attributeName="opacity" values="0.3;0;0.3" dur="2.6s" repeatCount="indefinite" />
+      </circle>
+      <circle cx="365" cy="135" r="8" fill="#f43f5e" opacity="0.35">
+        <animate attributeName="r" values="5;13;5" dur="2.6s" repeatCount="indefinite" begin="0.4s" />
+        <animate attributeName="opacity" values="0.4;0.05;0.4" dur="2.6s" repeatCount="indefinite" begin="0.4s" />
+      </circle>
+      <circle cx="365" cy="135" r="5" fill="#e11d48" stroke="#ffffff" stroke-width="1.8" />
+
+      <!-- 5. Key Phase Sector Badges (Floated on Top Layer in Front of Shells for Maximum Clarity) -->
+      
+      <!-- Phase 1: Safe Zone Pill Badge -->
+      <g transform="translate(350, 195)">
+        <rect x="-85" y="-10" width="170" height="20" rx="10" fill="var(--bg-card)" stroke="#298cd1" stroke-width="1.1" filter="drop-shadow(0 2px 5px rgba(41,140,209,0.18))" />
+        <text x="0" y="3.5" font-size="9" font-weight="700" fill="#135d94" text-anchor="middle">◌ 自律的許容余白領域</text>
+      </g>
+
+      <!-- Phase 2: Friction Band Pill Badge -->
+      <g transform="translate(465, 222)">
+        <rect x="-85" y="-10" width="170" height="20" rx="10" fill="var(--bg-card)" stroke="#d97706" stroke-width="1.1" filter="drop-shadow(0 2px 5px rgba(217,119,6,0.18))" />
+        <text x="0" y="3.5" font-size="9" font-weight="700" fill="#d97706" text-anchor="middle">⚡ 認知的代償・消耗帯</text>
+      </g>
+
+      <!-- Phase 3: Critical Overload Pill Badge -->
+      <g transform="translate(350, 312)">
+        <rect x="-95" y="-10" width="190" height="20" rx="10" fill="var(--bg-card)" stroke="#e11d48" stroke-width="1.2" filter="drop-shadow(0 2px 8px rgba(225,29,72,0.22))" />
+        <text x="0" y="3.5" font-size="9.4" font-weight="700" fill="#e11d48" text-anchor="middle">▲ 過負荷・臨界境界面</text>
+      </g>
+
+      <!-- 6. State Readout Card (Top Layer) -->
+      <g transform="translate(390, 95)">
+        <rect x="0" y="0" width="235" height="52" rx="6" fill="var(--bg-card)" stroke="#e11d48" stroke-width="1.1" filter="drop-shadow(0 4px 12px rgba(225,29,72,0.16))" />
+        <circle cx="12" cy="16" r="3" fill="#e11d48">
+          <animate attributeName="opacity" values="1;0.3;1" dur="1.2s" repeatCount="indefinite" />
+        </circle>
+        <text x="20" y="19" font-size="10.5" font-weight="700" fill="var(--text-primary)">現代における個人の状態域</text>
+        <text x="12" y="33" font-size="8.4" font-weight="600" fill="#e11d48">3次元負荷の非線形複合 · 試行余白の圧迫</text>
+        <text x="12" y="44" font-size="7.5" fill="var(--text-muted)">3軸の負荷が外側へ拡大 ➔ 生存と試行の余白が逼迫</text>
+      </g>
+
+      <!-- 7. Primary Coordinate Axis Labels (Divided into 2 Clean, Uncrowded Lines) -->
+      <!-- Z-Axis (Top) -->
+      <g transform="translate(350, 10)">
+        <text x="0" y="4" font-size="10.5" font-weight="700" fill="var(--accent-primary, #298cd1)" text-anchor="middle">Z 軸：集団生態の次元</text>
+        <text x="0" y="17" font-size="8.8" font-weight="500" fill="var(--text-muted)" text-anchor="middle">（プロセスの超複雑化）</text>
+      </g>
+
+      <!-- X-Axis (Bottom-Left) -->
+      <g transform="translate(130, 275)">
+        <text x="0" y="0" font-size="10" font-weight="700" fill="var(--accent-purple, #6366f1)" text-anchor="middle">X 軸：個人間競争の次元</text>
+        <text x="0" y="13" font-size="8.6" font-weight="500" fill="var(--text-muted)" text-anchor="middle">（相対的地位の競足）</text>
+      </g>
+
+      <!-- Y-Axis (Bottom-Right) -->
+      <g transform="translate(570, 275)">
+        <text x="0" y="0" font-size="10" font-weight="700" fill="var(--accent-secondary, #2284c8)" text-anchor="middle">Y 軸：人間対AIの次元</text>
+        <text x="0" y="13" font-size="8.6" font-weight="500" fill="var(--text-muted)" text-anchor="middle">（専門性の壁への挑戦）</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="coord-3d-question deluxe-q">
+    <span class="coord-q-pulse">✦</span>
+    <span class="coord-q-text"><strong>問い：技術の加速が3つの次元の負荷を極限へ押し上げる中、個人が自律を保ち心穏やかに生きるための余白は、果たしてどれほど残されているのか？</strong></span>
+  </div>
+</div>
+
+      <p>人工知能技術の急速な進展は、人間社会の協調構造と意思決定の形態を大きく変容させています。自動化とアルゴリズムはシステム全体の効率を飛躍的に高めた一方で、個々の主体が直面する行動環境をも変化させました。この変容は不確実性を解消したのではなく、相互に連関する3つの次元において<strong>構造的な常態化認知負荷</strong>をもたらしています：</p>
+      <p><strong>1. 個人間競争の次元（相対的地位の競足）</strong>：ツールの高度化は普遍的な<strong>「赤の女王」効果</strong>を生み出します。一部の個人が知能ツールを活用して生産性を倍加させることで、社会全体の要求基準線は急速に引き上げられ、従来の立場を保つためだけに、誰もが新たなツールの適応を強いられるというプレッシャーが生じます。</p>
+      <p><strong>2. 人間対AIの次元（能力の代替と価値の再定義）</strong>：汎用的な推論・生成能力は、従来の<strong>専門的スキルの壁と経験の優位性</strong>に直接的な問いを突きつけます。職務が自動化される現実的リスクのみならず、独自の判断価値や専門的アイデンティティが希薄化することに対する深い不安が生じ、試行錯誤のコストが高まっています。</p>
+      <p><strong>3. 集団生態の次元（システムの超複雑化と認知的制御感）</strong>：自動化システムが複雑な情報処理や実務フローに広く介在するにつれ、人間は<strong>高度に精密で多層的な技術的環境</strong>に対峙します。集団的な不安はプロセスの透明性や制御感の低下から生じ、重要なプロセスがアルゴリズムによって媒介される中で、個々の生身の状況が標準化されたデータ処理の中に過度に単純化される懸念が生じています。</p>
+      <p>これら3つの次元の重なり合いは、不安が複雑化する技術社会に対する常態的な認知的摩擦であることを示しています。このような状況下において、<strong>自らの尊厳を保つことには大きなコストが伴い、確かな安心と心のゆとりは極めて稀少なものとなっています</strong>。</p>
+</div>
+
+<div class="statement-block">
+  <h2>2. テクノロジーの境界：道具の本質的位置づけに対する省察</h2>
+  <p>システム的な圧力に直面する今こそ、人工知能の技術的位置づけを省察する必要があります：<strong>技術の真の目的とは何でしょうか。</strong></p>
+      <p>私たちは、技術の健全な発展には明確な境界が必要であると考えます：</p>
+      <p>第一に、技術は<strong>競争と疲弊を加速させるためだけの道具であってはなりません</strong>。単なる指標向上のために人間の許容余白を削り続けることは避けるべきです；</p>
+      <p>第二に、技術は<strong>表面的な言葉で現実の困難を覆い隠す気休めであってはなりません</strong>。現実の実行可能性を欠いた言葉の迎合は、困難にある人々を誤らせます；</p>
+      <p>第三に、技術は<strong>人間に代わって一方的に選択を下す決定システムであってはなりません</strong>。複雑な現実を前にして、個人が求めているのはアルゴリズムによる判断の代行ではなく、<strong>個人の自律的な意思を深く尊重した上での確かな意思決定支援</strong>です。</p>
+</div>
+
+<div class="statement-block">
+  <h2>3. 探求の立脚点：研究において堅持する基本原則</h2>
+  <p>個人の意思決定支援に関する研究において、私たちは以下の3つの基本原則に従って探求を進めています：</p>
+      <p><strong>第一に、主体性の不可譲性（自己決定原則）</strong>。技術は思考の延長であり現実の足場であるべきであり、決定の支配者であってはなりません。<strong>自らの人生を選択し、歩む権利は、常に当事者自身の手元にあります</strong>。技術が決して境界を踏み越えて人の結末を独断してはなりません。</p>
+      <p><strong>第二に、等しく保たれるべき尊厳（低コスト支援原則）</strong>。支援を求め活路を見出す際に、<strong>過度なプライバシーの開示や自尊心の消耗を強いるべきではありません</strong>。最小限の情報提示で安心と明確さを得られる安全性を追求します。</p>
+      <p><strong>第三に、現実に根ざした真摯な支え（現実的実行可能性の原則）</strong>。真の支援とは、<strong>客観的な現実の因果関係、法的期限、および資源制約を冷静に見極めること</strong>に基づきます。表面的な同調によって現実的リスクを曖昧にすることを排し、現実に通用する確かな足場を提供します。</p>
+</div>
+
+<div class="statement-block">
+  <h2>4. おわりに：静かで確かな力として</h2>
+  <p>技術の真の価値は、その形式の壮大さにあるのではなく、<strong>人が最も支えを必要とする瞬間に、静かで控えめでありながら確かな力を提供できるか</strong>にあります。</p>
+      <p>私たちは学術的な探求を通じてこれらの原則を地道に実践し、不確実な世界を生きる人々に、静かで確かな支えを提供することを目指しています。</p>
+</div>
+    </article>
+
+    <div class="statement-footer-nav">
+      <a href="ai4adversity_ja.html" class="pub-pill-btn">← 具体的な研究事例に戻る</a>
+      <span style="font-size: 0.84rem; color: var(--text-muted);">個人の意思決定支援に関する研究イニシアティブ（※ 本ページは Gemini により翻訳・作成されました）</span>
+    </div>
+  </main>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
